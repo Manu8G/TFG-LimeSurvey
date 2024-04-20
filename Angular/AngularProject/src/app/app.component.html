@@ -1,28 +1,22 @@
-<!--
-<div>
-    <p>Menu principal</p>
-    <a>Que quiere hacer</a>
-    <nav>
-        <li><a routerLink="/create_survey">Crear una encuesta</a></li> 
-        <li><a routerLink="/create_section">Crear una seccion</a></li>
-    </nav>
-</div>
-
-
-    <li><a></a></li>
-<app-create-survey></app-create-survey>
--->
 <mat-toolbar color="primary">
     <span>
-        <img src="assets/img/angular_whiteTransparent.svg" class="angular-logo">
-        Angular NavBar + Login Example #01
+        <img src="../assets/Logo.png" class="angular-logo">
+        INTEGRA
     </span>
     <span class="fill-remaining-space"></span>
-    <button mat-button routerLink="/create_survey">Crear una encuesta</button>
-    <button mat-button routerLink="/create_section">Crear una seccion</button>
+    <button mat-button [matMenuTriggerFor]="encuestas">Ecuestas</button>
+    <button mat-button>Usuarios</button>
+    <button mat-button>Respuestas</button>
 </mat-toolbar>
 
-  
+<mat-menu #encuestas="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="Crear">Crear</button>
+</mat-menu>  
+
+<mat-menu #Crear="matMenu">
+    <button mat-menu-item routerLink="/create_survey">Encuesta</button>
+    <button mat-menu-item routerLink="/create_section">Seccion</button>
+</mat-menu> 
 
 
-<router-outlet></router-outlet>
+<!--<router-outlet></router-outlet>-->
