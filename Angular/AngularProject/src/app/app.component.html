@@ -1,0 +1,28 @@
+<!--
+<div>
+    <p>Menu principal</p>
+    <a>Que quiere hacer</a>
+    <nav>
+        <li><a routerLink="/create_survey">Crear una encuesta</a></li> 
+        <li><a routerLink="/create_section">Crear una seccion</a></li>
+    </nav>
+</div>
+
+
+    <li><a></a></li>
+<app-create-survey></app-create-survey>
+-->
+<mat-toolbar color="primary">
+    <span>
+        <img src="assets/img/angular_whiteTransparent.svg" class="angular-logo">
+        Angular NavBar + Login Example #01
+    </span>
+    <span class="fill-remaining-space"></span>
+    <button mat-button routerLink="/create_survey">Crear una encuesta</button>
+    <button mat-button routerLink="/create_section">Crear una seccion</button>
+</mat-toolbar>
+
+  
+
+
+<router-outlet></router-outlet>
