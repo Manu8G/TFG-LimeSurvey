@@ -4,7 +4,6 @@ import { FormControl, Validators, FormsModule, ReactiveFormsModule, FormGroup } 
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
 
 //Angular materials
 import { MatButtonModule } from '@angular/material/button';
@@ -25,7 +24,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
   declarations: [
     AppComponent,
     CreateSurveyComponent,
-    CreateSectionComponent
+    CreateSectionComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,10 +37,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     MatInputModule,
     MatMenuModule,
     MatFormFieldModule,
-    FormControl,
-    Validators,
     ReactiveFormsModule,
-    FormGroup
+    FormsModule
   ],
   providers: [
     provideAnimationsAsync()

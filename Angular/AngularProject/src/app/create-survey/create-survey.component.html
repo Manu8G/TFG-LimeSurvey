@@ -2,30 +2,30 @@
   <form (ngSubmit)="onSubmit()">
     <label for="survey_name">Nombre de la encuesta:</label>
     <input type="text" id="survey_name" [(ngModel)]="data.survey_name" name="survey_name" required>
-    
+
     <label for="survey_languaje">Idioma de la encuesta (para español introducir 'es'):</label>
     <input type="text" id="survey_languaje" [(ngModel)]="data.survey_languaje" name="survey_languaje">
-    
+
     <button type="submit">Crear</button>
   </form>
 </div>-->
 <form (ngSubmit)="onSubmit()"></form>
-<table class="example-full-width" cellspacing="0"><tr>
-  <td><mat-form-field class="example-full-width">
-    <mat-label>Nombre de la encuesta</mat-label>
-    <input matInput id="survey_name" [(ngModel)]="data.survey_name" name="survey_name" required>
-  </mat-form-field></td>
-  <td><mat-form-field class="example-full-width">
-    <mat-label>Idioma de la encuesta (para español introducir 'es')</mat-label>
-    <input matInput type="text" id="survey_languaje" [(ngModel)]="data.survey_languaje" name="survey_languaje">
-  </mat-form-field></td>
-</tr></table>
+<table class="example-full-width" cellspacing="0">
+  <tr>
+    <td><mat-form-field class="example-full-width">
+        <mat-label>Nombre de la encuesta</mat-label>
+        <input matInput id="survey_name" [(ngModel)]="data.survey_name" name="survey_name" required>
+      </mat-form-field></td>
+    <td><mat-form-field class="example-full-width">
+        <mat-label>Idioma de la encuesta (para español introducir 'es')</mat-label>
+        <input matInput type="text" id="survey_languaje" [(ngModel)]="data.survey_languaje" name="survey_languaje">
+      </mat-form-field></td>
+  </tr>
+</table>
 <button type="submit">Crear</button>
-</form>
 <div *ngIf="modifiedData">
   <p><strong>Modified Data:</strong></p>
   <p>Id de la encuesta: {{ modifiedData.survey_id }}</p>
   <p>Nombre de la encuesta: {{ modifiedData.survey_name }}</p>
   <p>Idioma de la encuesta: {{ modifiedData.survey_languaje }}</p>
 </div>
-
