@@ -1,22 +1,41 @@
-<div>
-    <form (ngSubmit)="onSubmit()">
-      <label for="section_name">Nombre de la seccion:</label>
-      <input mat-input type="text" id="section_name" [(ngModel)]="data.section_name" name="section_name" required>
-      
-      <label for="survey_id">Id de la encuesta a la cual pertenece la seccion:</label>
-      <input mat-input type="text" id="survey_id" [(ngModel)]="data.survey_id" name="survey_id">
-      <mat-form-field>
-        <mat-label>First name</mat-label>
-        <input matInput>
-      </mat-form-field>
-      <button type="submit">Crear</button>
-    </form>
-  </div>
-  {{variable}}
-  <div *ngIf="modifiedData">
-    <p><strong>Modified Data:</strong></p>
-    <p>Id de la encuesta: {{ modifiedData.survey_id }}</p>
-    <p>Nombre de la seccion: {{ modifiedData.section_name }}</p>
-    <p>Confirmacion de creacion de la seccion: {{ modifiedData.section_confirm }}</p>
-  </div>
+
+<form (ngSubmit)="onSubmit()">
+  <table class="example-full-width" cellspacing="0">
+    <tr>
+      <td><mat-form-field class="example-full-width">
+        <mat-label>Nombre de la seccion</mat-label>
+        <input matInput type="text" id="section_name" [(ngModel)]="data.section_name" name="section_name" required>
+      </mat-form-field></td>
+      <td><mat-form-field class="example-full-width">  
+        <mat-label>Id de la encuesta</mat-label>
+        
+        <!--<input matInput type="text" id="survey_id" [(ngModel)]="data.survey_id" name="survey_id">-->
+        <input
+        type="text"
+        placeholder="a la cual debe añadirse la seccion"
+        aria-label="Id de la encuesta"
+        matInput
+        [(ngModel)]="data.survey_id"
+        [matAutocomplete]="auto"
+        name="survey_id"
+        id="survey_id"
+        />
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          @for (option of filteredOptions | async; track option) {
+          <mat-option [value]="option">{{option}}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field></td>
+    </tr>
+  </table>
+  <button type="submit" mat-flat-button>Crear</button>
+</form>
+
+  
+<div *ngIf="modifiedData">
+  <p><strong>Modified Data:</strong></p>
+  <p>Id de la encuesta: {{ modifiedData.survey_id }}</p>
+  <p>Nombre de la seccion: {{ modifiedData.section_name }}</p>
+  <p>Confirmacion de creacion de la seccion: {{ modifiedData.section_confirm }}</p>
+</div>
   

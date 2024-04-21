@@ -13,7 +13,7 @@ export class CreateSurveyComponent {
   constructor(private surveyService: CreateSurveyServiceService) {}
 
   onSubmit() {
-    this.surveyService.modifyData(this.data).subscribe({
+    this.surveyService.createSurvey(this.data).subscribe({
       next: (response) => {
         //console.log("La estructura de datos en angular es V2: ");
         //console.dir(response);

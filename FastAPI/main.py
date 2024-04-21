@@ -42,7 +42,7 @@ async def create_section(data: Dict):
         api.add_section(str(data["survey_id"]), str(data["section_name"]))
         section = api.list_sections_json(data["survey_id"])
         data.update({"section_confirm": section})
-        print("Data en python: " + str(data))
+        # print("Data en python: " + str(data))
         return data
     else:
         print("Algun error")
