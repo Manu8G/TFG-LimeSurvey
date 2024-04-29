@@ -1,4 +1,3 @@
-
 <form (ngSubmit)="onSubmit()">
   <table class="example-full-width" cellspacing="0">
     <tr>
@@ -15,7 +14,7 @@
         placeholder="a la cual debe añadirse la seccion"
         aria-label="Id de la encuesta"
         matInput
-        [(ngModel)]="data.survey_id"
+        [formControl]="myControl"
         [matAutocomplete]="auto"
         name="survey_id"
         id="survey_id"
@@ -39,3 +38,5 @@
   <p>Confirmacion de creacion de la seccion: {{ modifiedData.section_confirm }}</p>
 </div>
   
+<!--<pre>{{datosP | json}}</pre>-->
+<!--<p>{{datosP["0"]}}</p>-->

@@ -1,0 +1,84 @@
+<form (ngSubmit)="onSubmit()">
+    <table class="example-full-width" cellspacing="0">
+      <tr>
+        <!--ENCUESTAS-->
+        <td><mat-form-field class="example-full-width">  
+          <mat-label>Id de la encuesta</mat-label>
+          <!--<input matInput type="text" id="survey_id" [(ngModel)]="data.survey_id" name="survey_id">-->
+          <input
+          type="text"
+          placeholder="a la cual debe añadirse la pregunta"
+          aria-label="Id de la encuesta"
+          matInput
+          [formControl]="surveyControl"
+          [matAutocomplete]="auto"
+          name="survey_id"
+          id="survey_id"
+          />
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            @for (option of filteredSectionOptions | async; track option) {
+            <mat-option [value]="option">{{option}}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field></td>
+
+        <!--SECCION-->
+        <td><mat-form-field class="example-full-width">  
+            <mat-label>Id de la seccion</mat-label>
+            
+            <!--<input matInput type="text" id="survey_id" [(ngModel)]="data.survey_id" name="survey_id">-->
+            <input
+            type="text"
+            placeholder="a la cual debe añadirse la pregunta"
+            aria-label="Id de la seccion"
+            matInput
+            [formControl]="sectionControl"
+            [matAutocomplete]="auto"
+            name="section_id"
+            id="section_id"
+            />
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              @for (option of filteredQuestionOptions | async; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-autocomplete>
+          </mat-form-field></td>
+
+          <!--Titulo de la pregunta-->
+          <td><mat-form-field class="example-full-width">
+            <mat-label>Titulo de la pregunta</mat-label>
+            <input matInput type="text" id="question_title" [(ngModel)]="data.question_title" name="question_title" required>
+          </mat-form-field></td>
+
+          <!--Cuerpo de la pregunta-->
+          <td><mat-form-field class="example-full-width">
+            <mat-label>Cuerpo de la pregunta</mat-label>
+            <input matInput type="text" id="question_body" [(ngModel)]="data.question_body" name="question_body" required>
+          </mat-form-field></td>
+
+          <!--TIpo de la pregunta-->
+          <td><mat-form-field>
+            <mat-label>Tipo de pregunta</mat-label>
+            <select matNativeControl [(ngModel)]="tipo" name="tipo">
+              <option value="" selected></option>
+              @for (tip of tipos; track tip) {
+                <option [value]="tip">{{tip}}</option>
+              }
+            </select>
+          </mat-form-field></td>
+      </tr>
+    </table>
+    <button type="submit" mat-flat-button>Crear</button>
+  </form>
+  
+    
+  <div *ngIf="modifiedData">
+    <p><strong>Modified Data:</strong></p>
+    <p>Id de la encuesta: {{ modifiedData.survey_id }}</p>
+    <p>Id de la seccion: {{ modifiedData.section_id }}</p>
+    <p>Confirmacion de creacion de la pregunta: {{ modifiedData.question_confirm }}</p>
+  </div>
+    
+  <!--<pre>{{datosP | json}}</pre>-->
+  <!--<p>{{datosP["0"]}}</p>-->
+  

@@ -9,6 +9,8 @@ export class CreateSurveyServiceService {
 
   private createSurveyURL = 'http://localhost:8000/create_survey/';
   private createSectionURL = 'http://localhost:8000/create_section/';
+  private createQuestionURL = 'http://localhost:8000/create_question/'
+  private listIDSurveyURL = 'http://localhost:8000/get_survey_id/'
 
   constructor(private http: HttpClient) { }
 
@@ -18,6 +20,14 @@ export class CreateSurveyServiceService {
 
   createSection(data: any): Observable<any> {
     return this.http.post<any>(this.createSectionURL, data);
+  }
+
+  createQuestion(data: any): Observable<any> {
+    return this.http.post<any>(this.createQuestionURL, data);
+  }
+
+  listIDSurvey(data: any): Observable<any> {
+    return this.http.post<any>(this.listIDSurveyURL, data);
   }
 
 }

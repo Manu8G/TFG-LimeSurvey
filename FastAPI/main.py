@@ -34,7 +34,6 @@ async def create_survey(data: Dict):
         return data
 
 
-
 @app.post("/create_section/")
 async def create_section(data: Dict):
     
@@ -48,3 +47,33 @@ async def create_section(data: Dict):
         print("Algun error")
         data.update({"section_confirm": "ERROR al enviar los datos"})
         return data
+
+
+@app.post("/create_question/")
+async def create_question(data: Dict):
+    
+    if "survey_id" in data and "section_id" in data and "question_title" in data and "question_body" in data and "question_type" in data:
+        api.add_question(str(data["survey_id"]), str(data["section_id"]), str(data["question_title"]), str(data["question_body"]), str(data["question_type"]))
+        question = api.list_questions_json(data["survey_id"], data["section_id"])
+        data.update({"question_confirm": question})
+        # print("Data en python: " + str(data))
+        return data
+    else:
+        print("Algun error")
+        data.update({"question_confirm": "ERROR al enviar los datos"})
+        return data
+
+
+@app.post("/get_survey_id/")
+async def create_survey(data: Dict):
+    surveys = api.list_surveys()
+    cont = 0
+    datos = {}
+    for sid, survey_title in surveys:
+        # print(f"Survey ID: {sid}, Survey Title: {survey_title}")    
+        dato = ('{cont}', '{sid}-{survey_title}')
+        datos[f"{sid}"] = survey_title
+        cont += 1  
+    
+    # print(f"DARTA: {datos}")
+    return datos
