@@ -11,10 +11,11 @@ password = "1234Lime"
 api = Api(url, username, password)
 
 # ------------------------------------------ENCUESTAS, SECCIONES Y PREGUNTAS-------------------------------
-
+'''
 api.add_survey("prueba encuesta 4", "es")
 survey_id = api.get_survey_id_by_name("prueba encuesta 4")
 print('ESte es el id de la encuesta: ' + str(survey_id))
+'''
 '''
 for survey in result:
     print("Datos de la encuesta: "+str(survey))
@@ -69,6 +70,17 @@ for survey in result:
             print("Estos son los datos de la pregunta: "+str((question)))
 
 '''
+# sid, gid, question_title, question_body, question_type
+
+result = api.add_question(777423, 20, "Q001", "¿Como te llamas?", "T", "en")
+print(result)
+'''
+api.add_question(777423, 20, "ColorOjos", "¿De que color tienes los ojos?", "L")
+api.add_question(777423, 20, "ColorPelo", "¿De que color tienes el pelo?", "S")
+api.add_question(777423, 20, "Mascota", "¿Que mascota/s tienes?", "M")
+'''
+# api.get_section_info(777423)
+# api.add_answer(777423, 20, "")
 
 # ---------------------------------------------------EMAIL---------------------------------------------------
 '''

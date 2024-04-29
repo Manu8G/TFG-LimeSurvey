@@ -1,7 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
-
 import json
 import sys
 import random
@@ -76,15 +72,25 @@ class Api:
         return self.get_json(data)['result']
 
 
-    def add_question(self, sid, gid, question_title, question_body, question_type):
+    def add_question(self, sid, gid, question_title, question_body, question_type, languaje):
+        print("Estamos dentro de add_question 1")
         data = """{ "id": 1,
                     "method": "add_question",
-                    "params": { "sSessionKey": "%s","iSurveyID": %s,
-                    "iGroupID": %s, "sQuestionTitle": %s,
-                    "sQuestion": "%s", "sQuestionType": "%s" } }""" % (self.session_key,
+                    "params": { "sSessionKey": "%s","iSurveyID": "%s",
+                    "iGroupID": "%s", "sQuestionTitle": %s,
+                    "sQuestion": %s, "sQuestionType": %s, "sLanguage": %s } }""" % (self.session_key,
                                                           sid, gid, question_title, question_body, 
-                                                          question_type)
-        print("Estamos dentro de add_question: ")
+                                                          question_type, languaje)
+        print("Data: "+str(self.get_json(data)['result']))
+        return self.get_json(data)['result']
+
+    # para el languaje hay q poner "es"
+    def add_answer(self, sid, qid, answer_text, answer_code, languaje):
+        data = """{ "id": 1,
+            "method": "add_question",
+            "params": { "sSessionKey": "%s", "iSurveyID": "%s",
+            "iQuestionID": "%s", "sAnswerText": "%s", "sAnswerCode": "%s",
+            "sLanguage": "%s" } }""" % (self.session_key, sid, qid, answer_text, answer_code, languaje)
         return self.get_json(data)['result']
 
 
@@ -319,6 +325,7 @@ class Api:
             opciones.append(survey)
             contador += 1
         opcion = input("Cual opcion eliges?: ") # ['sid']
+        print(opciones[int(opcion)])
         return opciones[int(opcion)]
     
     def get_survey_id(self):
@@ -343,6 +350,7 @@ class Api:
     def get_survey_id_by_name(self, name):
         survey_id = self.get_survey_info_by_name(name) 
         return survey_id
+
 
     def get_section_info(self, sid):
         sections = self.list_sections_json(sid)

@@ -38,11 +38,13 @@ export class CreateSectionComponent implements OnInit{
         
         for(let i = 0; i < keys.length; i++){
           this.valueS = keys[i] + " - " + values[i];
+          //console.log("EL valueS: ",keys[i]);
+          //console.log("EL valueS: ",values[i]);
           console.log("EL valueS es: ",this.valueS);
           this.idSurvey.push(this.valueS);
         }
-        //console.log("La idSurvey: ");
-        //console.dir(this.idSurvey);
+        console.log("La idSurvey: ");
+        console.dir(this.idSurvey);
       },
       error: (err) => {
         console.error('Error:', err);

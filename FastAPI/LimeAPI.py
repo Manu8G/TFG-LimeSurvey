@@ -80,7 +80,21 @@ class Api:
                     "sQuestion": "%s", "sQuestionType": "%s" } }""" % (self.session_key,
                                                           sid, gid, question_title, question_body, 
                                                           question_type)
-        print("Estamos dentro de add_question: ")
+        # print("Estamos dentro de add_question: ")
+        return self.get_json(data)['result']
+
+
+    def add_answer(self, sid, gid, answer_text, answer_code, languaje):
+        data = """{ "id": 1,
+            "method": "add_question",
+            "params": { "sSessionKey": "%s", "iSurveyID": "%s",
+                "iQuestionID": "%s",
+                "sAnswerText": "%s",
+                "sAnswerCode": "%s",
+                "sLanguage": "%s"
+            },
+            
+        }"""
         return self.get_json(data)['result']
 
 
