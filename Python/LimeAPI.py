@@ -72,17 +72,34 @@ class Api:
         return self.get_json(data)['result']
 
 
-    def add_question(self, sid, gid, question_title, question_body, question_type, languaje):
+    def add_question(self, sid, gid, question_title, question_body, question_type):
         print("Estamos dentro de add_question 1")
         data = """{ "id": 1,
                     "method": "add_question",
                     "params": { "sSessionKey": "%s","iSurveyID": "%s",
-                    "iGroupID": "%s", "sQuestionTitle": %s,
-                    "sQuestion": %s, "sQuestionType": %s, "sLanguage": %s } }""" % (self.session_key,
+                    "iGroupID": "%s", "sTitle": %s,
+                    "sQuestion": %s, "sType": %s } }""" % (self.session_key,
                                                           sid, gid, question_title, question_body, 
-                                                          question_type, languaje)
+                                                          question_type)
         print("Data: "+str(self.get_json(data)['result']))
         return self.get_json(data)['result']
+
+    '''
+    def add_question(self, sid, gid, question_title, question_body):
+        print("Estamos dentro de add_question 1")
+        import_data = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGRvY3VtZW50PgogPExpbWVTdXJ2ZXlEb2NUeXBlPlF1ZXN0aW9uPC9MaW1lU3VydmV5RG9jVHlwZT4KIDxEQlZlcnNpb24+MzY2PC9EQlZlcnNpb24+CiA8bGFuZ3VhZ2VzPgogIDxsYW5ndWFnZT5lczwvbGFuZ3VhZ2U+CiA8L2xhbmd1YWdlcz4KIDxxdWVzdGlvbnM+CiAgPGZpZWxkcz4KICAgPGZpZWxkbmFtZT5xaWQ8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5wYXJlbnRfcWlkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+c2lkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+Z2lkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+dHlwZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnRpdGxlPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cXVlc3Rpb248L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5wcmVnPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+aGVscDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPm90aGVyPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+bWFuZGF0b3J5PC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cXVlc3Rpb25fb3JkZXI8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5sYW5ndWFnZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnNjYWxlX2lkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+c2FtZV9kZWZhdWx0PC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cmVsZXZhbmNlPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+bW9kdWxlbmFtZTwvZmllbGRuYW1lPgogIDwvZmllbGRzPgogIDxyb3dzPgogICA8cm93PgogICAgPHFpZD48IVtDREFUQVszMF1dPjwvcWlkPgogICAgPHBhcmVudF9xaWQ+PCFbQ0RBVEFbMF1dPjwvcGFyZW50X3FpZD4KICAgIDxzaWQ+PCFbQ0RBVEFbNzc3NDIzXV0+PC9zaWQ+CiAgICA8Z2lkPjwhW0NEQVRBWzIwXV0+PC9naWQ+CiAgICA8dHlwZT48IVtDREFUQVtNXV0+PC90eXBlPgogICAgPHRpdGxlPjwhW0NEQVRBW0NvbWlkYXNdXT48L3RpdGxlPgogICAgPHF1ZXN0aW9uPjwhW0NEQVRBW8K/RGUgbGFzIHNpZ3VpZW50ZXMgY3VhbCBjb21lcmlhcz9dXT48L3F1ZXN0aW9uPgogICAgPHByZWcvPgogICAgPGhlbHAvPgogICAgPG90aGVyPjwhW0NEQVRBW05dXT48L290aGVyPgogICAgPG1hbmRhdG9yeT48IVtDREFUQVtOXV0+PC9tYW5kYXRvcnk+CiAgICA8cXVlc3Rpb25fb3JkZXI+PCFbQ0RBVEFbMl1dPjwvcXVlc3Rpb25fb3JkZXI+CiAgICA8bGFuZ3VhZ2U+PCFbQ0RBVEFbZXNdXT48L2xhbmd1YWdlPgogICAgPHNjYWxlX2lkPjwhW0NEQVRBWzBdXT48L3NjYWxlX2lkPgogICAgPHNhbWVfZGVmYXVsdD48IVtDREFUQVswXV0+PC9zYW1lX2RlZmF1bHQ+CiAgICA8cmVsZXZhbmNlPjwhW0NEQVRBWzFdXT48L3JlbGV2YW5jZT4KICAgPC9yb3c+CiAgPC9yb3dzPgogPC9xdWVzdGlvbnM+CiA8c3VicXVlc3Rpb25zPgogIDxmaWVsZHM+CiAgIDxmaWVsZG5hbWU+cWlkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cGFyZW50X3FpZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnNpZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPmdpZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnR5cGU8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT50aXRsZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnF1ZXN0aW9uPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cHJlZzwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPmhlbHA8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5vdGhlcjwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPm1hbmRhdG9yeTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnF1ZXN0aW9uX29yZGVyPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+bGFuZ3VhZ2U8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5zY2FsZV9pZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnNhbWVfZGVmYXVsdDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnJlbGV2YW5jZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPm1vZHVsZW5hbWU8L2ZpZWxkbmFtZT4KICA8L2ZpZWxkcz4KICA8cm93cz4KICAgPHJvdz4KICAgIDxxaWQ+PCFbQ0RBVEFbMzFdXT48L3FpZD4KICAgIDxwYXJlbnRfcWlkPjwhW0NEQVRBWzMwXV0+PC9wYXJlbnRfcWlkPgogICAgPHNpZD48IVtDREFUQVs3Nzc0MjNdXT48L3NpZD4KICAgIDxnaWQ+PCFbQ0RBVEFbMjBdXT48L2dpZD4KICAgIDx0eXBlPjwhW0NEQVRBW1RdXT48L3R5cGU+CiAgICA8dGl0bGU+PCFbQ0RBVEFbU1EwMDFdXT48L3RpdGxlPgogICAgPHF1ZXN0aW9uPjwhW0NEQVRBW1BpenphXV0+PC9xdWVzdGlvbj4KICAgIDxvdGhlcj48IVtDREFUQVtOXV0+PC9vdGhlcj4KICAgIDxxdWVzdGlvbl9vcmRlcj48IVtDREFUQVsxXV0+PC9xdWVzdGlvbl9vcmRlcj4KICAgIDxsYW5ndWFnZT48IVtDREFUQVtlc11dPjwvbGFuZ3VhZ2U+CiAgICA8c2NhbGVfaWQ+PCFbQ0RBVEFbMF1dPjwvc2NhbGVfaWQ+CiAgICA8c2FtZV9kZWZhdWx0PjwhW0NEQVRBWzBdXT48L3NhbWVfZGVmYXVsdD4KICAgIDxyZWxldmFuY2U+PCFbQ0RBVEFbMV1dPjwvcmVsZXZhbmNlPgogICA8L3Jvdz4KICAgPHJvdz4KICAgIDxxaWQ+PCFbQ0RBVEFbMzJdXT48L3FpZD4KICAgIDxwYXJlbnRfcWlkPjwhW0NEQVRBWzMwXV0+PC9wYXJlbnRfcWlkPgogICAgPHNpZD48IVtDREFUQVs3Nzc0MjNdXT48L3NpZD4KICAgIDxnaWQ+PCFbQ0RBVEFbMjBdXT48L2dpZD4KICAgIDx0eXBlPjwhW0NEQVRBW1RdXT48L3R5cGU+CiAgICA8dGl0bGU+PCFbQ0RBVEFbU1EwMDJdXT48L3RpdGxlPgogICAgPHF1ZXN0aW9uPjwhW0NEQVRBW1Bhc3RhXV0+PC9xdWVzdGlvbj4KICAgIDxvdGhlcj48IVtDREFUQVtOXV0+PC9vdGhlcj4KICAgIDxxdWVzdGlvbl9vcmRlcj48IVtDREFUQVsyXV0+PC9xdWVzdGlvbl9vcmRlcj4KICAgIDxsYW5ndWFnZT48IVtDREFUQVtlc11dPjwvbGFuZ3VhZ2U+CiAgICA8c2NhbGVfaWQ+PCFbQ0RBVEFbMF1dPjwvc2NhbGVfaWQ+CiAgICA8c2FtZV9kZWZhdWx0PjwhW0NEQVRBWzBdXT48L3NhbWVfZGVmYXVsdD4KICAgIDxyZWxldmFuY2U+PCFbQ0RBVEFbMV1dPjwvcmVsZXZhbmNlPgogICA8L3Jvdz4KICAgPHJvdz4KICAgIDxxaWQ+PCFbQ0RBVEFbMzNdXT48L3FpZD4KICAgIDxwYXJlbnRfcWlkPjwhW0NEQVRBWzMwXV0+PC9wYXJlbnRfcWlkPgogICAgPHNpZD48IVtDREFUQVs3Nzc0MjNdXT48L3NpZD4KICAgIDxnaWQ+PCFbQ0RBVEFbMjBdXT48L2dpZD4KICAgIDx0eXBlPjwhW0NEQVRBW1RdXT48L3R5cGU+CiAgICA8dGl0bGU+PCFbQ0RBVEFbU1EwMDNdXT48L3RpdGxlPgogICAgPHF1ZXN0aW9uPjwhW0NEQVRBW0hhbWJ1cmd1ZXNhXV0+PC9xdWVzdGlvbj4KICAgIDxvdGhlcj48IVtDREFUQVtOXV0+PC9vdGhlcj4KICAgIDxxdWVzdGlvbl9vcmRlcj48IVtDREFUQVszXV0+PC9xdWVzdGlvbl9vcmRlcj4KICAgIDxsYW5ndWFnZT48IVtDREFUQVtlc11dPjwvbGFuZ3VhZ2U+CiAgICA8c2NhbGVfaWQ+PCFbQ0RBVEFbMF1dPjwvc2NhbGVfaWQ+CiAgICA8c2FtZV9kZWZhdWx0PjwhW0NEQVRBWzBdXT48L3NhbWVfZGVmYXVsdD4KICAgIDxyZWxldmFuY2U+PCFbQ0RBVEFbMV1dPjwvcmVsZXZhbmNlPgogICA8L3Jvdz4KICA8L3Jvd3M+CiA8L3N1YnF1ZXN0aW9ucz4KPC9kb2N1bWVudD4K"
+        import_data_type = "lsq"
+        data = """{ "id": 1,
+                    "method": "add_question",
+                    "params": { "sSessionKey": "%s","iSurveyID": "%s",
+                    "iGroupID": "%s", "sImportData": "%s", "sImportDataType": "%s",
+                    "sNewQuestionTitle": %s, "sNewQuestion": %s } }""" % (self.session_key,
+                                                          sid, gid, import_data, import_data_type,
+                                                          question_title, question_body)
+        print("Data: "+str(self.get_json(data)['result']))
+        return self.get_json(data)['result']
+    '''
+
 
     # para el languaje hay q poner "es"
     def add_answer(self, sid, qid, answer_text, answer_code, languaje):
@@ -387,13 +404,11 @@ class Api:
         return question['qid']
 
     # Añadir participantes a la encuesta
-    def add_participant(self, sid, participant, token):
+    def add_participant(self, sid, participant):
         data = """{ "id": 1,
                     "method": "add_participants",
-                    "params": { "sSessionKey": "%s",
-                     "iSurveyID": "%s", 
-                     "aParticipantData": "%s", 
-                     "bCreateToken": "%s" } }""" % (self.session_key, sid, participant, token)
+                    "params": { "sSessionKey": "%s", "iSurveyID": "%s", 
+                    "aParticipantData": "%s" } }""" % (self.session_key, sid, participant)
 
         return self.get_json(data)['result']
     
@@ -405,6 +420,16 @@ class Api:
                                 "$aTokenIDs": "%s" } }""" % (self.session_key, sid, token)
         return self.get_json(data)['result']
     
+    def add_participant_table(self, sid):
+        data = """{ "id": 1,
+                    "method": "activate_tokens",
+                    "params": { "sSessionKey": "%s",
+                                "iSurveyID": %s } }""" % (self.session_key, sid)
+        return self.get_json(data)['result']
+    
+
+
+
     # def get_participant_properties(self, sid, tokenQuery, tokenProperties):
         data = """{ "id": 1,
                     "method": "get_participant_properties",

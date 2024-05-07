@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { OnInit } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 
 
 @Component({
@@ -16,16 +17,14 @@ export class CreateSectionComponent implements OnInit{
   IDSurveyL: any = {};
   modifiedData: any;
   myControl = new FormControl('');
-  idSurvey: string[] = [];
+  idSurvey: string[] = ['hola'];
   filteredOptions!: Observable<string[]>;
   datosP: any[] = [];
   valueS: string = '';
-  datosPArray: [string, any][] = [];
-  continue:boolean = true;
   cont:number = 0;
-  contAny:any;
+  options:any[] = [];
 
-  constructor(private service: CreateSurveyServiceService) {}
+  constructor(private service: CreateSurveyServiceService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.service.listIDSurvey(this.IDSurveyL).subscribe({
@@ -37,14 +36,21 @@ export class CreateSectionComponent implements OnInit{
         let values = Object.values(response);
         
         for(let i = 0; i < keys.length; i++){
-          this.valueS = keys[i] + " - " + values[i];
+          this.idSurvey.push(keys[i] + " - " + values[i]);
+          //this.valueS = keys[i] + " - " + values[i];
           //console.log("EL valueS: ",keys[i]);
           //console.log("EL valueS: ",values[i]);
-          console.log("EL valueS es: ",this.valueS);
-          this.idSurvey.push(this.valueS);
+          //console.log("EL valueS es: ",this.valueS);
+          //console.log("EL tipo es: ",typeof this.valueS);
+          //this.idSurvey.push(this.valueS);
+          //this.idSurvey = {...this.valueS as any};
         }
+        this.idSurvey.push('alo');
+        
         console.log("La idSurvey: ");
-        console.dir(this.idSurvey);
+        console.log(this.idSurvey);
+        //console.dir(this.idSurvey);
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error:', err);

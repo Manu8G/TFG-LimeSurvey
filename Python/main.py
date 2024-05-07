@@ -71,10 +71,10 @@ for survey in result:
 
 '''
 # sid, gid, question_title, question_body, question_type
-
-result = api.add_question(777423, 20, "Q001", "¿Como te llamas?", "T", "en")
-print(result)
 '''
+result = api.add_question(777423, 20, "Q001", "¿Como te llamas?", "T")
+print(result)
+
 api.add_question(777423, 20, "ColorOjos", "¿De que color tienes los ojos?", "L")
 api.add_question(777423, 20, "ColorPelo", "¿De que color tienes el pelo?", "S")
 api.add_question(777423, 20, "Mascota", "¿Que mascota/s tienes?", "M")
@@ -84,17 +84,27 @@ api.add_question(777423, 20, "Mascota", "¿Que mascota/s tienes?", "M")
 
 # ---------------------------------------------------EMAIL---------------------------------------------------
 '''
-participantes = [{'firstname': 'Manu', 'lastname': 'Guerrero', 'email': 'manuelmesias@correo.ugr.es'}]
-api.add_participant(957144, participantes, True)
+api.activate_survey(957144)
+api.add_participant_table(957144)
 '''
 
-'''
-participantes = api.list_participants(957144)
+
+participantes = [{'email': 'manuelmesias@correo.ugr.es', 'lastname': 'Guerrero', 'firstname': 'Manu' }]
+respuesta = api.add_participant(777423, participantes)
+print('ESta es la rsepu: ' + str(respuesta))
+
+
+participantes = api.list_participants(777423)
 print('EStos son los participantes2: ' + str(participantes))
 
+'''
 participante = [participant['tid'] for participant in participantes]
 print('ID del participante: ' + str(participante[0]))
 # Listar participantes para obtener el ID
 result = api.invite_participant(957144, participante[0])
 print('Resultado de la invitacion: ' + str(result))
 '''
+
+
+
+
