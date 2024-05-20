@@ -87,8 +87,11 @@ api.add_question(777423, 20, "Mascota", "¿Que mascota/s tienes?", "M")
 api.activate_survey(957144)
 api.add_participant_table(957144)
 '''
+# api.add_question(868618, 21, 1)
+resultadito = api.get_responses(957144)
+print("Opcion resultado: "+ resultadito)
 
-
+'''
 participantes = [{'email': 'manuelmesias@correo.ugr.es', 'lastname': 'Guerrero', 'firstname': 'Manu' }]
 respuesta = api.add_participant(777423, participantes)
 print('ESta es la rsepu: ' + str(respuesta))
@@ -96,7 +99,7 @@ print('ESta es la rsepu: ' + str(respuesta))
 
 participantes = api.list_participants(777423)
 print('EStos son los participantes2: ' + str(participantes))
-
+'''
 '''
 participante = [participant['tid'] for participant in participantes]
 print('ID del participante: ' + str(participante[0]))

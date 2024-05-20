@@ -1,9 +1,10 @@
 from pydantic import BaseModel
-from typing import Union
-from datetime import datetime
 
 
 class SurveryResponse(BaseModel):
+    id: str
     title: str
-    timestamp: datetime
-    description: Union[str, None] = None
+    
+
+
+    # SE PPUEDE PONER EN EL MISMO NIVEL

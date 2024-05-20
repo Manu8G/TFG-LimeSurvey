@@ -1,10 +1,8 @@
-'''
 from fastapi import APIRouter
-from dto.survery import SurveryResponse
 from security import User
 from fastapi.responses import JSONResponse
 from service.admin_service import AdminService
-from dto.survery import 
+from dto.paciente.survey import SurveryResponse
 
 from utils.db_conncetions import create_db_connection
 
@@ -27,5 +25,3 @@ def create_survary(data: Survery, user:User):
 @router.post("/create-post")
 def create_post():
     ...
-
-'''

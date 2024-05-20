@@ -4,20 +4,33 @@ from typing import Dict
 from fastapi.middleware.cors import CORSMiddleware
 from LimeAPI import Api
 
-url = "http://localhost/limesurvey/index.php/admin/remotecontrol"
-username = "manuel"
-password = "1234Lime"
+from controller.admin import router as admin_router
+from controller.paciente import router as paciente_router
 
-api = Api(url, username, password)
-app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:4200"],  # Permite a Angular acceder
-    allow_credentials=True,
-    allow_methods=["*"],  # Permite todos los métodos
-    allow_headers=["*"],  # Permite todos los encabezados
-)
+if __name__ == "__main__":
+    url = "http://localhost/limesurvey/index.php/admin/remotecontrol"
+    username = "manuel"
+    password = "1234Lime"
+
+    api = Api(url, username, password)
+    app = FastAPI()
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["http://localhost:4200"],  # Permite a Angular acceder
+        allow_credentials=True,
+        allow_methods=["*"],  # Permite todos los métodos
+        allow_headers=["*"],  # Permite todos los encabezados
+    )
+
+
+    app.include_router(admin_router, paciente_router)
+
+
+
+
+
 
 @app.post("/create_survey/")
 async def create_survey(data: Dict):
