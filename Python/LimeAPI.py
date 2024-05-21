@@ -46,6 +46,7 @@ class Api:
         self.session_key = self.get_json(data)['result']
 
 
+    # Comprueba si existe una encuesta con ese numero identificador
     def check_if_exists_survey(self, sid):
         surveys = self.list_surveys()
         for survey in surveys: 
@@ -57,27 +58,60 @@ class Api:
         return None
 
 
+    # Crea una nueva encuesta
     def add_survey(self, survey_title, survey_languaje, format="G"):
         numero_aleatorio = random.randint(100000, 999999)
         self.check_if_exists_survey(numero_aleatorio)
-        data = """{ "id": 1,
-                    "method": "add_survey",
-                    "params": { "sSessionKey": "%s","iSurveyID": %s, 
-                    "sSurveyTitle": "%s", "sSurveyLanguage": "%s", "sformat": "%s" } }""" % (self.session_key,
-                                                          numero_aleatorio, survey_title,survey_languaje,
-                                                          format)
+
+        data = {
+            "id": 1,
+            "method": "add_survey",
+            "params": {
+            "sSessionKey": self.session_key,
+            "iSurveyID": numero_aleatorio,
+            "sSurveyTitle":survey_title,
+            "sSurveyLanguage": survey_languaje,
+            "sformat": format
+            }
+        }
+
+        data = json.dumps(data)
         return self.get_json(data)['result']
 
 
+    # Eliminar encuesta
+    def delete_survey(self, sid):
+        data = {
+            "id": 1,
+            "method": "delete_survey",
+            "params": {
+            "sSessionKey": self.session_key,
+            "iSurveyID": sid
+            }
+        }
+
+        data = json.dumps(data)
+
+        return self.get_json(data)['result']
+    
+
+    # Añadir una nueva seccion
     def add_section(self, sid, section_title):
-        data = """{ "id": 1,
-                    "method": "add_group",
-                    "params": { "sSessionKey": "%s","iSurveyID": %s, 
-                    "sGroupTitle": "%s" } }""" % (self.session_key,
-                                                          sid, section_title)
+        data = {
+            "id": 1,
+            "method": "add_group",
+            "params": {
+            "sSessionKey": self.session_key,
+            "iSurveyID": sid,
+            "sGroupTitle":section_title
+            }
+        }
+
+        data = json.dumps(data)
         return self.get_json(data)['result']
 
 
+    # Añadir pregunta
     def add_question(self, sid, gid, num_questions):
         print("Estamos dentro de add_question 1")
         current_directory = os.path.dirname(__file__)
@@ -144,8 +178,6 @@ class Api:
         v1 = 'N'
         v2 = None
         
-
-
         # base64.b64encode(data.encode()).decode(),
         data = {
             "id": 1,
@@ -168,39 +200,14 @@ class Api:
         print("Data: "+str(self.get_json(data)['result']))
         return self.get_json(data)['result']
 
-    '''
-    def add_question(self, sid, gid, question_title, question_body):
-        print("Estamos dentro de add_question 1")
-        import_data = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGRvY3VtZW50PgogPExpbWVTdXJ2ZXlEb2NUeXBlPlF1ZXN0aW9uPC9MaW1lU3VydmV5RG9jVHlwZT4KIDxEQlZlcnNpb24+MzY2PC9EQlZlcnNpb24+CiA8bGFuZ3VhZ2VzPgogIDxsYW5ndWFnZT5lczwvbGFuZ3VhZ2U+CiA8L2xhbmd1YWdlcz4KIDxxdWVzdGlvbnM+CiAgPGZpZWxkcz4KICAgPGZpZWxkbmFtZT5xaWQ8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5wYXJlbnRfcWlkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+c2lkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+Z2lkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+dHlwZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnRpdGxlPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cXVlc3Rpb248L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5wcmVnPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+aGVscDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPm90aGVyPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+bWFuZGF0b3J5PC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cXVlc3Rpb25fb3JkZXI8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5sYW5ndWFnZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnNjYWxlX2lkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+c2FtZV9kZWZhdWx0PC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cmVsZXZhbmNlPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+bW9kdWxlbmFtZTwvZmllbGRuYW1lPgogIDwvZmllbGRzPgogIDxyb3dzPgogICA8cm93PgogICAgPHFpZD48IVtDREFUQVszMF1dPjwvcWlkPgogICAgPHBhcmVudF9xaWQ+PCFbQ0RBVEFbMF1dPjwvcGFyZW50X3FpZD4KICAgIDxzaWQ+PCFbQ0RBVEFbNzc3NDIzXV0+PC9zaWQ+CiAgICA8Z2lkPjwhW0NEQVRBWzIwXV0+PC9naWQ+CiAgICA8dHlwZT48IVtDREFUQVtNXV0+PC90eXBlPgogICAgPHRpdGxlPjwhW0NEQVRBW0NvbWlkYXNdXT48L3RpdGxlPgogICAgPHF1ZXN0aW9uPjwhW0NEQVRBW8K/RGUgbGFzIHNpZ3VpZW50ZXMgY3VhbCBjb21lcmlhcz9dXT48L3F1ZXN0aW9uPgogICAgPHByZWcvPgogICAgPGhlbHAvPgogICAgPG90aGVyPjwhW0NEQVRBW05dXT48L290aGVyPgogICAgPG1hbmRhdG9yeT48IVtDREFUQVtOXV0+PC9tYW5kYXRvcnk+CiAgICA8cXVlc3Rpb25fb3JkZXI+PCFbQ0RBVEFbMl1dPjwvcXVlc3Rpb25fb3JkZXI+CiAgICA8bGFuZ3VhZ2U+PCFbQ0RBVEFbZXNdXT48L2xhbmd1YWdlPgogICAgPHNjYWxlX2lkPjwhW0NEQVRBWzBdXT48L3NjYWxlX2lkPgogICAgPHNhbWVfZGVmYXVsdD48IVtDREFUQVswXV0+PC9zYW1lX2RlZmF1bHQ+CiAgICA8cmVsZXZhbmNlPjwhW0NEQVRBWzFdXT48L3JlbGV2YW5jZT4KICAgPC9yb3c+CiAgPC9yb3dzPgogPC9xdWVzdGlvbnM+CiA8c3VicXVlc3Rpb25zPgogIDxmaWVsZHM+CiAgIDxmaWVsZG5hbWU+cWlkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cGFyZW50X3FpZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnNpZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPmdpZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnR5cGU8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT50aXRsZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnF1ZXN0aW9uPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cHJlZzwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPmhlbHA8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5vdGhlcjwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPm1hbmRhdG9yeTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnF1ZXN0aW9uX29yZGVyPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+bGFuZ3VhZ2U8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5zY2FsZV9pZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnNhbWVfZGVmYXVsdDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnJlbGV2YW5jZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPm1vZHVsZW5hbWU8L2ZpZWxkbmFtZT4KICA8L2ZpZWxkcz4KICA8cm93cz4KICAgPHJvdz4KICAgIDxxaWQ+PCFbQ0RBVEFbMzFdXT48L3FpZD4KICAgIDxwYXJlbnRfcWlkPjwhW0NEQVRBWzMwXV0+PC9wYXJlbnRfcWlkPgogICAgPHNpZD48IVtDREFUQVs3Nzc0MjNdXT48L3NpZD4KICAgIDxnaWQ+PCFbQ0RBVEFbMjBdXT48L2dpZD4KICAgIDx0eXBlPjwhW0NEQVRBW1RdXT48L3R5cGU+CiAgICA8dGl0bGU+PCFbQ0RBVEFbU1EwMDFdXT48L3RpdGxlPgogICAgPHF1ZXN0aW9uPjwhW0NEQVRBW1BpenphXV0+PC9xdWVzdGlvbj4KICAgIDxvdGhlcj48IVtDREFUQVtOXV0+PC9vdGhlcj4KICAgIDxxdWVzdGlvbl9vcmRlcj48IVtDREFUQVsxXV0+PC9xdWVzdGlvbl9vcmRlcj4KICAgIDxsYW5ndWFnZT48IVtDREFUQVtlc11dPjwvbGFuZ3VhZ2U+CiAgICA8c2NhbGVfaWQ+PCFbQ0RBVEFbMF1dPjwvc2NhbGVfaWQ+CiAgICA8c2FtZV9kZWZhdWx0PjwhW0NEQVRBWzBdXT48L3NhbWVfZGVmYXVsdD4KICAgIDxyZWxldmFuY2U+PCFbQ0RBVEFbMV1dPjwvcmVsZXZhbmNlPgogICA8L3Jvdz4KICAgPHJvdz4KICAgIDxxaWQ+PCFbQ0RBVEFbMzJdXT48L3FpZD4KICAgIDxwYXJlbnRfcWlkPjwhW0NEQVRBWzMwXV0+PC9wYXJlbnRfcWlkPgogICAgPHNpZD48IVtDREFUQVs3Nzc0MjNdXT48L3NpZD4KICAgIDxnaWQ+PCFbQ0RBVEFbMjBdXT48L2dpZD4KICAgIDx0eXBlPjwhW0NEQVRBW1RdXT48L3R5cGU+CiAgICA8dGl0bGU+PCFbQ0RBVEFbU1EwMDJdXT48L3RpdGxlPgogICAgPHF1ZXN0aW9uPjwhW0NEQVRBW1Bhc3RhXV0+PC9xdWVzdGlvbj4KICAgIDxvdGhlcj48IVtDREFUQVtOXV0+PC9vdGhlcj4KICAgIDxxdWVzdGlvbl9vcmRlcj48IVtDREFUQVsyXV0+PC9xdWVzdGlvbl9vcmRlcj4KICAgIDxsYW5ndWFnZT48IVtDREFUQVtlc11dPjwvbGFuZ3VhZ2U+CiAgICA8c2NhbGVfaWQ+PCFbQ0RBVEFbMF1dPjwvc2NhbGVfaWQ+CiAgICA8c2FtZV9kZWZhdWx0PjwhW0NEQVRBWzBdXT48L3NhbWVfZGVmYXVsdD4KICAgIDxyZWxldmFuY2U+PCFbQ0RBVEFbMV1dPjwvcmVsZXZhbmNlPgogICA8L3Jvdz4KICAgPHJvdz4KICAgIDxxaWQ+PCFbQ0RBVEFbMzNdXT48L3FpZD4KICAgIDxwYXJlbnRfcWlkPjwhW0NEQVRBWzMwXV0+PC9wYXJlbnRfcWlkPgogICAgPHNpZD48IVtDREFUQVs3Nzc0MjNdXT48L3NpZD4KICAgIDxnaWQ+PCFbQ0RBVEFbMjBdXT48L2dpZD4KICAgIDx0eXBlPjwhW0NEQVRBW1RdXT48L3R5cGU+CiAgICA8dGl0bGU+PCFbQ0RBVEFbU1EwMDNdXT48L3RpdGxlPgogICAgPHF1ZXN0aW9uPjwhW0NEQVRBW0hhbWJ1cmd1ZXNhXV0+PC9xdWVzdGlvbj4KICAgIDxvdGhlcj48IVtDREFUQVtOXV0+PC9vdGhlcj4KICAgIDxxdWVzdGlvbl9vcmRlcj48IVtDREFUQVszXV0+PC9xdWVzdGlvbl9vcmRlcj4KICAgIDxsYW5ndWFnZT48IVtDREFUQVtlc11dPjwvbGFuZ3VhZ2U+CiAgICA8c2NhbGVfaWQ+PCFbQ0RBVEFbMF1dPjwvc2NhbGVfaWQ+CiAgICA8c2FtZV9kZWZhdWx0PjwhW0NEQVRBWzBdXT48L3NhbWVfZGVmYXVsdD4KICAgIDxyZWxldmFuY2U+PCFbQ0RBVEFbMV1dPjwvcmVsZXZhbmNlPgogICA8L3Jvdz4KICA8L3Jvd3M+CiA8L3N1YnF1ZXN0aW9ucz4KPC9kb2N1bWVudD4K"
-        import_data_type = "lsq"
-        data = """{ "id": 1,
-                    "method": "add_question",
-                    "params": { "sSessionKey": "%s","iSurveyID": "%s",
-                    "iGroupID": "%s", "sImportData": "%s", "sImportDataType": "%s",
-                    "sNewQuestionTitle": %s, "sNewQuestion": %s } }""" % (self.session_key,
-                                                          sid, gid, import_data, import_data_type,
-                                                          question_title, question_body)
-        print("Data: "+str(self.get_json(data)['result']))
-        return self.get_json(data)['result']
-    '''
 
-
-    # para el languaje hay q poner "es"
+    # Añadir respuesta
     def add_answer(self, sid, qid, answer_text, answer_code, languaje):
         data = """{ "id": 1,
             "method": "add_question",
             "params": { "sSessionKey": "%s", "iSurveyID": "%s",
             "iQuestionID": "%s", "sAnswerText": "%s", "sAnswerCode": "%s",
             "sLanguage": "%s" } }""" % (self.session_key, sid, qid, answer_text, answer_code, languaje)
-        return self.get_json(data)['result']
-
-
-    def delete_survey(self, sid):
-        data = """{ "id": 1,
-                    "method": "delete_survey",
-                    "params": { "sSessionKey": "%s",
-                                "iSurveyID": %s } }""" % (self.session_key,
-                                                          sid)
         return self.get_json(data)['result']
 
 
@@ -253,14 +260,6 @@ class Api:
         return self.get_json(data)['result']
 
 
-    def activate_survey(self, sid):
-        data = """{ "id": 1,
-                    "method": "activate_survey",
-                    "params": { "sSessionKey": "%s",
-                                "SurveyID": %s } }""" % (self.session_key, sid)
-        return self.get_json(data)['result']
-
-
     def import_survey(self, datos, titulo, sid, tipo='lss'):
         data = """{ "id": 1,
                     "method": "import_survey",
@@ -270,42 +269,6 @@ class Api:
                                 "sNewSurveyName": "%s",
                                 "DestSurveyID": %d } }""" \
                % (self.session_key, datos, tipo, titulo, sid)
-        return self.get_json(data)['result']
-
-
-    def release_session_key(self):
-        data = """ { "method": "release_session_key",
-                     "params": { "sSessionKey" : "%s"},
-                     "id":1}' }""" % (self.session_key)
-        return self.get_json(data)['result']
-
-
-    def export_responses(self, sid):
-        data = """ {    "id" : 1,
-                        "method":"export_responses",
-                        "params": { "sSessionKey": "%s",
-                                    "iSurveyID":  %s,
-                                    "sDocumentType": "json",
-                                    "sLanguageCode": "ca",
-                                    "sCompletionStatus":"all",
-                                    "sHeadingType": "code",
-                                    "sResponseType": "long"
-                        } } """ % (self.session_key, sid)
-        return self.get_json(data)['result']
-
-
-    def export_responses_by_token(self, sid, token, language_code):
-        data = """ {    "id" : 1,
-                        "method":"export_responses_by_token",
-                        "params": { "sSessionKey": "%s",
-                                    "iSurveyID":  %s,
-                                    "sDocumentType": "json",
-                                    "sToken":  "%s",
-                                    "$sLanguageCode": "%s",
-                                    "sCompletationStatus": "all",
-                                    "sHeadingType": "code",
-                                    "sResponseType": "long"
-                        } } """ % (self.session_key, sid, token, language_code)
         return self.get_json(data)['result']
 
 
@@ -319,6 +282,7 @@ class Api:
         return self.get_json(data)['result']
 
 
+    # ACTUALIZAR Modifica una respuesta 
     def update_response(self, sid, response_data):
         data = """ {          "id": 1,
                               "method":"update_response",
@@ -345,6 +309,7 @@ class Api:
             sleep(1)
 
 
+    # Lista las encuestas con su nombre e ID
     def list_surveys(self):
         json_list_surveys = self.list_surveys_json()
 
@@ -355,23 +320,22 @@ class Api:
         return surveys
 
 
+    # Devuelve el json de las encuestas con toda la informacion de las mismas
     def list_surveys_json(self):
-        """Devuelve el JSON ENTERO"""
-        data = """{ "id": 1,
-                    "method": "list_surveys",
-                    "params": { "sSessionKey": "%s" } }""" % (self.session_key)
+        data = {
+            "id": 1,
+            "method": "list_surveys",
+            "params": {
+            "sSessionKey": self.session_key
+            }
+        }
+
+        data = json.dumps(data)
 
         return self.get_json(data)['result']
 
 
-    def list_sections_json(self, sid):
-        data = """ {          "method":"list_groups",
-                              "params": { "sSessionKey": "%s",
-                                          "iSurveyID": %s },
-                            "id": 1 } """ % (self.session_key, sid)
-        return self.get_json(data)['result']
-
-
+    # Lista las secciones con los nombres e ID
     def list_sections(self, sid):
         sections = []
         try:
@@ -385,6 +349,23 @@ class Api:
             None
         return sections
 
+
+    # Devuelve el json de las secciones con toda la informacion de las mismas
+    def list_sections_json(self, sid):
+        data = {
+            "id": 1,
+            "method": "list_groups",
+            "params": {
+            "sSessionKey": self.session_key,
+            "iSurveyID": sid
+            }
+        }
+
+        data = json.dumps(data)
+
+        return self.get_json(data)['result']
+
+
     def get_section_id_by_name(self, survey_id, section_name):
         groups = self.list_sections_json(survey_id)
         for group in groups:
@@ -394,15 +375,8 @@ class Api:
                 return group['gid']
         return None
 
-    def list_questions_json(self, sid, gid):
-        data = """ {          "method":"list_questions",
-                              "params": { "sSessionKey": "%s",
-                                          "iSurveyID": %s,
-                                          "iGroupID": %s },
-                            "id": 1 } """ % (self.session_key, sid, gid)
-        return self.get_json(data)['result']
 
-
+    # Listar las preguntas de una encuesta y grupo dadno su codigo y nombre
     def list_questions(self, sid, gid):
         questions = []
         try:
@@ -414,6 +388,24 @@ class Api:
         except:
             None
         return questions
+
+
+    # Listar las preguntas de una encuesta y grupo dando su json
+    def list_questions_json(self, sid, gid):
+        data = {
+            "id": 1,
+            "method": "list_questions",
+            "params": {
+            "sSessionKey": self.session_key,
+            "iSurveyID": sid,
+            "iGroupID": gid
+            }
+        }
+
+        data = json.dumps(data)
+
+        return self.get_json(data)['result']
+
     
     def get_survey_info(self):
         surveys = self.list_surveys_json()
@@ -447,7 +439,6 @@ class Api:
             return 'ERROR-NO ENCONTRADA'
         
         
-    
     def get_survey_id_by_name(self, name):
         survey_id = self.get_survey_info_by_name(name) 
         return survey_id
@@ -483,35 +474,73 @@ class Api:
         opcion = input("Cual opcion eliges?: ") # ['sid']
         return opciones[int(opcion)]
     
+    
     def get_question_id(self, sid, gid):
         question = self.get_question_info(sid, gid)
         return question['qid']
 
+
+    # Activar encuesta
+    def activate_survey(self, sid):
+        data = {
+            "id": 1,
+            "method": "activate_survey",
+            "params": {
+            "sSessionKey": self.session_key,
+            "iSurveyID": sid
+            }
+        }
+
+        data = json.dumps(data)
+
+        return self.get_json(data)['result']
+
+
+    # Crear tabla de participantes
+    def add_participant_table(self, sid):
+        data = {
+            "id": 1,
+            "method": "activate_tokens",
+            "params": {
+            "sSessionKey": self.session_key,
+            "iSurveyID": sid
+            }
+        }
+
+        data = json.dumps(data)
+        return self.get_json(data)['result']
+
+
     # Añadir participantes a la encuesta
     def add_participant(self, sid, participant):
-        data = """{ "id": 1,
-                    "method": "add_participants",
-                    "params": { "sSessionKey": "%s", "iSurveyID": "%s", 
-                    "aParticipantData": "%s" } }""" % (self.session_key, sid, participant)
+        data = {
+            "id": 1,
+            "method": "add_participants",
+            "params": {
+            "sSessionKey": self.session_key,
+            "iSurveyID": sid,
+            "aParticipantData":participant
+            }
+        }
 
+        data = json.dumps(data)
         return self.get_json(data)['result']
-    
+
+
+    # Eliminar participantes de una encuesta
     def delete_participant(self, sid, token):
-        data = """{ "id": 1,
-                    "method": "delete_participants",
-                    "params": { "sSessionKey": "%s",
-                                "iSurveyID": %s,
-                                "$aTokenIDs": "%s" } }""" % (self.session_key, sid, token)
-        return self.get_json(data)['result']
-    
-    def add_participant_table(self, sid):
-        data = """{ "id": 1,
-                    "method": "activate_tokens",
-                    "params": { "sSessionKey": "%s",
-                                "iSurveyID": %s } }""" % (self.session_key, sid)
-        return self.get_json(data)['result']
-    
+        data = {
+            "id": 1,
+            "method": "delete_participants",
+            "params": {
+            "sSessionKey": self.session_key,
+            "iSurveyID": sid,
+            "aTokenIDs":token
+            }
+        }
 
+        data = json.dumps(data)
+        return self.get_json(data)['result']
 
 
     # def get_participant_properties(self, sid, tokenQuery, tokenProperties):
@@ -524,29 +553,42 @@ class Api:
         
         return self.get_json(data)['result']
     
-    # Mandar invitaciones a los participantes
+
+    # Manda invitaciones a los participantes
     def invite_participant(self, sid, tokenId):
         # EL id es el del participante de la encuesta
-        data = """{ "id": 1,
-                    "method": "invite_participants",
-                    "params": { "sSessionKey": "%s",
-                     "iSurveyID": "%s", 
-                     "aTokenIds": "%s", 
-                     "bEmail": "%s" } }""" % (self.session_key, sid, tokenId, True)
-        
+        data = {
+            "id": 1,
+            "method": "invite_participants",
+            "params": {
+            "sSessionKey": self.session_key,
+            "iSurveyID": sid,
+            "aTokenIds":tokenId,
+            "bEmail": True
+            }
+        }
+
+        data = json.dumps(data)
         return self.get_json(data)['result']
-    
+
+
+    # Listar participantes
     def list_participants(self, sid, start=0, limit=10, unused=False):
-        data = """{ "id": 1,
-                    "method": "list_participants",
-                    "params": { "sSessionKey": "%s",
-                     "iSurveyID": "%s", 
-                     "iStart": "%s", 
-                     "iLimit": "%s",
-                     "bUnused": "%s" } }""" % (self.session_key, sid, start, limit, 
-                                                   unused)
-        
+        data = {
+            "id": 1,
+            "method": "list_participants",
+            "params": {
+            "sSessionKey": self.session_key,
+            "iSurveyID": sid,
+            "iStart": start,
+            "iLimit": limit,
+            "bUnused": unused
+            }
+        }
+
+        data = json.dumps(data)
         return self.get_json(data)['result']
+
 
     def mail_registered_participants(self, sid, conditions):
         data = """{ "id": 1,
@@ -557,6 +599,7 @@ class Api:
         
         return self.get_json(data)['result']
     
+    
     def get_responses(self, sid):
         print("EStamos en la funcion get_responses")
         data = {
@@ -566,7 +609,7 @@ class Api:
             "sSessionKey": self.session_key,
             "iSurveyID": sid,
             "sDocumentType":"json",
-            "sLanguageCode":"en",
+            "sLanguageCode":"es",
             "sCompletionStatus":"complete",
             "sHeadingType":"code",
             "sResponseType":"short",
@@ -577,12 +620,79 @@ class Api:
         }
 
         data = json.dumps(data)
-        encoded_data = response.json().get('result')
-        decoded_data = base64.b64decode(encoded_data).decode('utf-8')
+        datada = self.get_json(data)['result']
+        
+        decoded_data = base64.b64decode(datada).decode('utf-8')
+        print("DAtos de dta" + str(decoded_data))
+        # datad = pd.read_json(StringIO(decoded_data))
+        '''
+        [
+            {
+                "1": {
+                    "id": "1",
+                    "submitdate": "1980-01-01 00:00:00",
+                    "lastpage": "2",
+                    "startlanguage": "es",
+                    "seed": "1764863911",
+                    "Pregunta1": "Manu",
+                    "Pregunta2": "Breve parrafo 1",
+                    "Pregunta8[SQ001]": "Y",
+                    "Pregunta8[SQ002]": "",
+                    "Pregunta8[SQ003]": "",
+                    "Pregunta8[SQ004]": "",
+                    "PersonaNombre": "Lamamadelamamadelamama"
+                }
+            },
+            {
+                "2": {
+                    "id": "2",
+                    "submitdate": "1980-01-01 00:00:00",
+                    "lastpage": "2",
+                    "startlanguage": "es",
+                    "seed": "1078266662",
+                    "Pregunta1": "Ana",
+                    "Pregunta2": "Este es un breve parrafo 2",
+                    "Pregunta8[SQ001]": "",
+                    "Pregunta8[SQ002]": "",
+                    "Pregunta8[SQ003]": "",
+                    "Pregunta8[SQ004]": "Y",
+                    "PersonaNombre": "La 2 mama 2"
+                }
+            },
+            {
+                "3": {
+                    "id": "3",
+                    "submitdate": "1980-01-01 00:00:00",
+                    "lastpage": "2",
+                    "startlanguage": "es",
+                    "seed": "1340384792",
+                    "Pregunta1": "24g524v",
+                    "Pregunta2": "q3rfgq245",
+                    "Pregunta8[SQ001]": "",
+                    "Pregunta8[SQ002]": "Y",
+                    "Pregunta8[SQ003]": "Y",
+                    "Pregunta8[SQ004]": "",
+                    "PersonaNombre": "asrxfhnb,6svdfbghj"
+                }
+            }
+        ]
+        Esta es la estructura q nos interesa siendo als de seleccion las q pone SQ00 
+        y ahi pone Y en las q se han escogido, las demas son pregunas de texto normales
+        '''
+        
+        return datada
+        
 
-        datad = pd.read_json(StringIO(decoded_data))
+    # Libera la clave de la sesion
+    def release_session_key(self):
+        data = {
+            "id": 1,
+            "method": "release_session_key",
+            "params": {
+            "sSessionKey": self.session_key
+            }
+        }
 
-        # print("Data: "+str(self.get_json(data)['result']))
+        data = json.dumps(data)
 
-        return self.get_json(datad)['result']
-
+        return self.get_json(data)['result']

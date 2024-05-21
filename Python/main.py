@@ -70,7 +70,7 @@ for survey in result:
             print("Estos son los datos de la pregunta: "+str((question)))
 
 '''
-# sid, gid, question_title, question_body, question_type
+
 '''
 result = api.add_question(777423, 20, "Q001", "¿Como te llamas?", "T")
 print(result)
@@ -83,15 +83,21 @@ api.add_question(777423, 20, "Mascota", "¿Que mascota/s tienes?", "M")
 # api.add_answer(777423, 20, "")
 
 # ---------------------------------------------------EMAIL---------------------------------------------------
+
+
+# api.add_question(868618, 21, 1)
+
+'''
+resultadito = api.get_responses(957144)
+print("Opcion resultado: "+ str(resultadito))
+'''
+
 '''
 api.activate_survey(957144)
 api.add_participant_table(957144)
-'''
-# api.add_question(868618, 21, 1)
-resultadito = api.get_responses(957144)
-print("Opcion resultado: "+ resultadito)
 
 '''
+
 participantes = [{'email': 'manuelmesias@correo.ugr.es', 'lastname': 'Guerrero', 'firstname': 'Manu' }]
 respuesta = api.add_participant(777423, participantes)
 print('ESta es la rsepu: ' + str(respuesta))
@@ -99,7 +105,7 @@ print('ESta es la rsepu: ' + str(respuesta))
 
 participantes = api.list_participants(777423)
 print('EStos son los participantes2: ' + str(participantes))
-'''
+
 '''
 participante = [participant['tid'] for participant in participantes]
 print('ID del participante: ' + str(participante[0]))
@@ -110,4 +116,24 @@ print('Resultado de la invitacion: ' + str(result))
 
 
 
+# COMPROBAR LAS SIGUIENTES FUNCIONES
+'''
+add_survey
+add_section
+delete_survey
+release_session_key
+activate_survey
+add_participant_table
+list_surveys
+list_surveys_json
+list_sections
+list_sections_json
+list_questions
+list_questions_json
+add_participant_table
+invite_participant
+list_participants
+'''
 
+
+api.release_session_key()
