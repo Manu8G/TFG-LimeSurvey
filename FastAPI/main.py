@@ -4,6 +4,7 @@ from typing import Dict
 from fastapi.middleware.cors import CORSMiddleware
 from LimeAPI import Api
 
+
 from controller.admin import router as admin_router
 from controller.paciente import router as paciente_router
 
@@ -16,14 +17,16 @@ if __name__ == "__main__":
     api = Api(url, username, password)
     app = FastAPI()
 
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["http://localhost:4200"],  # Permite a Angular acceder
-        allow_credentials=True,
-        allow_methods=["*"],  # Permite todos los métodos
-        allow_headers=["*"],  # Permite todos los encabezados
-    )
+    # app.add_middleware(
+    #     CORSMiddleware,
+    #     allow_origins=["http://localhost:4200"],  # Permite a Angular acceder
+    #     allow_credentials=True,
+    #     allow_methods=["*"],  # Permite todos los métodos
+    #     allow_headers=["*"],  # Permite todos los encabezados
+    # )
 
+    
+    oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
     app.include_router(admin_router, paciente_router)
 

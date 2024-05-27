@@ -106,6 +106,8 @@ print('ESta es la rsepu: ' + str(respuesta))
 participantes = api.list_participants(777423)
 print('EStos son los participantes2: ' + str(participantes))
 
+
+
 '''
 participante = [participant['tid'] for participant in participantes]
 print('ID del participante: ' + str(participante[0]))
@@ -118,22 +120,12 @@ print('Resultado de la invitacion: ' + str(result))
 
 # COMPROBAR LAS SIGUIENTES FUNCIONES
 '''
-add_survey
-add_section
-delete_survey
-release_session_key
 activate_survey
-add_participant_table
-list_surveys
-list_surveys_json
-list_sections
-list_sections_json
-list_questions
-list_questions_json
 add_participant_table
 invite_participant
 list_participants
 '''
+
 
 
 api.release_session_key()

@@ -52,9 +52,9 @@ class Api:
         for survey in surveys: 
             if(str(sid) == survey[0]):
                 numero_aleatorio = random.randint(100000, 999999)
-                print("La encuesta "+ str(sid)+" existe, este seria un sustituto: "+str(numero_aleatorio))
+                # print("La encuesta "+ str(sid)+" existe, este seria un sustituto: "+str(numero_aleatorio))
                 return numero_aleatorio
-        print("La encuesta "+str(sid)+" no existe.")
+        # print("La encuesta "+str(sid)+" no existe.")
         return None
 
 
