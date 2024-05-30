@@ -13,10 +13,12 @@ import { OnInit } from '@angular/core';
 export class CreateQuestionComponent implements OnInit{
   data: any = {};
   IDSurveyL: any = {};
+  IDSectionL: any = {};
   modifiedData: any;
   surveyControl = new FormControl('');
   sectionControl = new FormControl('');
-  idSurvey: string[] = [];
+  idSurvey: string[] = ['111111'];
+  idSection: string[] = ['222222']
   filteredSurveyOptions!: Observable<string[]>;
   filteredSectionOptions!: Observable<string[]>;
   datosP: any[] = [];
@@ -25,9 +27,14 @@ export class CreateQuestionComponent implements OnInit{
   continue:boolean = true;
   cont:number = 0;
   contAny:any;
-  tipos: string[] = ['T - Texto', 'N - Numerico', 'S - Seleccion unica', 'M - Multiple opcion', 'Y - Si/No', 'A - Texto Grande'];
-  tipo: string;
-
+  tipos = [
+    { value: 'hide', viewValue: 'T - Texto' },
+    { value: 'show', viewValue: 'M - Multiple opcion' }
+  ];
+  tipo:string='';
+  showElements: boolean = false;
+  preguntas: string[] = [''];
+  
   constructor(private service: CreateSurveyServiceService) {}
 
   ngOnInit() {
@@ -56,6 +63,32 @@ export class CreateQuestionComponent implements OnInit{
       startWith(''),
       map(value => this._filter(value || '')),
     );
+
+    this.service.listIDSection(this.IDSectionL).subscribe({
+      next: (response) => {
+        /*console.log("La estructura de datos en angular es V2: ");
+        console.dir(response);*/
+        //console.log("EL tipo es: ",typeof response);
+        let keys = Object.keys(response);
+        let values = Object.values(response);
+        
+        for(let i = 0; i < keys.length; i++){
+          this.valueS = keys[i] + " - " + values[i];
+          //console.log("EL valueS es: ",this.valueS);
+          this.idSection.push(this.valueS);
+        }
+        //console.log("La idSurvey: ");
+        //console.dir(this.idSurvey);
+      },
+      error: (err) => {
+        console.error('Error:', err);
+      }
+    });
+
+    this.filteredSectionOptions = this.sectionControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
     //console.log("EL filteredOptions es: ",this.filteredOptions);
     
   }
@@ -79,4 +112,13 @@ export class CreateQuestionComponent implements OnInit{
       }
     });
   }
+
+  checkVisibility(): void {
+    this.showElements = this.tipo === 'show';
+  }
+
+  addInput(): void {
+    this.preguntas.push('');
+  }
+
 }

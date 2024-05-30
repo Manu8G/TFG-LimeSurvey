@@ -343,7 +343,7 @@ class Api:
             # print('Semos dentro: '+ str(json_list_section))
             for sect in json_list_section:
                 # print('\nsec: '+str(sect))
-                section = sect['sid'], sect['group_name']
+                section = sect['gid'], sect['group_name']
                 sections.append(section)
         except:
             None
@@ -427,8 +427,6 @@ class Api:
     
     def get_survey_info_by_name(self, name):
         surveys = self.list_surveys_json()
-        opciones = []
-        contador = 0
         noEncontrada = True
         for survey in surveys:
             if str(survey['surveyls_title']) == str(name):

@@ -17,7 +17,7 @@ export class CreateSectionComponent implements OnInit{
   IDSurveyL: any = {};
   modifiedData: any;
   myControl = new FormControl('');
-  idSurvey: string[] = ['hola'];
+  idSurvey: string[] = ['123456'];
   filteredOptions!: Observable<string[]>;
   datosP: any[] = [];
   valueS: string = '';
@@ -73,6 +73,7 @@ export class CreateSectionComponent implements OnInit{
 
   onSubmit() {
     this.data.survey_id = this.myControl;
+    console.log("El id es: "+this.data.survey_id);
     this.service.createSection(this.data).subscribe({
       next: (response) => {
         //console.log("La estructura de datos en angular es V2: ");

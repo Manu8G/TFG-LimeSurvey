@@ -11,6 +11,7 @@ password = "1234Lime"
 api = Api(url, username, password)
 
 # ------------------------------------------ENCUESTAS, SECCIONES Y PREGUNTAS-------------------------------
+
 '''
 api.add_survey("prueba encuesta 4", "es")
 survey_id = api.get_survey_id_by_name("prueba encuesta 4")
@@ -93,39 +94,22 @@ print("Opcion resultado: "+ str(resultadito))
 '''
 
 '''
-api.activate_survey(957144)
-api.add_participant_table(957144)
-
-'''
-
+api.activate_survey(777423)
+api.add_participant_table(777423)
 participantes = [{'email': 'manuelmesias@correo.ugr.es', 'lastname': 'Guerrero', 'firstname': 'Manu' }]
-respuesta = api.add_participant(777423, participantes)
-print('ESta es la rsepu: ' + str(respuesta))
-
-
-participantes = api.list_participants(777423)
-print('EStos son los participantes2: ' + str(participantes))
-
-
-
-'''
-participante = [participant['tid'] for participant in participantes]
+api.add_participant(777423, participantes)
+participantesL = api.list_participants(777423)
+participante = [participant['tid'] for participant in participantesL]
 print('ID del participante: ' + str(participante[0]))
-# Listar participantes para obtener el ID
-result = api.invite_participant(957144, participante[0])
+tokensP = [participante[0]]
+api.invite_participant(777423, tokensP)
+'''
+
+'''     Eliminar un participante de una encuesta
+token = [1, 2]  # ELimina los participantes de la encuesta con ID 1 y 2
+result = api.delete_participant("777423", token)
 print('Resultado de la invitacion: ' + str(result))
 '''
-
-
-
-# COMPROBAR LAS SIGUIENTES FUNCIONES
-'''
-activate_survey
-add_participant_table
-invite_participant
-list_participants
-'''
-
 
 
 api.release_session_key()

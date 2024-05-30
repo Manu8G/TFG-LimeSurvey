@@ -16,6 +16,7 @@ import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatSelectModule} from '@angular/material/select';
+import { MatCardModule} from '@angular/material/card';
 
 
 //Componentes
@@ -23,7 +24,8 @@ import { AppComponent } from './app.component';
 import { CreateSurveyComponent } from './create-survey/create-survey.component';
 import { CreateSectionComponent } from './create-section/create-section.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-//import { CreateQuestionComponent } from './create-question/create-question.component';
+import { CreateQuestionComponent } from './create-question/create-question.component';
+import { InitialPageComponent } from './initial-page/initial-page.component';
 
 
 @NgModule({
@@ -31,7 +33,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     AppComponent,
     CreateSurveyComponent,
     CreateSectionComponent,
-    //CreateQuestionComponent,
+    CreateQuestionComponent,
+    InitialPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +52,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     MatDividerModule,
     MatAutocompleteModule,
     AsyncPipe,
-    MatSelectModule
+    MatSelectModule,
+    MatCardModule
   ],
   providers: [
     provideAnimationsAsync()

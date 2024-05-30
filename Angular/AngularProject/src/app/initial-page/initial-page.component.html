@@ -1,0 +1,21 @@
+<mat-toolbar color="primary">
+    <span>
+        <img src="../../assets/Logo.png" class="angular-logo">
+        INTEGRA
+    </span>
+    <span class="fill-remaining-space"></span>
+    <button mat-button [matMenuTriggerFor]="encuestas">Ecuestas</button>
+    <button mat-button>Usuarios</button>
+    <button mat-button>Respuestas</button>
+</mat-toolbar>
+
+<mat-menu #encuestas="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="Crear">Crear</button>
+</mat-menu>  
+
+<mat-menu #Crear="matMenu">
+    <button mat-menu-item routerLink="/create_survey">Encuesta</button>
+    <button mat-menu-item routerLink="/create_section">Seccion</button>
+    <button mat-menu-item routerLink="/create_question">Pregunta</button>
+</mat-menu> 
+

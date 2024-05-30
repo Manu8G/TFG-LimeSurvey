@@ -1,22 +1,31 @@
-<mat-toolbar color="primary">
-    <span>
-        <img src="../assets/Logo.png" class="angular-logo">
-        INTEGRA
-    </span>
-    <span class="fill-remaining-space"></span>
-    <button mat-button [matMenuTriggerFor]="encuestas">Ecuestas</button>
-    <button mat-button>Usuarios</button>
-    <button mat-button>Respuestas</button>
-</mat-toolbar>
+<router-outlet>
+    <a routerLink="/initial_page">Encuesta</a>
+</router-outlet>
 
-<mat-menu #encuestas="matMenu">
-    <button mat-menu-item [matMenuTriggerFor]="Crear">Crear</button>
-</mat-menu>  
+<!-- ///////////////////////////////////////////////////////////////////////////////////////// -->
+<!--
 
-<mat-menu #Crear="matMenu">
-    <button mat-menu-item routerLink="/create_survey">Encuesta</button>
-    <button mat-menu-item routerLink="/create_section">Seccion</button>
-</mat-menu> 
-
-
+    <div class="login-container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Iniciar sesión</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form (ngSubmit)="onSubmit()">
+          <mat-form-field class="full-width">
+            <mat-label>Usuario</mat-label>
+            <input matInput placeholder="Introduce tu usuario" [(ngModel)]="loginData.username" name="username" required>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Contraseña</mat-label>
+            <input matInput placeholder="Introduce tu contraseña" [(ngModel)]="loginData.password" name="password" type="password" required>
+          </mat-form-field>
+          <button mat-raised-button color="primary" type="submit">Entrar</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
 <router-outlet></router-outlet>
+
+-->
