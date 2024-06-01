@@ -26,6 +26,8 @@ import { CreateSectionComponent } from './create-section/create-section.componen
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { CreateQuestionComponent } from './create-question/create-question.component';
 import { InitialPageComponent } from './initial-page/initial-page.component';
+import { LoginComponent } from './login/login.component';
+import { LayoutComponent } from './layout/layout.component';
 
 
 @NgModule({
@@ -35,6 +37,8 @@ import { InitialPageComponent } from './initial-page/initial-page.component';
     CreateSectionComponent,
     CreateQuestionComponent,
     InitialPageComponent,
+    LoginComponent,
+    LayoutComponent,
   ],
   imports: [
     BrowserModule,

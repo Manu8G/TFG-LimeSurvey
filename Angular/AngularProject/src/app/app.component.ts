@@ -9,13 +9,4 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'AngularProject';
   
-  loginData = {
-    username: '',
-    password: ''
-  };
-
-  onSubmit(){
-    //logica de usuario
-  }
-
 }
