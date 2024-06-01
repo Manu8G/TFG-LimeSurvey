@@ -14,6 +14,13 @@ except ImportError:
 from csv import DictReader
 from time import sleep
 from io import StringIO
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+DATABASE_URL = 'mysql+mysqlconnector://limeuser:EstaEsLaCon@localhost:3306/integradb'
+
+engine = create
 
 
 class Api:
@@ -694,3 +701,7 @@ class Api:
         data = json.dumps(data)
 
         return self.get_json(data)['result']
+    
+
+    def create_flujo(self, id_usuario, tipo):
+        

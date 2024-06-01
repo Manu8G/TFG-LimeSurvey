@@ -1,12 +1,13 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Date
 from model import Base
 
 class User(Base):
-    __tablename__ = 'users'
+    tablename = 'Paciente'
 
     id_usuario = Column(Integer, primary_key=True)
-    username = Column(String , nullable=False)
-    password = Column(String(128), nullable=False) 
-    DNI = Column(String(9) , nullable=True)
-    ...
-    sessions = relationship("SessionHospital", backref="user")
+    dni = Column(String , nullable=False)
+    estado = Column(String , nullable=False) 
+    nacionalidad = Column(String , nullable=True)
+    fecha_nacimiento = Column(Date , nullable=True)
+    email = Column(String , nullable=True)
+
