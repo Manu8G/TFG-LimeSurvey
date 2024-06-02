@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, String, Boolean
-from .database import Base
+from model import Base
+
 
 class User(Base):
-    tablename = "Usuario"
+    __tablename__ = "Usuario"
 
     id_usuario = Column(Integer, primary_key=True, index=True)
     nombre_y_apellidos = Column(String, unique=True, index=True)

@@ -28,6 +28,7 @@ import { CreateQuestionComponent } from './create-question/create-question.compo
 import { InitialPageComponent } from './initial-page/initial-page.component';
 import { LoginComponent } from './login/login.component';
 import { LayoutComponent } from './layout/layout.component';
+import { CreateFlujoComponent } from './create-flujo/create-flujo.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { LayoutComponent } from './layout/layout.component';
     InitialPageComponent,
     LoginComponent,
     LayoutComponent,
+    CreateFlujoComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,41 @@
+
+
+<form (ngSubmit)="onSubmit()">
+    <table class="example-full-width" cellspacing="0">
+      <tr>
+        <td><mat-form-field class="example-full-width">
+          <mat-label>Nombre del flujo</mat-label>
+          <input matInput type="text" id="flujo_name" [(ngModel)]="data.section_name" name="section_name" required>
+        </mat-form-field></td>
+        <!-- <td><mat-form-field class="example-full-width">  
+          <mat-label>Id de la encuesta</mat-label>
+          <input matInput type="text" id="flujo_type" [(ngModel)]="data.section_name" name="section_name" required>
+        </mat-form-field></td> -->
+        <div *ngFor="let input of preguntas; let i = index">
+            <mat-form-field appearance="fill">
+            <mat-label>Encuesta numero {{i + 1}}</mat-label>
+            <mat-select [(ngModel)]="preguntas[i]" placeholder="Elige la encuesta">
+                <mat-option *ngFor="let opcion of idSurvey" [value]="opcion">
+                    {{ opcion }}
+                </mat-option>
+            </mat-select>
+            </mat-form-field>
+        </div>
+        <button mat-raised-button color="primary" (click)="addInput()">Agregar entrada</button>
+    
+
+      </tr>
+    </table>
+    <button type="submit" mat-flat-button>Crear</button>
+  </form>
+  
+  
+  <!-- <div *ngIf="modifiedData">
+    <p><strong>Modified Data:</strong></p>
+    <p>Id de la encuesta: {{ modifiedData.survey_id }}</p>
+    <p>Nombre de la seccion: {{ modifiedData.section_name }}</p>
+    <p>Confirmacion de creacion de la seccion: {{ modifiedData.section_confirm }}</p>
+  </div> -->
+    
+  
+  

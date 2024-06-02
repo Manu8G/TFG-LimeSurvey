@@ -4,10 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { CreateSurveyComponent } from './create-survey/create-survey.component'
 import { CreateSectionComponent } from './create-section/create-section.component'
 import { CreateQuestionComponent } from './create-question/create-question.component';
-import { InitialPageComponent } from './initial-page/initial-page.component';
 import { LoginComponent } from './login/login.component';
 import { LayoutComponent } from './layout/layout.component';
 import { AuthGuard } from './guards/auth.guard';
+import { CreateFlujoComponent } from './create-flujo/create-flujo.component';
 
 const routes: Routes = [
   {
@@ -18,6 +18,8 @@ const routes: Routes = [
         path: 'create_section', component: CreateSectionComponent
       }, {
         path: 'create_question', component: CreateQuestionComponent
+      }, {
+        path: 'create_flujo', component: CreateFlujoComponent
       }
     ]
   },
