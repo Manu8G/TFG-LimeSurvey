@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean, Date, Time
-from .database import Base
+from model import Base
 
 class Sesion(Base):
     tablename = "SesionAsisteProporciona"

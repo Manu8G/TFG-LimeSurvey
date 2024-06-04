@@ -9,6 +9,14 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+import logging
+import git
+import os
+actual_path = os.path.abspath(__file__)
+repo = git.Repo(search_parent_directories=True, path=actual_path)
+path_repo = repo.git.rev_parse("--show-toplevel")
+
+
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)

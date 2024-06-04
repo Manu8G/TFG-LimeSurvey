@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, Boolean
-from .database import Base
+from sqlalchemy import Column, Integer, String
+from model import Base
 
 class RespuestaLibreSolucion(Base):
     tablename = "RespuestaLibresolucionCompleta"

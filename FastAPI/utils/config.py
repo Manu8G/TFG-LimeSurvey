@@ -1,22 +1,40 @@
-import os
 import yaml
+from utils import path_repo
+import logging
+import os
 
-class ConfigLoader:
 
-    def __init__(self, filename='config.yml'):
-        config_dir = os.path.join(os.getcwd(), 'config')
-        self.config_path = os.path.join(config_dir, filename)
-        
-        self.config = self.load_config()
-
-    def load_config(self):
+class Config:
+    def __init__(self, config_path=f"{path_repo}/FastAPI/config/config.yaml", secrets_path=f"{path_repo}/config/config-secret.yaml") -> None:
         try:
-            with open(self.config_path, 'r') as f:
-                config_data = yaml.safe_load(f)
-            return config_data
-        except FileNotFoundError:
-            raise FileNotFoundError(f'Archivo de configuración no encontrado: {self.config_path}')
+            logging.info("Loading Config File...")
+            if os.path.exists(config_path):
+                self.config = self.load_yaml(config_path)
+            else:
+                raise RuntimeError("Error: config.yaml not found")
+            if os.path.exists(secrets_path):
+                self.secrets = self.load_yaml(secrets_path)
+            else:
+                raise RuntimeError("Error: config-secret.yaml not found")
+            self.combine_configs()
 
-    def get_config(self):
-        return self.config
+            logging.info("Loaded config successfully")
+        except Exception as e:
+            logging.error(str(e))
 
+    def load_yaml(self, path):
+        with open(path, 'r') as file:
+            
+            return yaml.safe_load(file)
+
+    def combine_configs(self):
+        self.config.update(self.secrets)
+
+    def get(self, key, default=None):
+        keys = key.split('.')
+        value = self.config
+        for k in keys:
+            value = value.get(k, default)
+            if value is default:
+                break
+        return value

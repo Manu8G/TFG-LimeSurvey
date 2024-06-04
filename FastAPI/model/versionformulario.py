@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, Date
-from .database import Base
+from model import Base
 
 class VersionFormulario(Base):
     tablename = "VersionFormularioTiene"

@@ -1,4 +1,5 @@
 from LimeAPI import Api
+from passlib.context import CryptContext
 # import base64  # to encode the surveys
 # import config
 # import json
@@ -23,6 +24,15 @@ for survey in result:
     sid = survey[0] 
     print("Esta es la SID de la encuesta: "+sid)
 
+'''
+'''
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+print('Esta es la contraseña del user1: ' + str(pwd_context.hash('23PsR')))
+print('ESte es la contraseña del user2: ' + str(pwd_context.hash('GpP2022')))
+print('ESte es la contraseña del user3: ' + str(pwd_context.hash('UcR2024')))
+Esta es la contraseña del user1: $2b$12$tGEZlbl1trH5H79w2WXg9uMbmQewYHvxZoZxW2bCza4SkkzVwenhm
+ESte es la contraseña del user2: $2b$12$e/BblQBeEn33LSHhcV3kyOXXSiADBPAT975/yWtee9LZRI99MDXDC
+ESte es la contraseña del user3: $2b$12$xjO4ZImnCL/vRb2LC7qTV.7HbvjOXTumy9HbbEAnp1Ax9rB2EyM7C
 '''
 # api.check_if_exists_survey(227517)
 

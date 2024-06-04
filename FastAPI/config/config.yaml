@@ -1,0 +1,4 @@
+MYSQL:
+  URL: mysql://limeuser:EstaEsLaCon@localhost/integradb
+  USER: limeuser
+  PASSWORD: EstaEsLaCon

@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer
-from .database import Base
+from model import Base
 
 class Contiene(Base):
     tablename = "Contiene"
