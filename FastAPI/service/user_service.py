@@ -5,15 +5,23 @@ class UserService:
   def __init__(self):
     self.user_repository = UserRepository()
 
-  def get_user(self, username: str) -> UserInDB:
+  def get_user(self, name: str) -> UserInDB:
     try:
-      return self.user_repository.get_user_db(username = username)
+      return self.user_repository.get_user_db(name = name)
     except Exception as e:
       raise RuntimeError(f"Something goes wrong {str(e)}")
     
-  def create_user(self, username: str, password: str, name: str):
+  def create_user(self, name: str, password: str):
+    print("EStamos en user_service.py")
     try:
-      print(username, password, name)
-      return self.user_repository.create_user(username=username, password=password, name=name)
+      print(name, password, name)
+      return self.user_repository.create_user(name=name, password=password)
+    except Exception as e:
+      raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")
+    
+  # def create_user(self, name: str, password: str, name: str):
+    try:
+      print(name, password, name)
+      return self.user_repository.create_user(name=name, password=password)
     except Exception as e:
       raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")

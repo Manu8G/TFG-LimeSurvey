@@ -10,4 +10,4 @@ class User(Base):
     password = Column(String, index=True)
 
     # hashed_password = Column(String)
-    disabled = Column(Boolean, default=False)
+    # disabled = Column(Boolean, default=False)

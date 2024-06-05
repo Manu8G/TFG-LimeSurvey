@@ -5,7 +5,7 @@ import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { OnInit } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
-
+import { Seccion } from '../models/seccion/seccion.module';
 
 @Component({
   selector: 'app-create-section',
@@ -73,8 +73,12 @@ export class CreateSectionComponent implements OnInit{
 
   onSubmit() {
     this.data.survey_id = this.myControl;
-    console.log("El id es: "+this.data.survey_id);
-    this.service.createSection(this.data).subscribe({
+    const seccion: Seccion  = {
+      section_name: this.data.section_name,
+      id_encuesta: this.data.survey_id
+    };
+    
+    this.service.createSection(seccion).subscribe({
       next: (response) => {
         //console.log("La estructura de datos en angular es V2: ");
         //console.dir(response);

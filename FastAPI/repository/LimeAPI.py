@@ -15,7 +15,6 @@ from csv import DictReader
 from time import sleep
 from io import StringIO
 
-
 class Api:
 
     def get_json(self, data):
@@ -694,3 +693,6 @@ class Api:
         data = json.dumps(data)
 
         return self.get_json(data)['result']
+    
+
+    
