@@ -9,9 +9,9 @@ import { Usuario } from '../../models/usuario/usuario.module';
 export class CreateSurveyServiceService {
 
   private createSurveyURL = 'http://localhost:8000/create_survey/';
-  private createSectionURL = 'http://localhost:8000/create_section/';
+  private createSectionURL = 'http://localhost:8000/admin/create_section/';
   private createQuestionURL = 'http://localhost:8000/create_question/';
-  private listIDSurveyURL = 'http://localhost:8000/get_survey_id/';
+  private listIDSurveyURL = 'http://localhost:8000/admin/get_survey_id/';
   private listIDSectionURL = 'http://localhost:8000/list_sections/';
   private createUserURL = 'http://localhost:8000/admin/create_user/';
 

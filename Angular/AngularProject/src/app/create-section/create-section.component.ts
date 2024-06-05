@@ -36,7 +36,8 @@ export class CreateSectionComponent implements OnInit{
         let values = Object.values(response);
         
         for(let i = 0; i < keys.length; i++){
-          this.idSurvey.push(keys[i] + " - " + values[i]);
+          let vare = values[i] as string;
+          this.idSurvey.push(keys[i] + " - " + vare[1]);
           //this.valueS = keys[i] + " - " + values[i];
           //console.log("EL valueS: ",keys[i]);
           //console.log("EL valueS: ",values[i]);

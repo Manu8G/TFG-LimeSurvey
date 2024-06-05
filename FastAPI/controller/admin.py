@@ -9,6 +9,10 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from dto.token import Token
 from dto.user import User
+from utils.Lime_API_run import api
+from service.seccion_service import seccionService
+
+from dto.seccion import Seccion
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 service = AdminService()
@@ -36,5 +40,22 @@ async def create_user(user: User):
         service.create_user(name=user.name, password=user.password)
 
         return {"message": "User created successfully"}
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+
+
+@router.post("/create_section")
+async def create_seccion(seccion: Seccion):
+    try:
+        service = seccionService()
+        service.create_user(seccion_name=seccion.nombre_seccion, id_encuesta=seccion.id_encuesta)
+        return {"message": "seccion created successfully"}
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+    
+@router.post("/get_survey_id")
+async def get_survey_id():
+    try:
+        return api.list_surveys()
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
