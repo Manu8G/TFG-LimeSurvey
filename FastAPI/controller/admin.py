@@ -20,11 +20,15 @@ from utils.Lime_API_run import api
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 service = AdminService()
+ususu = UserService()
  
 @router.post("/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = UserService.get_user(name=form_data.name)
-    if not user or not verify_password(form_data.password, user.hashed_password):
+    user = ususu.get_user(name=form_data.username) # hermano arreglame porfa
+    print(str(user))
+    # La siguiente funcion le pasa primero la contraseña introducida y despues 
+    #la de bd para comprobar si es correcto
+    if not user or not verify_password(form_data.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect name or password",
@@ -41,7 +45,7 @@ async def crear_user(user: User):
     try:
         service = UserService()
 
-        service.create_user(name=user.name, password=user.password)
+        service.crear_usuario(name=user.name, password=user.password)
 
         return {"message": "User created successfully"}
     except Exception as e:
