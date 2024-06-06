@@ -4,7 +4,7 @@
     <tr>
       <td><mat-form-field class="example-full-width">
         <mat-label>Nombre de la seccion</mat-label>
-        <input matInput type="text" id="section_name" [(ngModel)]="data.section_name" name="section_name" required>
+        <input matInput type="text" id="nombre_seccion" [(ngModel)]="data.nombre_seccion" name="nombre_seccion" required>
       </mat-form-field></td>
       <td><mat-form-field class="example-full-width">  
         <mat-label>Id de la encuesta</mat-label>
@@ -18,12 +18,12 @@
 </form>
 
 
-<div *ngIf="modifiedData">
+<!-- <div *ngIf="modifiedData">
   <p><strong>Modified Data:</strong></p>
   <p>Id de la encuesta: {{ modifiedData.survey_id }}</p>
-  <p>Nombre de la seccion: {{ modifiedData.section_name }}</p>
+  <p>Nombre de la seccion: {{ modifiedData.nombre_seccion }}</p>
   <p>Confirmacion de creacion de la seccion: {{ modifiedData.section_confirm }}</p>
-</div> 
+</div>  -->
   
 <!--<pre>{{datosP | json}}</pre>-->
 <!--<p>{{datosP["0"]}}</p>-->

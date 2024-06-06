@@ -1,4 +1,4 @@
 export interface Seccion {
-  section_name: string;
+  nombre_seccion: string;
   id_encuesta: string;
 }

@@ -17,7 +17,7 @@ export class CreateSectionComponent implements OnInit{
   IDSurveyL: any = {};
   modifiedData: any;
   myControl = new FormControl('');
-  idSurvey: string[] = ['123456'];
+  idSurvey: string[] = [];
   filteredOptions!: Observable<string[]>;
   datosP: any[] = [];
   valueS: string = '';
@@ -36,17 +36,10 @@ export class CreateSectionComponent implements OnInit{
         let values = Object.values(response);
         
         for(let i = 0; i < keys.length; i++){
-          let vare = values[i] as string;
-          this.idSurvey.push(keys[i] + " - " + vare[1]);
-          //this.valueS = keys[i] + " - " + values[i];
-          //console.log("EL valueS: ",keys[i]);
-          //console.log("EL valueS: ",values[i]);
-          //console.log("EL valueS es: ",this.valueS);
-          //console.log("EL tipo es: ",typeof this.valueS);
-          //this.idSurvey.push(this.valueS);
-          //this.idSurvey = {...this.valueS as any};
+          //let vare = values[i] as string;
+          //this.idSurvey.push(keys[i] + " - " + vare[1]);
+          this.idSurvey.push(keys[i] + " - " + values[i]);
         }
-        this.idSurvey.push('alo');
         
         // console.log("La idSurvey: ");
         // console.log(this.idSurvey);
@@ -67,18 +60,22 @@ export class CreateSectionComponent implements OnInit{
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    console.log("EL value es: ",value);
+    //console.log("EL value es: ",value);
     return this.idSurvey.filter(idSurvey => idSurvey.toLowerCase().includes(filterValue));
   }
 
   onSubmit() {
     this.data.survey_id = this.myControl;
+    let id_encuesta = this.data.survey_id.value;
+    id_encuesta = id_encuesta.match(/\d+/)
+    //console.log("La id: ",varea[0]);
+    //console.log("La name: ",this.data.nombre_seccion);
     const seccion: Seccion  = {
-      section_name: this.data.section_name,
-      id_encuesta: this.data.survey_id
+      nombre_seccion: this.data.nombre_seccion,
+      id_encuesta: id_encuesta[0]
     };
-    console.log("La seccion es seccion: ");
-    console.dir(seccion);
+    //console.log("La seccion es seccion2: ");
+    //console.dir(seccion);
     this.service.createSection(seccion).subscribe({
       next: (response) => {
         //console.log("La estructura de datos en angular es V2: ");
@@ -86,7 +83,7 @@ export class CreateSectionComponent implements OnInit{
         this.modifiedData = response;
       },
       error: (err) => {
-        console.error('Error:', err);
+        console.error('Erroroso:', err);
       }
     });
   }

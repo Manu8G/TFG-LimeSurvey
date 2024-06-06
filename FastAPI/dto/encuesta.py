@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
-class Seccion(BaseModel):
+class Encuesta(BaseModel):
     nombre_encuesta: str
-    id_encuesta: str
+    idioma: str

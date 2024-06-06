@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CreateSurveyServiceService } from '../services/create_survey/create-survey-service.service';
+import { Encuesta } from '../models/encuesta/encuesta.module';
 
 @Component({
   selector: 'app-create-survey',
@@ -13,7 +14,12 @@ export class CreateSurveyComponent {
   constructor(private surveyService: CreateSurveyServiceService) {}
 
   onSubmit() {
-    this.surveyService.createSurvey(this.data).subscribe({
+    const encuesta: Encuesta  = {
+      nombre_encuesta: this.data.nombre_encuesta,
+      idioma: this.data.idioma
+    };
+    
+    this.surveyService.createSurvey(encuesta).subscribe({
       next: (response) => {
         //console.log("La estructura de datos en angular es V2: ");
         //console.dir(response);

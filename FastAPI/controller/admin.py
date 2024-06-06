@@ -1,18 +1,22 @@
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
-from service.admin_service import AdminService
 
-from service.user_service import UserService
 from utils.utils import verify_password, ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token
 from datetime import timedelta
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+
 from dto.token import Token
 from dto.user import User
-from utils.Lime_API_run import api
-from service.seccion_service import seccionService
-
 from dto.seccion import Seccion
+from dto.encuesta import Encuesta 
+
+from service.seccion_service import seccionService
+from service.encuesta_service import encuestaService 
+from service.user_service import UserService
+from service.admin_service import AdminService
+
+from utils.Lime_API_run import api
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 service = AdminService()
@@ -33,7 +37,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/create_user")
-async def create_user(user: User):
+async def crear_user(user: User):
     try:
         service = UserService()
 
@@ -44,18 +48,29 @@ async def create_user(user: User):
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
 
 
+@router.post("/create_survey")
+async def crear_encuesta(encuesta: Encuesta):
+    try:
+        service = encuestaService()
+        service.crear_encuesta(nombre_encuesta=encuesta.nombre_encuesta, idioma=encuesta.idioma)
+        return {"message": "seccion created successfully"}
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+
+
 @router.post("/create_section")
-async def create_seccion(seccion: Seccion):
+async def crear_seccion(seccion: Seccion):
     try:
         service = seccionService()
-        service.create_user(seccion_name=seccion.nombre_seccion, id_encuesta=seccion.id_encuesta)
+        service.crear_seccion(nombre_seccion=seccion.nombre_seccion, id_encuesta=seccion.id_encuesta)
         return {"message": "seccion created successfully"}
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
     
 @router.get("/get_survey_id")
-async def get_survey_id():
+async def listar_encuestas():
     try:
-        return api.list_surveys()
+        service = encuestaService()
+        return service.listar_encuestas()
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})

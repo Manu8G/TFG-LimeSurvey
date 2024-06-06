@@ -11,7 +11,7 @@ class UserService:
     except Exception as e:
       raise RuntimeError(f"Something goes wrong {str(e)}")
     
-  def create_user(self, name: str, password: str):
+  def crear_usuario(self, name: str, password: str):
     print("EStamos en user_service.py")
     try:
       print(name, password, name)

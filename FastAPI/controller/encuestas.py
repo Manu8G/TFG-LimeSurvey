@@ -13,7 +13,7 @@ service = AdminService()
 async def create_seccion(seccion: Seccion):
     try:
         service = seccionService()
-        service.create_user(seccion_name=seccion.nombre_seccion, id_encuesta=seccion.id_encuesta)
+        service.crear_seccion(seccion_name=seccion.nombre_seccion, id_encuesta=seccion.id_encuesta)
         return {"message": "seccion created successfully"}
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
