@@ -53,7 +53,7 @@ async def create_seccion(seccion: Seccion):
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
     
-@router.post("/get_survey_id")
+@router.get("/get_survey_id")
 async def get_survey_id():
     try:
         return api.list_surveys()

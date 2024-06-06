@@ -11,24 +11,6 @@
         <mat-select [formControl]="myControl">
           <mat-option *ngFor="let i of idSurvey" [value]="i">{{i}}</mat-option>
         </mat-select>
-        <!--
-        <input matInput type="text" id="survey_id" [(ngModel)]="data.survey_id" name="survey_id">
-        <input
-        type="text"
-        placeholder="a la cual debe añadirse la seccion"
-        aria-label="Id de la encuesta"
-        matInput
-        [formControl]="myControl"
-        [matAutocomplete]="auto"
-        name="survey_id"
-        id="survey_id"
-        />
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-          @for (option of filteredOptions | async; track option) {
-          <mat-option [value]="option">{{option}}</mat-option>
-          }
-        </mat-autocomplete>
-      -->
       </mat-form-field></td>
     </tr>
   </table>
@@ -36,18 +18,18 @@
 </form>
 
 
-<!-- <div *ngIf="modifiedData">
+<div *ngIf="modifiedData">
   <p><strong>Modified Data:</strong></p>
   <p>Id de la encuesta: {{ modifiedData.survey_id }}</p>
   <p>Nombre de la seccion: {{ modifiedData.section_name }}</p>
   <p>Confirmacion de creacion de la seccion: {{ modifiedData.section_confirm }}</p>
-</div> -->
+</div> 
   
 <!--<pre>{{datosP | json}}</pre>-->
 <!--<p>{{datosP["0"]}}</p>-->
 
 
-<p>{{idSurvey | json}}</p>
+<!-- <p>{{idSurvey | json}}</p> -->
 <!--
 <mat-form-field>
   <mat-label>Choose an option</mat-label>

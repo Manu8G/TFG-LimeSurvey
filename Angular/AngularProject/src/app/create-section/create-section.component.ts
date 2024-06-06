@@ -27,7 +27,7 @@ export class CreateSectionComponent implements OnInit{
   constructor(private service: CreateSurveyServiceService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.service.listIDSurvey(this.IDSurveyL).subscribe({
+    this.service.listIDSurvey().subscribe({
       next: (response) => {
         /*console.log("La estructura de datos en angular es V2: ");
         console.dir(response);*/
@@ -48,8 +48,8 @@ export class CreateSectionComponent implements OnInit{
         }
         this.idSurvey.push('alo');
         
-        console.log("La idSurvey: ");
-        console.log(this.idSurvey);
+        // console.log("La idSurvey: ");
+        // console.log(this.idSurvey);
         //console.dir(this.idSurvey);
         this.cdr.detectChanges();
       },
@@ -62,7 +62,6 @@ export class CreateSectionComponent implements OnInit{
       startWith(''),
       map(value => this._filter(value || '')),
     );
-    //console.log("EL filteredOptions es: ",this.filteredOptions);
     
   }
 
@@ -78,7 +77,8 @@ export class CreateSectionComponent implements OnInit{
       section_name: this.data.section_name,
       id_encuesta: this.data.survey_id
     };
-    
+    console.log("La seccion es seccion: ");
+    console.dir(seccion);
     this.service.createSection(seccion).subscribe({
       next: (response) => {
         //console.log("La estructura de datos en angular es V2: ");

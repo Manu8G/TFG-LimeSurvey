@@ -29,8 +29,8 @@ export class CreateSurveyServiceService {
     return this.http.post<any>(this.createQuestionURL, data);
   }
 
-  listIDSurvey(data: any): Observable<any> {
-    return this.http.post<any>(this.listIDSurveyURL, data);
+  listIDSurvey(): Observable<any> {
+    return this.http.get<any>(this.listIDSurveyURL);
   }
 
   listIDSection(data: any): Observable<any> {

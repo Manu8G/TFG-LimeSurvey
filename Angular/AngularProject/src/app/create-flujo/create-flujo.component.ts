@@ -24,25 +24,25 @@ export class CreateFlujoComponent {
   constructor(private service: CreateSurveyServiceService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.service.listIDSurvey(this.IDSurveyL).subscribe({
-      next: (response) => {
-        let keys = Object.keys(response);
-        let values = Object.values(response);
+    // this.service.listIDSurvey(this.IDSurveyL).subscribe({
+    //   next: (response) => {
+    //     let keys = Object.keys(response);
+    //     let values = Object.values(response);
         
-        for(let i = 0; i < keys.length; i++){
-          this.idSurvey.push(keys[i] + " - " + values[i]);
-        }
-        this.idSurvey.push('alo');
+    //     for(let i = 0; i < keys.length; i++){
+    //       this.idSurvey.push(keys[i] + " - " + values[i]);
+    //     }
+    //     this.idSurvey.push('alo');
         
-        console.log("La idSurvey: ");
-        console.log(this.idSurvey);
-        //console.dir(this.idSurvey);
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        console.error('Error:', err);
-      }
-    });
+    //     console.log("La idSurvey: ");
+    //     console.log(this.idSurvey);
+    //     //console.dir(this.idSurvey);
+    //     this.cdr.detectChanges();
+    //   },
+    //   error: (err) => {
+    //     console.error('Error:', err);
+    //   }
+    // });
     
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),

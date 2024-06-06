@@ -38,26 +38,26 @@ export class CreateQuestionComponent implements OnInit{
   constructor(private service: CreateSurveyServiceService) {}
 
   ngOnInit() {
-    this.service.listIDSurvey(this.IDSurveyL).subscribe({
-      next: (response) => {
-        /*console.log("La estructura de datos en angular es V2: ");
-        console.dir(response);*/
-        //console.log("EL tipo es: ",typeof response);
-        let keys = Object.keys(response);
-        let values = Object.values(response);
+    // this.service.listIDSurvey(this.IDSurveyL).subscribe({
+    //   next: (response) => {
+    //     /*console.log("La estructura de datos en angular es V2: ");
+    //     console.dir(response);*/
+    //     //console.log("EL tipo es: ",typeof response);
+    //     let keys = Object.keys(response);
+    //     let values = Object.values(response);
         
-        for(let i = 0; i < keys.length; i++){
-          this.valueS = keys[i] + " - " + values[i];
-          //console.log("EL valueS es: ",this.valueS);
-          this.idSurvey.push(this.valueS);
-        }
-        //console.log("La idSurvey: ");
-        //console.dir(this.idSurvey);
-      },
-      error: (err) => {
-        console.error('Error:', err);
-      }
-    });
+    //     for(let i = 0; i < keys.length; i++){
+    //       this.valueS = keys[i] + " - " + values[i];
+    //       //console.log("EL valueS es: ",this.valueS);
+    //       this.idSurvey.push(this.valueS);
+    //     }
+    //     //console.log("La idSurvey: ");
+    //     //console.dir(this.idSurvey);
+    //   },
+    //   error: (err) => {
+    //     console.error('Error:', err);
+    //   }
+    // });
     
     this.filteredSurveyOptions = this.surveyControl.valueChanges.pipe(
       startWith(''),
