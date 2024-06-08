@@ -37,8 +37,8 @@ async def login_for_access_token(usuario: User):
     access_token = create_access_token(
         data={"sub": user.nombre_y_apellidos}, expires_delta=access_token_expires
     )
-
-    return {"access_token": access_token, "token_type": "bearer"}
+    # ACABAR LO DEL ROLE
+    return {"access_token": access_token, "token_type": "bearer", "role":"admin"}
 
 # @router.post("/token")
 # async def login_for_access_token(response: Response, usuario: User):

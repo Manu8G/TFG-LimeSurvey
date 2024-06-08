@@ -17,30 +17,31 @@ import { ModifyUserComponent } from './modify-user/modify-user.component';
 import { PruebasComponent } from './pruebas/pruebas.component';
 import { ModifySurveyComponent } from './modify-survey/modify-survey.component';
 import { AdminInitialPageComponent } from './admin-initial-page/admin-initial-page.component';
+import { RoleGuard } from './guards/role.guard';
 
 const routes: Routes = [
   {
     path: '', canActivate:[AuthGuard], component: LayoutComponent, children: [
       {
-        path: 'create_survey', component: CreateSurveyComponent
+        path: 'create_survey', component: CreateSurveyComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
       }, {
-        path: 'create_section', component: CreateSectionComponent
+        path: 'create_section', component: CreateSectionComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
       }, {
-        path: 'create_question', component: CreateQuestionComponent
+        path: 'create_question', component: CreateQuestionComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
       }, {
-        path: 'create_flujo', component: CreateFlujoComponent
+        path: 'create_flujo', component: CreateFlujoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
       }, {
-        path: 'create_user', component: CreateUserComponent
+        path: 'create_user', component: CreateUserComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
       }, {
-        path: 'user_info', component: ShowUserInfoComponent
+        path: 'user_info', component: ShowUserInfoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
       }, {
-        path: 'modify_flujo', component: ModifyFlujoComponent
+        path: 'modify_flujo', component: ModifyFlujoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
       }, {
-        path: 'modify_user', component: ModifyUserComponent
+        path: 'modify_user', component: ModifyUserComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
       }, {
-        path: 'modify_survey', component: ModifySurveyComponent
+        path: 'modify_survey', component: ModifySurveyComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
       },{ 
-        path: 'admin_initial_page', component: AdminInitialPageComponent
+        path: 'admin_initial_page', component: AdminInitialPageComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
       }
     ]
   },{ 

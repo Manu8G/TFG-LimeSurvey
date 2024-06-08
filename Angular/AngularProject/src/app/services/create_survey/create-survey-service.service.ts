@@ -14,7 +14,7 @@ export class CreateSurveyServiceService {
   private listIDSurveyURL = 'http://localhost:8000/admin/get_survey_id/';
   private listIDSectionURL = 'http://localhost:8000/list_sections/';
   private createUserURL = 'http://localhost:8000/admin/create_user/';
-  private createTokenURL = 'http://localhost:8000/admin/token/';
+  
 
   constructor(private http: HttpClient) { }
 
@@ -40,10 +40,6 @@ export class CreateSurveyServiceService {
 
   createUser(data: Usuario): Observable<any> {
     return this.http.post<any>(this.createUserURL, data);
-  }
-
-  createToken(data: Usuario): Observable<any> {
-    return this.http.post<any>(this.createTokenURL, data);
   }
 
 }
