@@ -5,8 +5,8 @@
     </span>
     <span class="fill-remaining-space"></span>
     <button mat-button [matMenuTriggerFor]="encuestas">Ecuestas</button>
-    <button mat-button>Usuarios</button>
-    <button mat-button>Respuestas</button>
+    <button mat-button [matMenuTriggerFor]="usuarios">Usuarios</button>
+    <button mat-button [matMenuTriggerFor]="flujo">Flujo</button>
 </mat-toolbar>
 
 <mat-menu #encuestas="matMenu">
@@ -18,5 +18,16 @@
     <button mat-menu-item routerLink="/create_section">Seccion</button>
     <button mat-menu-item routerLink="/create_question">Pregunta</button>
 </mat-menu> 
+
+<mat-menu #usuarios="matMenu">
+    <button mat-menu-item routerLink="/create_user">Crear usuario</button>
+    <button mat-menu-item routerLink="/modify_user">Modificar usuario</button>
+    <button mat-menu-item routerLink="/user_info">Ver informe usuario</button>
+</mat-menu> 
+
+<mat-menu #flujo="matMenu">
+    <button mat-menu-item routerLink="/create_flujo">Crear flujo</button>
+    <button mat-menu-item routerLink="/modify_flujo">Modificar flujo</button>
+</mat-menu>  
 
 <router-outlet></router-outlet>

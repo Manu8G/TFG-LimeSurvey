@@ -7,7 +7,7 @@ from utils.config import Config
 
 config = Config()
 
-print(config.__dict__)
+# print(config.__dict__)
 
 def create_db_connection():
 

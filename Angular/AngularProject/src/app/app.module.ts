@@ -25,10 +25,17 @@ import { CreateSurveyComponent } from './create-survey/create-survey.component';
 import { CreateSectionComponent } from './create-section/create-section.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { CreateQuestionComponent } from './create-question/create-question.component';
-import { InitialPageComponent } from './initial-page/initial-page.component';
 import { LoginComponent } from './login/login.component';
 import { LayoutComponent } from './layout/layout.component';
 import { CreateFlujoComponent } from './create-flujo/create-flujo.component';
+import { UserInitialPageComponent } from './user-initial-page/user-initial-page.component';
+import { CreateUserComponent } from './create-user/create-user.component';
+import { ShowUserInfoComponent } from './show-user-info/show-user-info.component';
+import { ModifyFlujoComponent } from './modify-flujo/modify-flujo.component';
+import { ModifyUserComponent } from './modify-user/modify-user.component';
+import { PruebasComponent } from './pruebas/pruebas.component';
+import { ModifySurveyComponent } from './modify-survey/modify-survey.component';
+import { AdminInitialPageComponent } from './admin-initial-page/admin-initial-page.component';
 
 
 @NgModule({
@@ -37,10 +44,17 @@ import { CreateFlujoComponent } from './create-flujo/create-flujo.component';
     CreateSurveyComponent,
     CreateSectionComponent,
     CreateQuestionComponent,
-    InitialPageComponent,
     LoginComponent,
     LayoutComponent,
     CreateFlujoComponent,
+    UserInitialPageComponent,
+    CreateUserComponent,
+    ShowUserInfoComponent,
+    ModifyFlujoComponent,
+    ModifyUserComponent,
+    PruebasComponent,
+    ModifySurveyComponent,
+    AdminInitialPageComponent,
   ],
   imports: [
     BrowserModule,

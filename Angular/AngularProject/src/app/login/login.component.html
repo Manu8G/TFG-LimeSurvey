@@ -16,7 +16,7 @@
         <form (ngSubmit)="onSubmit()">
           <mat-form-field class="full-width">
             <mat-label>Usuario</mat-label>
-            <input matInput placeholder="Introduce tu usuario" [(ngModel)]="loginData.username" name="username" required>
+            <input matInput placeholder="Introduce tu usuario" [(ngModel)]="loginData.name" name="name" required>
           </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>Contraseña</mat-label>
@@ -28,6 +28,9 @@
     </mat-card>
   </div>
   
-<router-outlet></router-outlet>
+
+
+<!-- <p>Aqui empieza todo</p>
+<p>{{modifiedData | json}}</p> -->
 
 

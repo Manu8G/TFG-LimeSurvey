@@ -1,0 +1,11 @@
+.button-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+  }
+  
+  .dashboard-button {
+    width: 200px; /* Ajusta el ancho como prefieras */
+    height: 100px; /* Ajusta la altura como prefieras */
+    font-size: 20px; /* Ajusta el tamaño del texto como prefieras */
+  }

@@ -1,0 +1,10 @@
+<p>modify-survey works!</p>
+<div class="container">
+    <div *ngFor="let item of items" class="item-container">
+        <div class="item-name">{{ item }}</div>
+        <div class="item-buttons">
+            <button mat-button color="warn" (click)="deleteItem()">Borrar</button>
+            <button mat-button color="primary" (click)="updateItem()">Modificar</button>
+        </div>
+    </div>
+</div>

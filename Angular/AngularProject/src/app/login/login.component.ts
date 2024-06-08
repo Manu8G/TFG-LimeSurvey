@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CreateSurveyServiceService } from '../services/create_survey/create-survey-service.service';
+import { Router } from '@angular/router';
 import { Usuario } from '../models/usuario/usuario.module';
 
 @Component({
@@ -11,26 +12,32 @@ export class LoginComponent {
   title = 'AngularProject';
   
   loginData = {
-    username: '',
+    name: '',
     password: ''
   };
 
   data: any = {};
   modifiedData: any;
 
-  constructor(private surveyService: CreateSurveyServiceService) {}
+  constructor(private surveyService: CreateSurveyServiceService, private router: Router) {} //, private cookieService: CookieService
 
   onSubmit(){
     const usuar: Usuario  = {
-      name: this.loginData.username,
+      name: this.loginData.name,
       password: this.loginData.password
     };
-    
-    this.surveyService.createUser(usuar).subscribe({
+    const usuarJSON = JSON.stringify(usuar);
+    this.surveyService.createToken(usuar).subscribe({
       next: (response) => {
         //console.log("La estructura de datos en angular es V2: ");
         //console.dir(response);
         this.modifiedData = response;
+        if(this.modifiedData.hasOwnProperty('access_token')){
+          //console.log('TOKEN CORRECTO')
+          //this.cookieService.set('access_token', this.modifiedData.access_token);
+          this.router.navigateByUrl('/');
+          //console.log(this.router.url)
+        }
       },
       error: (err) => {
         console.error('Error:', err);

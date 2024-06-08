@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Cookie, Response
 from fastapi.responses import JSONResponse
 
 from utils.utils import verify_password, ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token
@@ -23,12 +23,11 @@ service = AdminService()
 ususu = UserService()
  
 @router.post("/token", response_model=Token)
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = ususu.get_user(name=form_data.username) # hermano arreglame porfa
-    print(str(user))
-    # La siguiente funcion le pasa primero la contraseña introducida y despues 
-    #la de bd para comprobar si es correcto
-    if not user or not verify_password(form_data.password, user.password):
+async def login_for_access_token(usuario: User):
+    user = ususu.get_user(name=usuario.name) # hermano arreglame porfa
+    # print("User.password del malo: "+ usuario.password)
+    # print("User.password del malo2: "+ user.password)
+    if not user or not verify_password(usuario.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect name or password",
@@ -36,9 +35,47 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.name}, expires_delta=access_token_expires
+        data={"sub": user.nombre_y_apellidos}, expires_delta=access_token_expires
     )
+
     return {"access_token": access_token, "token_type": "bearer"}
+
+# @router.post("/token")
+# async def login_for_access_token(response: Response, usuario: User):
+#     user = ususu.get_user(name=usuario.name) # hermano arreglame porfa
+#     # print("User.password del malo: "+ usuario.password)
+#     # print("User.password del malo2: "+ user.password)
+#     if not user or not verify_password(usuario.password, user.password):
+#         raise HTTPException(
+#             status_code=status.HTTP_401_UNAUTHORIZED,
+#             detail="Incorrect name or password",
+#             headers={"WWW-Authenticate": "Bearer"},
+#         )
+#     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+#     access_token = create_access_token(
+#         data={"sub": user.nombre_y_apellidos}, expires_delta=access_token_expires
+#     )
+#     response.set_cookie(key="access_token", value=access_token, httponly=True)
+#     return {"Not error": "Login correcto"}
+
+# @router.post("/token", response_model=Token)
+# async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+#     user = ususu.get_user(name=form_data.username) # hermano arreglame porfa
+#     print(str(user))
+#     # La siguiente funcion le pasa primero la contraseña introducida y despues 
+#     #la de bd para comprobar si es correcto
+#     print("User.password del malo: "+ user.password)
+#     if not user or not verify_password(form_data.password, user.password):
+#         raise HTTPException(
+#             status_code=status.HTTP_401_UNAUTHORIZED,
+#             detail="Incorrect name or password",
+#             headers={"WWW-Authenticate": "Bearer"},
+#         )
+#     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+#     access_token = create_access_token(
+#         data={"sub": user.nombre_y_apellidos}, expires_delta=access_token_expires
+#     )
+#     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/create_user")
 async def crear_user(user: User):
