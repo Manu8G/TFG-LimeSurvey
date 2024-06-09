@@ -41,7 +41,12 @@ export class AuthenticationService {
         localStorage.setItem('currentUser', JSON.stringify(userCurrent));
         this.userLogged.next(userCurrent);
         this.isAuthenticated.next(true); //HACER UN IF ROL QUE VAYA A UN SITIO U OTRO
-        this.router.navigate(['/']);
+        if(userCurrent.role == 'paciente'){
+          this.router.navigate(['/user_initial_page']);
+        }else{
+          this.router.navigate(['/admin_initial_page']);
+        }
+        
       },
       error:()=>{
         this.isAuthenticated.next(false);
@@ -53,9 +58,10 @@ export class AuthenticationService {
 
   logout(){
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
     this.userLogged.next(null);
     this.isAuthenticated.next(false);
-    this.router.navigate(['/login_page']); //COMPROBAR SI ESTO ES CORRECTO
+    this.router.navigate(['/login_page']);
   }
 
   hasRole(roles: string[]): boolean{

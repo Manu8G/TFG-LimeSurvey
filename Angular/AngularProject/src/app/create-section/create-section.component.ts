@@ -29,9 +29,6 @@ export class CreateSectionComponent implements OnInit{
   ngOnInit() {
     this.service.listIDSurvey().subscribe({
       next: (response) => {
-        /*console.log("La estructura de datos en angular es V2: ");
-        console.dir(response);*/
-        //console.log("EL tipo es: ",typeof response);
         let keys = Object.keys(response);
         let values = Object.values(response);
         
@@ -67,7 +64,7 @@ export class CreateSectionComponent implements OnInit{
   onSubmit() {
     this.data.survey_id = this.myControl;
     let id_encuesta = this.data.survey_id.value;
-    id_encuesta = id_encuesta.match(/\d+/)
+    id_encuesta = id_encuesta.match(/\d+/);
     //console.log("La id: ",varea[0]);
     //console.log("La name: ",this.data.nombre_seccion);
     const seccion: Seccion  = {

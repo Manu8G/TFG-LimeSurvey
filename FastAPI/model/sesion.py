@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Boolean, Date, Time
 from model import Base
 
 class Sesion(Base):
-    tablename = "SesionAsisteProporciona"
+    __tablename__ = "SesionAsisteProporciona"
 
     id_sesion = Column(Integer, primary_key=True, index=True)
     numero_sesion = Column(String, unique=True, index=True)

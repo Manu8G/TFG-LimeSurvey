@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String
 from model import Base
 
 class RespuestaLibreSolucion(Base):
-    tablename = "RespuestaLibresolucionCompleta"
+    __tablename__ = "RespuestaLibresolucionCompleta"
 
     id_respuesta = Column(Integer, primary_key=True, index=True)
     id_participacion = Column(Integer, primary_key=True, index=True)

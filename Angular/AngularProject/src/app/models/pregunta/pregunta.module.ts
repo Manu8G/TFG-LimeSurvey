@@ -1,12 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-
-
-@NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ]
-})
-export class PreguntaModule { }
+export interface Pregunta {
+  nombre_real: string;
+  cuerpo_pregunta: string;
+  id_encuesta: string;
+  id_seccion: string;
+  tipo_pregunta: string;
+}

@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer
 from model import Base
 
 class Flujo(Base):
-    tablename = "FlujoCreado"
+    __tablename__ = "FlujoCreado"
 
     id_flujo = Column(Integer, primary_key=True, index=True)
     id_usuario = Column(Integer, index=True)

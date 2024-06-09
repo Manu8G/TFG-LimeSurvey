@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String
 from model import Base
 
 class Formulario(Base):
-    tablename = "FormularioCrea"
+    __tablename__ = "FormularioCrea"
 
     id_formulario = Column(Integer, primary_key=True, index=True)
     nombre = Column(String, index=True)

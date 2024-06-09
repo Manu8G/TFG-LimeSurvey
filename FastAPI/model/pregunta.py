@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String
 from model import Base
 
 class Pregunta(Base):
-    tablename = "PreguntaElaboraTieneTipo"
+    __tablename__ = "PreguntaElaboraTieneTipo"
 
     id_pregunta  = Column(Integer, primary_key=True, index=True)
     nombre_real  = Column(String, unique=True, index=True)

@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, Date
 from model import Base
 
 class User(Base):
-    tablename = "Usuario"
+    __tablename__ = "Usuario"
 
     id_particion = Column(Integer, primary_key=True, index=True)
     fecha = Column(Date, index=True)

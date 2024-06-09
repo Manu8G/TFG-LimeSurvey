@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, Date
 from model import Base
 
 class Acceso(Base):
-    tablename = "AccesoInicia"
+    __tablename__ = "AccesoInicia"
 
     id_acceso = Column(Integer, primary_key=True, index=True)
     numero_acceso = Column(Integer, index=True)

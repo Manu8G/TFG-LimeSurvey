@@ -11,3 +11,15 @@ class seccionService:
     except Exception as e:
       raise RuntimeError(f"SeccionServices: something goes wrong: {str(e)}")
     
+
+  def listar_secciones(self, id_encuesta):
+    try:
+      sections = api.list_sections(id_encuesta)
+      cont = 0
+      datos = {}
+      for gid, group_name in sections:
+          datos[f"{gid}"] = group_name
+          cont += 1
+      return datos
+    except Exception as e:
+      raise RuntimeError(f"SeccionServices: algo fue mal en listar_seccion: {str(e)}")

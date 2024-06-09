@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer
 from model import Base
 
 class Caso(Base):
-    tablename = "CasoEsdetipoEsdeun"
+    __tablename__ = "CasoEsdetipoEsdeun"
 
     id_caso = Column(Integer, primary_key=True, index=True)
     nivel_actual = Column(Integer, index=True)

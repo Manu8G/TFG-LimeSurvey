@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer
 from model import Base
 
 class Contiene(Base):
-    tablename = "Contiene"
+    __tablename__ = "Contiene"
 
     id_contiene = Column(Integer, primary_key=True, index=True)
     id_pregunta = Column(Integer, index=True)

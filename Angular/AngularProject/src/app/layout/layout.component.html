@@ -4,9 +4,10 @@
         INTEGRA
     </span>
     <span class="fill-remaining-space"></span>
-    <button mat-button [matMenuTriggerFor]="encuestas">Ecuestas</button>
+    <!-- <button mat-button [matMenuTriggerFor]="encuestas">Ecuestas</button>
     <button mat-button [matMenuTriggerFor]="usuarios">Usuarios</button>
-    <button mat-button [matMenuTriggerFor]="flujo">Flujo</button>
+    <button mat-button [matMenuTriggerFor]="flujo">Flujo</button> -->
+    <button mat-button (click)="logout()">Cerrar sesión</button>
 </mat-toolbar>
 
 <mat-menu #encuestas="matMenu">

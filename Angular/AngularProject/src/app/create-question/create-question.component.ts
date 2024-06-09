@@ -4,6 +4,8 @@ import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { OnInit } from '@angular/core';
+import { Pregunta } from '../models/pregunta/pregunta.module'
+import { PreguntaMultiple } from '../models/pregunta-multiple/pregunta-multiple.module'
 
 @Component({
   selector: 'app-create-question',
@@ -12,70 +14,33 @@ import { OnInit } from '@angular/core';
 })
 export class CreateQuestionComponent implements OnInit{
   data: any = {};
-  IDSurveyL: any = {};
-  IDSectionL: any = {};
   modifiedData: any;
   surveyControl = new FormControl('');
   sectionControl = new FormControl('');
-  idSurvey: string[] = ['111111'];
-  idSection: string[] = ['222222']
+  idSurvey: string[] = [''];
+  idSection: string[] = ['']
   filteredSurveyOptions!: Observable<string[]>;
   filteredSectionOptions!: Observable<string[]>;
-  datosP: any[] = [];
-  valueS: string = '';
-  datosPArray: [string, any][] = [];
-  continue:boolean = true;
-  cont:number = 0;
-  contAny:any;
   tipos = [
     { value: 'hide', viewValue: 'T - Texto' },
     { value: 'show', viewValue: 'M - Multiple opcion' }
   ];
   tipo:string='';
-  showElements: boolean = false;
-  preguntas: string[] = [''];
+  showElementsM: boolean = false;
+  showElementsT: boolean = false;
+  respuestas: string[] = [''];
+  cuerpo:string='';
   
   constructor(private service: CreateSurveyServiceService) {}
 
   ngOnInit() {
-    // this.service.listIDSurvey(this.IDSurveyL).subscribe({
-    //   next: (response) => {
-    //     /*console.log("La estructura de datos en angular es V2: ");
-    //     console.dir(response);*/
-    //     //console.log("EL tipo es: ",typeof response);
-    //     let keys = Object.keys(response);
-    //     let values = Object.values(response);
-        
-    //     for(let i = 0; i < keys.length; i++){
-    //       this.valueS = keys[i] + " - " + values[i];
-    //       //console.log("EL valueS es: ",this.valueS);
-    //       this.idSurvey.push(this.valueS);
-    //     }
-    //     //console.log("La idSurvey: ");
-    //     //console.dir(this.idSurvey);
-    //   },
-    //   error: (err) => {
-    //     console.error('Error:', err);
-    //   }
-    // });
-    
-    this.filteredSurveyOptions = this.surveyControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
-
-    this.service.listIDSection(this.IDSectionL).subscribe({
+    this.service.listIDSurvey().subscribe({
       next: (response) => {
-        /*console.log("La estructura de datos en angular es V2: ");
-        console.dir(response);*/
-        //console.log("EL tipo es: ",typeof response);
         let keys = Object.keys(response);
         let values = Object.values(response);
         
         for(let i = 0; i < keys.length; i++){
-          this.valueS = keys[i] + " - " + values[i];
-          //console.log("EL valueS es: ",this.valueS);
-          this.idSection.push(this.valueS);
+          this.idSurvey.push(keys[i] + " - " + values[i]);
         }
         //console.log("La idSurvey: ");
         //console.dir(this.idSurvey);
@@ -84,41 +49,109 @@ export class CreateQuestionComponent implements OnInit{
         console.error('Error:', err);
       }
     });
+    
+    this.filteredSurveyOptions = this.surveyControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
+
+    this.idSection = ['Rellena antes la encuesta'];
 
     this.filteredSectionOptions = this.sectionControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
     );
-    //console.log("EL filteredOptions es: ",this.filteredOptions);
-    
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    //console.log("EL value es: ",value);
     return this.idSurvey.filter(idSurvey => idSurvey.toLowerCase().includes(filterValue));
   }
 
   onSubmit() {
+    this.data.survey_id = this.surveyControl.value;
+    let id_encuesta = this.data.survey_id;
+    id_encuesta = id_encuesta.match(/^\d+/);
+    this.data.survey_id = id_encuesta[0];
+
+    this.data.id_seccion = this.sectionControl.value;
+    let id_seccion = this.data.id_seccion;
+    id_seccion = id_seccion.match(/^\d+/);
+    this.data.id_seccion = id_seccion[0];
+    // this.data.tipo = this.tipo;
+    let vare = '';
+    for(let i = 0; i < this.tipos.length; i++){
+      if(this.tipos[i].value == this.tipo){
+        let aux = this.tipos[i].viewValue;
+        console.log("aux: ", aux);
+        vare = String(aux.charAt(0));
+      }
+    }
+    this.data.tipo = vare;
+    
+    if(this.data.tipo == 'T'){
+      const pregu: Pregunta  = {
+        nombre_real: this.data.question_title,
+        cuerpo_pregunta: this.cuerpo,
+        id_encuesta: this.data.survey_id,
+        id_seccion: this.data.id_seccion,
+        tipo_pregunta: this.data.tipo
+      };
+      this.service.createTextQuestion(pregu).subscribe({
+        next: (response) => {
+          this.modifiedData = response;
+        },
+        error: (err) => {
+          console.error('Error:', err);
+        }
+      });
+    }else{
+      const pregu: PreguntaMultiple  = {
+        nombre_real: this.data.question_title,
+        cuerpo_pregunta: this.cuerpo,
+        id_encuesta: this.data.survey_id,
+        id_seccion: this.data.id_seccion,
+        tipo_pregunta: this.data.tipo,
+        respuestas: []
+      };
+      this.service.createMultipleQuestion(pregu).subscribe({
+        next: (response) => {
+          this.modifiedData = response;
+        },
+        error: (err) => {
+          console.error('Error:', err);
+        }
+      });
+    }
+    
+  }
+
+  checkVisibility(): void {
+    this.showElementsM = this.tipo === 'show';
+  }
+
+  addInput(): void {
+    this.respuestas.push('');
+  }
+
+  onFirstSelectChange() {
+    this.idSection = [];
     this.data.survey_id = this.surveyControl;
-    this.service.createQuestion(this.data).subscribe({
+    let id_encuesta = this.data.survey_id.value;
+    id_encuesta = id_encuesta.match(/\d+/);
+    this.service.listIDSection(id_encuesta[0]).subscribe({
       next: (response) => {
-        //console.log("La estructura de datos en angular es V2: ");
-        //console.dir(response);
-        this.modifiedData = response;
+        let keys = Object.keys(response);
+        let values = Object.values(response);
+        
+        for(let i = 0; i < keys.length; i++){
+          this.idSection.push(keys[i] + " - " + values[i]);
+        }
       },
       error: (err) => {
         console.error('Error:', err);
       }
     });
-  }
-
-  checkVisibility(): void {
-    this.showElements = this.tipo === 'show';
-  }
-
-  addInput(): void {
-    this.preguntas.push('');
   }
 
 }

@@ -23,31 +23,31 @@ const routes: Routes = [
   {
     path: '', canActivate:[AuthGuard], component: LayoutComponent, children: [
       {
-        path: 'create_survey', component: CreateSurveyComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
+        path: 'create_survey', component: CreateSurveyComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }, {
-        path: 'create_section', component: CreateSectionComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
+        path: 'create_section', component: CreateSectionComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }, {
-        path: 'create_question', component: CreateQuestionComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
+        path: 'create_question', component: CreateQuestionComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }, {
-        path: 'create_flujo', component: CreateFlujoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
+        path: 'create_flujo', component: CreateFlujoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }, {
-        path: 'create_user', component: CreateUserComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
+        path: 'create_user', component: CreateUserComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }, {
-        path: 'user_info', component: ShowUserInfoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
+        path: 'user_info', component: ShowUserInfoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }, {
-        path: 'modify_flujo', component: ModifyFlujoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
+        path: 'modify_flujo', component: ModifyFlujoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }, {
-        path: 'modify_user', component: ModifyUserComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
+        path: 'modify_user', component: ModifyUserComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }, {
-        path: 'modify_survey', component: ModifySurveyComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
+        path: 'modify_survey', component: ModifySurveyComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       },{ 
-        path: 'admin_initial_page', component: AdminInitialPageComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin']}
+        path: 'admin_initial_page', component: AdminInitialPageComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
+      },{ 
+        path: 'user_initial_page', component: UserInitialPageComponent
       }
     ]
   },{ 
     path: 'login_page', component: LoginComponent 
-  },{ 
-    path: 'user_initial_page', component: UserInitialPageComponent
   },{ 
     path: 'playground', component: PruebasComponent
   }

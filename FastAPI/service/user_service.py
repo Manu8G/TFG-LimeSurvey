@@ -12,13 +12,18 @@ class UserService:
       raise RuntimeError(f"Something goes wrong {str(e)}")
     
   def crear_usuario(self, name: str, password: str):
-    print("EStamos en user_service.py")
     try:
-      print(name, password, name)
       return self.user_repository.create_user(name=name, password=password)
     except Exception as e:
       raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")
     
+  def obtener_rol(self, name: str):
+    try:
+      return self.user_repository.obtener_rol(name=name)
+    except Exception as e:
+      raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")
+
+
   # def create_user(self, name: str, password: str, name: str):
     try:
       print(name, password, name)

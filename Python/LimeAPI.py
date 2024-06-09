@@ -108,11 +108,11 @@ class Api:
 
         data = json.dumps(data)
         return self.get_json(data)['result']
-
+    
 
     # Añadir pregunta
     def add_question(self, sid, gid, num_questions):
-        print("Estamos dentro de add_question 1")
+        # print("Estamos dentro de add_question 1")
         current_directory = os.path.dirname(__file__)
         
         # Question
@@ -146,7 +146,7 @@ class Api:
             subquestion_path = os.path.join(current_directory, 'subpregunta.xml')
             subtree = ET.parse(subquestion_path)
             subroot = subtree.getroot()
-            print('Wigili: '+subroot.find('SQID').text)
+            # print('Wigili: '+subroot.find('SQID').text)
             # subroot.find('SQID').text = qidq
             # subroot.find('PQID').text = '30'
             # subroot.find('SID').text = '868618'
@@ -196,7 +196,7 @@ class Api:
 
         data = json.dumps(data)
 
-        print("Data: "+str(self.get_json(data)['result']))
+        # print("Data: "+str(self.get_json(data)['result']))
         return self.get_json(data)['result']
 
 
@@ -380,7 +380,7 @@ class Api:
         questions = []
         try:
             json_list_questions = self.list_questions_json(sid, gid)
-            print('sid: '+str(sid)+', gid: '+str(gid))
+            # print('sid: '+str(sid)+', gid: '+str(gid))
             for q in json_list_questions:
                 question = q['id']['qid'], q['question']
                 questions.append(question)
@@ -388,6 +388,34 @@ class Api:
             None
         return questions
 
+
+    def exits_question_list(self, q):
+        if isinstance(q, list):
+            return True
+
+        elif isinstance(q, dict) and q.get('status') == 'No questions found':
+            return False
+
+
+    # Lista todas las preguntas
+    def list_all_questions(self):
+        questions = []
+        sections_ids = []
+        surveys = self.list_surveys()
+        surveys_ids = [int(tup[0]) for tup in surveys]
+        for survey_id in surveys_ids:
+            sections = self.list_sections(survey_id)
+            sections_ids = [int(tup[0]) for tup in sections]
+            for section_id in sections_ids:
+                json_list_questions = self.list_questions_json(survey_id, section_id)
+                exist = self.exits_question_list(json_list_questions)
+                if exist:
+                    question_group = self.list_questions(survey_id, section_id)
+                    for single_question in question_group:
+                        questions.append(single_question)
+                        
+        return questions
+    
 
     # Listar las preguntas de una encuesta y grupo dando su json
     def list_questions_json(self, sid, gid):
@@ -408,16 +436,16 @@ class Api:
     
     def get_survey_info(self):
         surveys = self.list_surveys_json()
-        print("Seleccione una encuesta: ")
+        # print("Seleccione una encuesta: ")
         opciones = []
         contador = 0
         for survey in surveys:
             # print(str(survey))
-            print('Opcion '+str(contador)+': ID -> '+str(survey['sid'])+', Nombre de la encuesta -> '+str(survey['surveyls_title']))
+            # print('Opcion '+str(contador)+': ID -> '+str(survey['sid'])+', Nombre de la encuesta -> '+str(survey['surveyls_title']))
             opciones.append(survey)
             contador += 1
         opcion = input("Cual opcion eliges?: ") # ['sid']
-        print(opciones[int(opcion)])
+        # print(opciones[int(opcion)])
         return opciones[int(opcion)]
     
     def get_survey_id(self):
@@ -443,12 +471,12 @@ class Api:
 
     def get_section_info(self, sid):
         sections = self.list_sections_json(sid)
-        print("Seleccione una seccion: ")
+        # print("Seleccione una seccion: ")
         opciones = []
         contador = 0
         for section in sections:
             # print(str(section))
-            print('Opcion '+str(contador)+': ID -> '+str(section['gid'])+', Nombre de la seccion -> '+str(section['group_name']))
+            # print('Opcion '+str(contador)+': ID -> '+str(section['gid'])+', Nombre de la seccion -> '+str(section['group_name']))
             opciones.append(section)
             contador += 1
         opcion = input("Cual opcion eliges?: ") # ['sid']
@@ -465,7 +493,7 @@ class Api:
         contador = 0
         for question in questions:
             # print(str(question))
-            print('Opcion '+str(contador)+': ID -> '+str(question['qid'])+', Nombre de la seccion -> '+str(question['question']))
+            # print('Opcion '+str(contador)+': ID -> '+str(question['qid'])+', Nombre de la seccion -> '+str(question['question']))
             opciones.append(question)
             contador += 1
         opcion = input("Cual opcion eliges?: ") # ['sid']
@@ -598,7 +626,7 @@ class Api:
     
     
     def get_responses(self, sid):
-        print("EStamos en la funcion get_responses")
+        # print("EStamos en la funcion get_responses")
         data = {
             "id": 1,
             "method": "export_responses",
@@ -620,7 +648,7 @@ class Api:
         datada = self.get_json(data)['result']
         
         decoded_data = base64.b64decode(datada).decode('utf-8')
-        print("DAtos de dta" + str(decoded_data))
+        # print("DAtos de dta" + str(decoded_data))
         # datad = pd.read_json(StringIO(decoded_data))
         '''
         [
