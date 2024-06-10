@@ -178,8 +178,7 @@ class Api:
         return self.get_json(data)['result']
 
     # Añadir pregunta
-    def add_multiple_question(self, sid, gid, question_name, question_body, question_type, respuestas):
-        print("Estamos dentro de add_multiple_question")
+    def add_multiple_question(self, sid, gid, question_name, question_body, respuestas):
         current_directory = os.path.dirname(__file__)
         
         questions_ids = self.list_all_questions_ids()
@@ -188,51 +187,94 @@ class Api:
             new_id += 1
             
         # Question
-        question_path = os.path.join(current_directory, '../utils/question_xmls/pregunta.xml')
-        print('ayome el poath' + question_path)
+        question_path = os.path.join(current_directory, 'pregunta.xml')
         tree = ET.parse(question_path)
         root = tree.getroot()
+
+        for qid_element in root.findall(".//qid"):
+            if qid_element.text == "PQID":
+                qid_element.text = str(new_id)
+            
+        for qid_element in root.findall(".//sid"):
+            if qid_element.text == "SID":
+                qid_element.text = str(sid)
+
+        for qid_element in root.findall(".//gid"):
+            if qid_element.text == "GID":
+                qid_element.text = str(gid)
+
+        for qid_element in root.findall(".//type"):
+            if qid_element.text == "TYPE":
+                qid_element.text = 'M'
+
+        for qid_element in root.findall(".//title"):
+            if qid_element.text == "QCODE":
+                qid_element.text = str(question_name)
+
+        for qid_element in root.findall(".//question"):
+            if qid_element.text == "QTEXT":
+                qid_element.text = str(question_body)
+
+        for qid_element in root.findall(".//question_order"):
+            if qid_element.text == "ORDER":
+                qid_element.text = str(new_id)
+
+
         questionRows = root.find('.//subquestions/rows')
-        archivo_salida = '../utils/question_xmls/result.xml'
+        archivo_salida = 'result.xml'
 
         if questionRows is not None:
             questionRows.clear()
 
         #Subquestions
-        subquestions_path = os.path.join(current_directory, '../utils/question_xmls/subpreguntas.xml')
-        substree = ET.parse(subquestions_path)
-        subsroot = substree.getroot()
-        subsroot.find('PQID').text = '30'
-        subsroot.find('SID').text = '777423'
-        subsroot.find('GID').text = '21'
-        subsroot.find('TYPE').text = 'M'
-        subsroot.find('QCODE').text = 'Comidas5'
-        subsroot.find('QTEXT').text = 'Que comida prefieres?'
-        subsroot.find('ORDER').text = '2'
-        questions_rows = subsroot.find('.//rows')
-        questions_rows.clear()
-
-        qidq = 31
-        codeq = 'SQ00'
-        inte = 1
-        for i in range(respuestas.legnth):
-            subquestion_path = os.path.join(current_directory, '../utils/question_xmls/subpregunta.xml')
+        id_subquestion = int(new_id)
+        for i in respuestas:
+            subquestion_path = os.path.join(current_directory, 'subpregunta.xml')
             subtree = ET.parse(subquestion_path)
             subroot = subtree.getroot()
-            print('Wigili: '+subroot.find('SQID').text)
-            # subroot.find('SQID').text = qidq
-            # subroot.find('PQID').text = '30'
-            # subroot.find('SID').text = '868618'
-            # subroot.find('GID').text = '21'
-            # subroot.find('SQCODE').text = codeq + str(inte)
-            # subroot.find('SQTEXT').text = 'Hamburguesa'
-            # subroot.find('SQORDER').text = inte
-            qidq += 1
-            inte += 1
 
-        for row in subsroot:
-            questionRows.append(row)
+            for qid_element in subroot.findall(".//qid"):
+                if qid_element.text == "SQID":
+                    id_subquestion += 1
+                    qid_element.text = str(id_subquestion)
+
+            for qid_element in subroot.findall(".//parent_qid"):
+                if qid_element.text == "PQID":
+                    qid_element.text = str(new_id)
+                
+            for qid_element in subroot.findall(".//sid"):
+                if qid_element.text == "SID":
+                    qid_element.text = str(sid)
+
+            for qid_element in subroot.findall(".//gid"):
+                if qid_element.text == "GID":
+                    qid_element.text = str(gid)
+
+            for qid_element in subroot.findall(".//type"):
+                if qid_element.text == "TYPE":
+                    qid_element.text = 'T'
+
+            for qid_element in subroot.findall(".//title"):
+                if qid_element.text == "SQCODE":
+                    subquestionCode = str(i) + str(question_name)
+                    qid_element.text = str(subquestionCode)
+
+            for qid_element in subroot.findall(".//question"):
+                if qid_element.text == "SQTEXT":
+                    qid_element.text = str(i)
+
+            for qid_element in subroot.findall(".//question_order"):
+                if qid_element.text == "SQORDER":
+                    qid_element.text = str(new_id)
+            
+            questionRows.append(subroot)
         
+        xml_string = ET.tostring(questionRows, encoding='unicode')
+        print('EL PRIMERO')
+        print(xml_string)
+        xml_string2 = ET.tostring(root, encoding='unicode')
+        print('EL SEGUNDO')
+        print(xml_string2)
         tree.write(archivo_salida, encoding="UTF-8", xml_declaration=True)
         
         xml_str = ET.tostring(root, encoding='utf-8', method='xml')

@@ -3,7 +3,7 @@
     <parent_qid><![CDATA[PQID]]></parent_qid>
     <sid><![CDATA[SID]]></sid>
     <gid><![CDATA[GID]]></gid>
-    <type><![CDATA[T]]></type>
+    <type><![CDATA[TYPE]]></type>
     <title><![CDATA[SQCODE]]></title>
     <question><![CDATA[SQTEXT]]></question>
     <other><![CDATA[N]]></other>

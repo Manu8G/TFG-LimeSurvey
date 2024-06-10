@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Usuario } from '../../models/usuario/usuario.module';
 import { Pregunta } from '../../models/pregunta/pregunta.module';
+import { PreguntaMultiple } from '../../models/pregunta-multiple/pregunta-multiple.module';
 
 
 @Injectable({
@@ -29,11 +30,11 @@ export class CreateSurveyServiceService {
     return this.http.post<any>(this.createSectionURL, data);
   }
 
-  createTextQuestion(data: any): Observable<any> {
+  createTextQuestion(data: Pregunta): Observable<any> {
     return this.http.post<any>(this.createTextQuestionURL, data);
   }
 
-  createMultipleQuestion(data: any): Observable<any> {
+  createMultipleQuestion(data: PreguntaMultiple): Observable<any> {
     return this.http.post<any>(this.createMultipleQuestionURL, data);
   }
 

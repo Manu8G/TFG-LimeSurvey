@@ -110,74 +110,53 @@ class Api:
         return self.get_json(data)['result']
 
 
-    # Añadir pregunta de tipo texto
-    def add_text_question(self, sid, gid, question_name, question_body, question_type):
-        print("Estamos dentro de add_text_question")
+    def add_text_question(self, sid, gid, question_name, question_body):
         current_directory = os.path.dirname(__file__)
-        
-        # Question
-        question_path = os.path.join(current_directory, 'pregunta.xml')
+        questions_ids = self.list_all_questions_ids()
+        new_id = 1  # Empezar a buscar desde 1
+        while new_id in questions_ids:
+            new_id += 1
+
+        question_path = os.path.join(current_directory, '../utils/question_xmls/preguntaTexto.xml')
         tree = ET.parse(question_path)
         root = tree.getroot()
-        questionRows = root.find('.//subquestions/rows')
-        archivo_salida = 'result.xml'
 
-        if questionRows is not None:
-            questionRows.clear()
+        for qid_element in root.findall(".//qid"):
+            if qid_element.text == "PQID":
+                qid_element.text = str(new_id)
+            
+        for qid_element in root.findall(".//sid"):
+            if qid_element.text == "SID":
+                qid_element.text = str(sid)
 
-        #Subquestions
-        subquestions_path = os.path.join(current_directory, 'subpreguntas.xml')
-        substree = ET.parse(subquestions_path)
-        subsroot = substree.getroot()
-        subsroot.find('PQID').text = '30'
-        subsroot.find('SID').text = '777423'
-        subsroot.find('GID').text = '21'
-        subsroot.find('TYPE').text = 'M'
-        subsroot.find('QCODE').text = 'Comidas5'
-        subsroot.find('QTEXT').text = 'Que comida prefieres?'
-        subsroot.find('ORDER').text = '2'
-        questions_rows = subsroot.find('.//rows')
-        questions_rows.clear()
+        for qid_element in root.findall(".//gid"):
+            if qid_element.text == "GID":
+                qid_element.text = str(gid)
 
-        qidq = 31
-        codeq = 'SQ00'
-        inte = 1
-        for i in range(num_questions):
-            subquestion_path = os.path.join(current_directory, 'subpregunta.xml')
-            subtree = ET.parse(subquestion_path)
-            subroot = subtree.getroot()
-            print('Wigili: '+subroot.find('SQID').text)
-            # subroot.find('SQID').text = qidq
-            # subroot.find('PQID').text = '30'
-            # subroot.find('SID').text = '868618'
-            # subroot.find('GID').text = '21'
-            # subroot.find('SQCODE').text = codeq + str(inte)
-            # subroot.find('SQTEXT').text = 'Hamburguesa'
-            # subroot.find('SQORDER').text = inte
-            qidq += 1
-            inte += 1
+        for qid_element in root.findall(".//type"):
+            if qid_element.text == "TYPE":
+                qid_element.text = 'S'
 
-        for row in subsroot:
-            questionRows.append(row)
-        
-        tree.write(archivo_salida, encoding="UTF-8", xml_declaration=True)
-        '''
-        for row in root.findall('.//row'):
-            for question in row.findall('.//question'):
-                if question.text == 'AAA':
-                    question.text = '¿De las siguientes cual comerias?'
-                elif question.text == 'BBB':
-                    question.text = 'Pizza'        
-        '''
-        
+        for qid_element in root.findall(".//title"):
+            if qid_element.text == "QCODE":
+                qid_element.text = str(question_name)
+
+        for qid_element in root.findall(".//question"):
+            if qid_element.text == "QTEXT":
+                qid_element.text = str(question_body)
+
+        for qid_element in root.findall(".//question_order"):
+            if qid_element.text == "ORDER":
+                qid_element.text = str(new_id)
+
+        question_result = os.path.join(current_directory, '../utils/question_xmls/result.xml')
+        tree.write(question_result, encoding="UTF-8", xml_declaration=True)
         xml_str = ET.tostring(root, encoding='utf-8', method='xml')
         base64var = base64.b64encode(xml_str).decode('utf-8')
-        # base64var = 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGRvY3VtZW50PgogPExpbWVTdXJ2ZXlEb2NUeXBlPlF1ZXN0aW9uPC9MaW1lU3VydmV5RG9jVHlwZT4KIDxEQlZlcnNpb24+MzY2PC9EQlZlcnNpb24+CiA8bGFuZ3VhZ2VzPgogIDxsYW5ndWFnZT5lczwvbGFuZ3VhZ2U+CiA8L2xhbmd1YWdlcz4KIDxxdWVzdGlvbnM+CiAgPGZpZWxkcz4KICAgPGZpZWxkbmFtZT5xaWQ8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5wYXJlbnRfcWlkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+c2lkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+Z2lkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+dHlwZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnRpdGxlPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cXVlc3Rpb248L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5wcmVnPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+aGVscDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPm90aGVyPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+bWFuZGF0b3J5PC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cXVlc3Rpb25fb3JkZXI8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5sYW5ndWFnZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnNjYWxlX2lkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+c2FtZV9kZWZhdWx0PC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cmVsZXZhbmNlPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+bW9kdWxlbmFtZTwvZmllbGRuYW1lPgogIDwvZmllbGRzPgogIDxyb3dzPgogICA8cm93PgogICAgPHFpZD48IVtDREFUQVszMF1dPjwvcWlkPgogICAgPHBhcmVudF9xaWQ+PCFbQ0RBVEFbMF1dPjwvcGFyZW50X3FpZD4KICAgIDxzaWQ+PCFbQ0RBVEFbNzc3NDIzXV0+PC9zaWQ+CiAgICA8Z2lkPjwhW0NEQVRBWzIwXV0+PC9naWQ+CiAgICA8dHlwZT48IVtDREFUQVtNXV0+PC90eXBlPgogICAgPHRpdGxlPjwhW0NEQVRBW0NvbWlkYXM0XV0+PC90aXRsZT4KICAgIDxxdWVzdGlvbj48IVtDREFUQVtBQUFdXT48L3F1ZXN0aW9uPgogICAgPHByZWcvPgogICAgPGhlbHAvPgogICAgPG90aGVyPjwhW0NEQVRBW05dXT48L290aGVyPgogICAgPG1hbmRhdG9yeT48IVtDREFUQVtOXV0+PC9tYW5kYXRvcnk+CiAgICA8cXVlc3Rpb25fb3JkZXI+PCFbQ0RBVEFbMl1dPjwvcXVlc3Rpb25fb3JkZXI+CiAgICA8bGFuZ3VhZ2U+PCFbQ0RBVEFbZXNdXT48L2xhbmd1YWdlPgogICAgPHNjYWxlX2lkPjwhW0NEQVRBWzBdXT48L3NjYWxlX2lkPgogICAgPHNhbWVfZGVmYXVsdD48IVtDREFUQVswXV0+PC9zYW1lX2RlZmF1bHQ+CiAgICA8cmVsZXZhbmNlPjwhW0NEQVRBWzFdXT48L3JlbGV2YW5jZT4KICAgPC9yb3c+CiAgPC9yb3dzPgogPC9xdWVzdGlvbnM+CiA8c3VicXVlc3Rpb25zPgogIDxmaWVsZHM+CiAgIDxmaWVsZG5hbWU+cWlkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cGFyZW50X3FpZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnNpZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPmdpZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnR5cGU8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT50aXRsZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnF1ZXN0aW9uPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cHJlZzwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPmhlbHA8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5vdGhlcjwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPm1hbmRhdG9yeTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnF1ZXN0aW9uX29yZGVyPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+bGFuZ3VhZ2U8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5zY2FsZV9pZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnNhbWVfZGVmYXVsdDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnJlbGV2YW5jZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPm1vZHVsZW5hbWU8L2ZpZWxkbmFtZT4KICA8L2ZpZWxkcz4KICA8cm93cz4KICAgPHJvdz4KICAgIDxxaWQ+PCFbQ0RBVEFbMzFdXT48L3FpZD4KICAgIDxwYXJlbnRfcWlkPjwhW0NEQVRBWzMwXV0+PC9wYXJlbnRfcWlkPgogICAgPHNpZD48IVtDREFUQVs3Nzc0MjNdXT48L3NpZD4KICAgIDxnaWQ+PCFbQ0RBVEFbMjBdXT48L2dpZD4KICAgIDx0eXBlPjwhW0NEQVRBW1RdXT48L3R5cGU+CiAgICA8dGl0bGU+PCFbQ0RBVEFbU1EwMDFdXT48L3RpdGxlPgogICAgPHF1ZXN0aW9uPjwhW0NEQVRBW0JCQl1dPjwvcXVlc3Rpb24+CiAgICA8b3RoZXI+PCFbQ0RBVEFbTl1dPjwvb3RoZXI+CiAgICA8cXVlc3Rpb25fb3JkZXI+PCFbQ0RBVEFbMV1dPjwvcXVlc3Rpb25fb3JkZXI+CiAgICA8bGFuZ3VhZ2U+PCFbQ0RBVEFbZXNdXT48L2xhbmd1YWdlPgogICAgPHNjYWxlX2lkPjwhW0NEQVRBWzBdXT48L3NjYWxlX2lkPgogICAgPHNhbWVfZGVmYXVsdD48IVtDREFUQVswXV0+PC9zYW1lX2RlZmF1bHQ+CiAgICA8cmVsZXZhbmNlPjwhW0NEQVRBWzFdXT48L3JlbGV2YW5jZT4KICAgPC9yb3c+CiAgIDxyb3c+CiAgICA8cWlkPjwhW0NEQVRBWzMyXV0+PC9xaWQ+CiAgICA8cGFyZW50X3FpZD48IVtDREFUQVszMF1dPjwvcGFyZW50X3FpZD4KICAgIDxzaWQ+PCFbQ0RBVEFbNzc3NDIzXV0+PC9zaWQ+CiAgICA8Z2lkPjwhW0NEQVRBWzIwXV0+PC9naWQ+CiAgICA8dHlwZT48IVtDREFUQVtUXV0+PC90eXBlPgogICAgPHRpdGxlPjwhW0NEQVRBW1NRMDAyXV0+PC90aXRsZT4KICAgIDxxdWVzdGlvbj48IVtDREFUQVtQYXN0YV1dPjwvcXVlc3Rpb24+CiAgICA8b3RoZXI+PCFbQ0RBVEFbTl1dPjwvb3RoZXI+CiAgICA8cXVlc3Rpb25fb3JkZXI+PCFbQ0RBVEFbMl1dPjwvcXVlc3Rpb25fb3JkZXI+CiAgICA8bGFuZ3VhZ2U+PCFbQ0RBVEFbZXNdXT48L2xhbmd1YWdlPgogICAgPHNjYWxlX2lkPjwhW0NEQVRBWzBdXT48L3NjYWxlX2lkPgogICAgPHNhbWVfZGVmYXVsdD48IVtDREFUQVswXV0+PC9zYW1lX2RlZmF1bHQ+CiAgICA8cmVsZXZhbmNlPjwhW0NEQVRBWzFdXT48L3JlbGV2YW5jZT4KICAgPC9yb3c+CiAgIDxyb3c+CiAgICA8cWlkPjwhW0NEQVRBWzMzXV0+PC9xaWQ+CiAgICA8cGFyZW50X3FpZD48IVtDREFUQVszMF1dPjwvcGFyZW50X3FpZD4KICAgIDxzaWQ+PCFbQ0RBVEFbNzc3NDIzXV0+PC9zaWQ+CiAgICA8Z2lkPjwhW0NEQVRBWzIwXV0+PC9naWQ+CiAgICA8dHlwZT48IVtDREFUQVtUXV0+PC90eXBlPgogICAgPHRpdGxlPjwhW0NEQVRBW1NRMDAzXV0+PC90aXRsZT4KICAgIDxxdWVzdGlvbj48IVtDREFUQVtIYW1idXJndWVzYV1dPjwvcXVlc3Rpb24+CiAgICA8b3RoZXI+PCFbQ0RBVEFbTl1dPjwvb3RoZXI+CiAgICA8cXVlc3Rpb25fb3JkZXI+PCFbQ0RBVEFbM11dPjwvcXVlc3Rpb25fb3JkZXI+CiAgICA8bGFuZ3VhZ2U+PCFbQ0RBVEFbZXNdXT48L2xhbmd1YWdlPgogICAgPHNjYWxlX2lkPjwhW0NEQVRBWzBdXT48L3NjYWxlX2lkPgogICAgPHNhbWVfZGVmYXVsdD48IVtDREFUQVswXV0+PC9zYW1lX2RlZmF1bHQ+CiAgICA8cmVsZXZhbmNlPjwhW0NEQVRBWzFdXT48L3JlbGV2YW5jZT4KICAgPC9yb3c+CiAgPC9yb3dzPgogPC9zdWJxdWVzdGlvbnM+CjwvZG9jdW1lbnQ+'
         import_data_type = "lsq"
         v1 = 'N'
         v2 = None
         
-        # base64.b64encode(data.encode()).decode(),
         data = {
             "id": 1,
             "method": "import_question",
@@ -193,17 +172,14 @@ class Api:
             "sNewQuestionHelp": v2
             }
         }
-
         data = json.dumps(data)
 
-        print("Data: "+str(self.get_json(data)['result']))
         return self.get_json(data)['result']
 
 
 
     # Añadir pregunta de tipo respuesta multiple
-    def add_multiple_question(self, sid, gid, question_name, question_body, question_type, num_questions):
-        print("Estamos dentro de add_multiple_question")
+    def add_multiple_question(self, sid, gid, question_name, question_body, respuestas):
         current_directory = os.path.dirname(__file__)
         
         questions_ids = self.list_all_questions_ids()
@@ -213,60 +189,95 @@ class Api:
             
         # Question
         question_path = os.path.join(current_directory, '../utils/question_xmls/pregunta.xml')
-        print('ayome el poath' + question_path)
         tree = ET.parse(question_path)
         root = tree.getroot()
+
+        for qid_element in root.findall(".//qid"):
+            if qid_element.text == "PQID":
+                qid_element.text = str(new_id)
+            
+        for qid_element in root.findall(".//sid"):
+            if qid_element.text == "SID":
+                qid_element.text = str(sid)
+
+        for qid_element in root.findall(".//gid"):
+            if qid_element.text == "GID":
+                qid_element.text = str(gid)
+
+        for qid_element in root.findall(".//type"):
+            if qid_element.text == "TYPE":
+                qid_element.text = 'M'
+
+        for qid_element in root.findall(".//title"):
+            if qid_element.text == "QCODE":
+                qid_element.text = str(question_name)
+
+        for qid_element in root.findall(".//question"):
+            if qid_element.text == "QTEXT":
+                qid_element.text = str(question_body)
+
+        for qid_element in root.findall(".//question_order"):
+            if qid_element.text == "ORDER":
+                qid_element.text = str(new_id)
+
+
         questionRows = root.find('.//subquestions/rows')
-        archivo_salida = '../utils/question_xmls/result.xml'
+        archivo_salida = os.path.join(current_directory, '../utils/question_xmls/result.xml')
 
         if questionRows is not None:
             questionRows.clear()
 
         #Subquestions
-        subquestions_path = os.path.join(current_directory, '../utils/question_xmls/subpreguntas.xml')
-        substree = ET.parse(subquestions_path)
-        subsroot = substree.getroot()
-        subsroot.find('PQID').text = '30'
-        subsroot.find('SID').text = '777423'
-        subsroot.find('GID').text = '21'
-        subsroot.find('TYPE').text = 'M'
-        subsroot.find('QCODE').text = 'Comidas5'
-        subsroot.find('QTEXT').text = 'Que comida prefieres?'
-        subsroot.find('ORDER').text = '2'
-        questions_rows = subsroot.find('.//rows')
-        questions_rows.clear()
-
-        qidq = 31
-        codeq = 'SQ00'
-        inte = 1
-        for i in range(num_questions):
+        id_subquestion = int(new_id)
+        for i in respuestas:
             subquestion_path = os.path.join(current_directory, '../utils/question_xmls/subpregunta.xml')
             subtree = ET.parse(subquestion_path)
             subroot = subtree.getroot()
-            print('Wigili: '+subroot.find('SQID').text)
-            # subroot.find('SQID').text = qidq
-            # subroot.find('PQID').text = '30'
-            # subroot.find('SID').text = '868618'
-            # subroot.find('GID').text = '21'
-            # subroot.find('SQCODE').text = codeq + str(inte)
-            # subroot.find('SQTEXT').text = 'Hamburguesa'
-            # subroot.find('SQORDER').text = inte
-            qidq += 1
-            inte += 1
 
-        for row in subsroot:
-            questionRows.append(row)
+            for qid_element in subroot.findall(".//qid"):
+                if qid_element.text == "SQID":
+                    id_subquestion += 1
+                    qid_element.text = str(id_subquestion)
+
+            for qid_element in subroot.findall(".//parent_qid"):
+                if qid_element.text == "PQID":
+                    qid_element.text = str(new_id)
+                
+            for qid_element in subroot.findall(".//sid"):
+                if qid_element.text == "SID":
+                    qid_element.text = str(sid)
+
+            for qid_element in subroot.findall(".//gid"):
+                if qid_element.text == "GID":
+                    qid_element.text = str(gid)
+
+            for qid_element in subroot.findall(".//type"):
+                if qid_element.text == "TYPE":
+                    qid_element.text = 'T'
+
+            for qid_element in subroot.findall(".//title"):
+                if qid_element.text == "SQCODE":
+                    subquestionCode = str(i) + str(question_name)
+                    qid_element.text = str(subquestionCode)
+
+            for qid_element in subroot.findall(".//question"):
+                if qid_element.text == "SQTEXT":
+                    qid_element.text = str(i)
+
+            for qid_element in subroot.findall(".//question_order"):
+                if qid_element.text == "SQORDER":
+                    qid_element.text = str(new_id)
+            
+            questionRows.append(subroot)
         
-        tree.write(archivo_salida, encoding="UTF-8", xml_declaration=True)
-        
+
+        tree.write(archivo_salida, encoding="UTF-8", xml_declaration=True)        
         xml_str = ET.tostring(root, encoding='utf-8', method='xml')
         base64var = base64.b64encode(xml_str).decode('utf-8')
-        # base64var = 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGRvY3VtZW50PgogPExpbWVTdXJ2ZXlEb2NUeXBlPlF1ZXN0aW9uPC9MaW1lU3VydmV5RG9jVHlwZT4KIDxEQlZlcnNpb24+MzY2PC9EQlZlcnNpb24+CiA8bGFuZ3VhZ2VzPgogIDxsYW5ndWFnZT5lczwvbGFuZ3VhZ2U+CiA8L2xhbmd1YWdlcz4KIDxxdWVzdGlvbnM+CiAgPGZpZWxkcz4KICAgPGZpZWxkbmFtZT5xaWQ8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5wYXJlbnRfcWlkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+c2lkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+Z2lkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+dHlwZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnRpdGxlPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cXVlc3Rpb248L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5wcmVnPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+aGVscDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPm90aGVyPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+bWFuZGF0b3J5PC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cXVlc3Rpb25fb3JkZXI8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5sYW5ndWFnZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnNjYWxlX2lkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+c2FtZV9kZWZhdWx0PC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cmVsZXZhbmNlPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+bW9kdWxlbmFtZTwvZmllbGRuYW1lPgogIDwvZmllbGRzPgogIDxyb3dzPgogICA8cm93PgogICAgPHFpZD48IVtDREFUQVszMF1dPjwvcWlkPgogICAgPHBhcmVudF9xaWQ+PCFbQ0RBVEFbMF1dPjwvcGFyZW50X3FpZD4KICAgIDxzaWQ+PCFbQ0RBVEFbNzc3NDIzXV0+PC9zaWQ+CiAgICA8Z2lkPjwhW0NEQVRBWzIwXV0+PC9naWQ+CiAgICA8dHlwZT48IVtDREFUQVtNXV0+PC90eXBlPgogICAgPHRpdGxlPjwhW0NEQVRBW0NvbWlkYXM0XV0+PC90aXRsZT4KICAgIDxxdWVzdGlvbj48IVtDREFUQVtBQUFdXT48L3F1ZXN0aW9uPgogICAgPHByZWcvPgogICAgPGhlbHAvPgogICAgPG90aGVyPjwhW0NEQVRBW05dXT48L290aGVyPgogICAgPG1hbmRhdG9yeT48IVtDREFUQVtOXV0+PC9tYW5kYXRvcnk+CiAgICA8cXVlc3Rpb25fb3JkZXI+PCFbQ0RBVEFbMl1dPjwvcXVlc3Rpb25fb3JkZXI+CiAgICA8bGFuZ3VhZ2U+PCFbQ0RBVEFbZXNdXT48L2xhbmd1YWdlPgogICAgPHNjYWxlX2lkPjwhW0NEQVRBWzBdXT48L3NjYWxlX2lkPgogICAgPHNhbWVfZGVmYXVsdD48IVtDREFUQVswXV0+PC9zYW1lX2RlZmF1bHQ+CiAgICA8cmVsZXZhbmNlPjwhW0NEQVRBWzFdXT48L3JlbGV2YW5jZT4KICAgPC9yb3c+CiAgPC9yb3dzPgogPC9xdWVzdGlvbnM+CiA8c3VicXVlc3Rpb25zPgogIDxmaWVsZHM+CiAgIDxmaWVsZG5hbWU+cWlkPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cGFyZW50X3FpZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnNpZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPmdpZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnR5cGU8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT50aXRsZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnF1ZXN0aW9uPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+cHJlZzwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPmhlbHA8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5vdGhlcjwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPm1hbmRhdG9yeTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnF1ZXN0aW9uX29yZGVyPC9maWVsZG5hbWU+CiAgIDxmaWVsZG5hbWU+bGFuZ3VhZ2U8L2ZpZWxkbmFtZT4KICAgPGZpZWxkbmFtZT5zY2FsZV9pZDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnNhbWVfZGVmYXVsdDwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPnJlbGV2YW5jZTwvZmllbGRuYW1lPgogICA8ZmllbGRuYW1lPm1vZHVsZW5hbWU8L2ZpZWxkbmFtZT4KICA8L2ZpZWxkcz4KICA8cm93cz4KICAgPHJvdz4KICAgIDxxaWQ+PCFbQ0RBVEFbMzFdXT48L3FpZD4KICAgIDxwYXJlbnRfcWlkPjwhW0NEQVRBWzMwXV0+PC9wYXJlbnRfcWlkPgogICAgPHNpZD48IVtDREFUQVs3Nzc0MjNdXT48L3NpZD4KICAgIDxnaWQ+PCFbQ0RBVEFbMjBdXT48L2dpZD4KICAgIDx0eXBlPjwhW0NEQVRBW1RdXT48L3R5cGU+CiAgICA8dGl0bGU+PCFbQ0RBVEFbU1EwMDFdXT48L3RpdGxlPgogICAgPHF1ZXN0aW9uPjwhW0NEQVRBW0JCQl1dPjwvcXVlc3Rpb24+CiAgICA8b3RoZXI+PCFbQ0RBVEFbTl1dPjwvb3RoZXI+CiAgICA8cXVlc3Rpb25fb3JkZXI+PCFbQ0RBVEFbMV1dPjwvcXVlc3Rpb25fb3JkZXI+CiAgICA8bGFuZ3VhZ2U+PCFbQ0RBVEFbZXNdXT48L2xhbmd1YWdlPgogICAgPHNjYWxlX2lkPjwhW0NEQVRBWzBdXT48L3NjYWxlX2lkPgogICAgPHNhbWVfZGVmYXVsdD48IVtDREFUQVswXV0+PC9zYW1lX2RlZmF1bHQ+CiAgICA8cmVsZXZhbmNlPjwhW0NEQVRBWzFdXT48L3JlbGV2YW5jZT4KICAgPC9yb3c+CiAgIDxyb3c+CiAgICA8cWlkPjwhW0NEQVRBWzMyXV0+PC9xaWQ+CiAgICA8cGFyZW50X3FpZD48IVtDREFUQVszMF1dPjwvcGFyZW50X3FpZD4KICAgIDxzaWQ+PCFbQ0RBVEFbNzc3NDIzXV0+PC9zaWQ+CiAgICA8Z2lkPjwhW0NEQVRBWzIwXV0+PC9naWQ+CiAgICA8dHlwZT48IVtDREFUQVtUXV0+PC90eXBlPgogICAgPHRpdGxlPjwhW0NEQVRBW1NRMDAyXV0+PC90aXRsZT4KICAgIDxxdWVzdGlvbj48IVtDREFUQVtQYXN0YV1dPjwvcXVlc3Rpb24+CiAgICA8b3RoZXI+PCFbQ0RBVEFbTl1dPjwvb3RoZXI+CiAgICA8cXVlc3Rpb25fb3JkZXI+PCFbQ0RBVEFbMl1dPjwvcXVlc3Rpb25fb3JkZXI+CiAgICA8bGFuZ3VhZ2U+PCFbQ0RBVEFbZXNdXT48L2xhbmd1YWdlPgogICAgPHNjYWxlX2lkPjwhW0NEQVRBWzBdXT48L3NjYWxlX2lkPgogICAgPHNhbWVfZGVmYXVsdD48IVtDREFUQVswXV0+PC9zYW1lX2RlZmF1bHQ+CiAgICA8cmVsZXZhbmNlPjwhW0NEQVRBWzFdXT48L3JlbGV2YW5jZT4KICAgPC9yb3c+CiAgIDxyb3c+CiAgICA8cWlkPjwhW0NEQVRBWzMzXV0+PC9xaWQ+CiAgICA8cGFyZW50X3FpZD48IVtDREFUQVszMF1dPjwvcGFyZW50X3FpZD4KICAgIDxzaWQ+PCFbQ0RBVEFbNzc3NDIzXV0+PC9zaWQ+CiAgICA8Z2lkPjwhW0NEQVRBWzIwXV0+PC9naWQ+CiAgICA8dHlwZT48IVtDREFUQVtUXV0+PC90eXBlPgogICAgPHRpdGxlPjwhW0NEQVRBW1NRMDAzXV0+PC90aXRsZT4KICAgIDxxdWVzdGlvbj48IVtDREFUQVtIYW1idXJndWVzYV1dPjwvcXVlc3Rpb24+CiAgICA8b3RoZXI+PCFbQ0RBVEFbTl1dPjwvb3RoZXI+CiAgICA8cXVlc3Rpb25fb3JkZXI+PCFbQ0RBVEFbM11dPjwvcXVlc3Rpb25fb3JkZXI+CiAgICA8bGFuZ3VhZ2U+PCFbQ0RBVEFbZXNdXT48L2xhbmd1YWdlPgogICAgPHNjYWxlX2lkPjwhW0NEQVRBWzBdXT48L3NjYWxlX2lkPgogICAgPHNhbWVfZGVmYXVsdD48IVtDREFUQVswXV0+PC9zYW1lX2RlZmF1bHQ+CiAgICA8cmVsZXZhbmNlPjwhW0NEQVRBWzFdXT48L3JlbGV2YW5jZT4KICAgPC9yb3c+CiAgPC9yb3dzPgogPC9zdWJxdWVzdGlvbnM+CjwvZG9jdW1lbnQ+'
         import_data_type = "lsq"
         v1 = 'N'
         v2 = None
         
-        # base64.b64encode(data.encode()).decode(),
         data = {
             "id": 1,
             "method": "import_question",

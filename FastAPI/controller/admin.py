@@ -75,6 +75,7 @@ async def crear_seccion(seccion: Seccion):
 
 @router.post("/create_text_question")
 async def create_text_question(pregunta: Pregunta):
+    print("Estamos dentro")
     try:
         return question.crear_pregunta_texto(pregunta.id_encuesta, pregunta.id_seccion, pregunta.nombre_real, pregunta.cuerpo_pregunta)
     except Exception as e:
@@ -84,7 +85,7 @@ async def create_text_question(pregunta: Pregunta):
 @router.post("/create_multiple_question")
 async def create_multiple_question(pregunta: PreguntaMultiple):
     try:
-        return question.crear_pregunta_multiple(pregunta.id_encuesta, pregunta.id_seccion, pregunta.nombre_real, pregunta.cuerpo_pregunta, pregunta.tipo_pregunta, pregunta.respuestas)
+        return question.crear_pregunta_multiple(pregunta.id_encuesta, pregunta.id_seccion, pregunta.nombre_real, pregunta.cuerpo_pregunta, pregunta.respuestas)
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
 
