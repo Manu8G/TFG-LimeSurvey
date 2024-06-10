@@ -1,10 +1,33 @@
-<p>modify-survey works!</p>
 <div class="container">
+    <!-- Botón Nueva al inicio del contenedor -->
+    <button mat-button color="primary" routerLink="/create_section">Nueva</button>
+    
     <div *ngFor="let item of items" class="item-container">
         <div class="item-name">{{ item }}</div>
         <div class="item-buttons">
-            <button mat-button color="warn" (click)="deleteItem()">Borrar</button>
-            <button mat-button color="primary" (click)="updateItem()">Modificar</button>
+            <button mat-button color="primary" [matMenuTriggerFor]="encuestas">Añadir</button>
+            <button mat-button color="warn">Borrar</button>
+            <mat-menu #encuestas="matMenu">
+                <button mat-menu-item routerLink="/create_section">Sección</button>
+                <button mat-menu-item routerLink="/create_question">Pregunta</button>
+            </mat-menu> 
         </div>
     </div>
 </div>
+
+
+<!-- 
+<div class="container">
+    
+    <div *ngFor="let item of items" class="item-container">
+        <div class="item-name">{{ item }}</div>
+        <div class="item-buttons">
+            <button mat-button color="primary" [matMenuTriggerFor]="encuestas">Añadir</button>
+            <button mat-button color="warn" >Borrar</button>
+            <mat-menu #encuestas="matMenu">
+                <button mat-menu-item routerLink="/create_section">Seccion</button>
+                <button mat-menu-item routerLink="/create_question">Pregunta</button>
+            </mat-menu> 
+        </div>
+    </div>
+</div> -->

@@ -33,14 +33,8 @@ export class CreateSectionComponent implements OnInit{
         let values = Object.values(response);
         
         for(let i = 0; i < keys.length; i++){
-          //let vare = values[i] as string;
-          //this.idSurvey.push(keys[i] + " - " + vare[1]);
           this.idSurvey.push(keys[i] + " - " + values[i]);
         }
-        
-        // console.log("La idSurvey: ");
-        // console.log(this.idSurvey);
-        //console.dir(this.idSurvey);
         this.cdr.detectChanges();
       },
       error: (err) => {
