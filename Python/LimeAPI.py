@@ -110,23 +110,96 @@ class Api:
         return self.get_json(data)['result']
     
 
-    # Añadir pregunta
-    def add_question(self, sid, gid, num_questions):
-        # print("Estamos dentro de add_question 1")
+    def add_text_question(self, sid, gid, question_name, question_body):
         current_directory = os.path.dirname(__file__)
         
+        questions_ids = self.list_all_questions_ids()
+        new_id = 1  # Empezar a buscar desde 1
+        while new_id in questions_ids:
+            new_id += 1
+
+        question_path = os.path.join(current_directory, 'preguntaTexto.xml')
+        tree = ET.parse(question_path)
+        root = tree.getroot()
+        
+        for qid_element in root.findall(".//qid"):
+            if qid_element.text == "PQID":
+                qid_element.text = str(new_id)
+            
+        for qid_element in root.findall(".//sid"):
+            if qid_element.text == "SID":
+                qid_element.text = str(sid)
+
+        for qid_element in root.findall(".//gid"):
+            if qid_element.text == "GID":
+                qid_element.text = str(gid)
+
+        for qid_element in root.findall(".//type"):
+            if qid_element.text == "TYPE":
+                qid_element.text = 'S'
+
+        for qid_element in root.findall(".//title"):
+            if qid_element.text == "QCODE":
+                qid_element.text = str(question_name)
+
+        for qid_element in root.findall(".//question"):
+            if qid_element.text == "QTEXT":
+                qid_element.text = str(question_body)
+
+        for qid_element in root.findall(".//question_order"):
+            if qid_element.text == "ORDER":
+                qid_element.text = str(new_id)
+
+        archivo_salida = 'result.xml'
+        tree.write(archivo_salida, encoding="UTF-8", xml_declaration=True)
+        xml_str = ET.tostring(root, encoding='utf-8', method='xml')
+        base64var = base64.b64encode(xml_str).decode('utf-8')
+        import_data_type = "lsq"
+        v1 = 'N'
+        v2 = None
+        
+        data = {
+            "id": 1,
+            "method": "import_question",
+            "params": {
+            "sSessionKey": self.session_key,
+            "iSurveyID": sid,
+            "iGroupID": gid,
+            "sImportData": base64var,
+            "sImportDataType": import_data_type,
+            "sMandatory": v1,
+            "sNewQuestionTitle": v2,
+            "sNewqQuestion": v2,
+            "sNewQuestionHelp": v2
+            }
+        }
+        data = json.dumps(data)
+
+        return self.get_json(data)['result']
+
+    # Añadir pregunta
+    def add_multiple_question(self, sid, gid, question_name, question_body, question_type, respuestas):
+        print("Estamos dentro de add_multiple_question")
+        current_directory = os.path.dirname(__file__)
+        
+        questions_ids = self.list_all_questions_ids()
+        new_id = 1  # Empezar a buscar desde 1
+        while new_id in questions_ids:
+            new_id += 1
+            
         # Question
-        question_path = os.path.join(current_directory, 'pregunta.xml')
+        question_path = os.path.join(current_directory, '../utils/question_xmls/pregunta.xml')
+        print('ayome el poath' + question_path)
         tree = ET.parse(question_path)
         root = tree.getroot()
         questionRows = root.find('.//subquestions/rows')
-        archivo_salida = 'result.xml'
+        archivo_salida = '../utils/question_xmls/result.xml'
 
         if questionRows is not None:
             questionRows.clear()
 
         #Subquestions
-        subquestions_path = os.path.join(current_directory, 'subpreguntas.xml')
+        subquestions_path = os.path.join(current_directory, '../utils/question_xmls/subpreguntas.xml')
         substree = ET.parse(subquestions_path)
         subsroot = substree.getroot()
         subsroot.find('PQID').text = '30'
@@ -142,11 +215,11 @@ class Api:
         qidq = 31
         codeq = 'SQ00'
         inte = 1
-        for i in range(num_questions):
-            subquestion_path = os.path.join(current_directory, 'subpregunta.xml')
+        for i in range(respuestas.legnth):
+            subquestion_path = os.path.join(current_directory, '../utils/question_xmls/subpregunta.xml')
             subtree = ET.parse(subquestion_path)
             subroot = subtree.getroot()
-            # print('Wigili: '+subroot.find('SQID').text)
+            print('Wigili: '+subroot.find('SQID').text)
             # subroot.find('SQID').text = qidq
             # subroot.find('PQID').text = '30'
             # subroot.find('SID').text = '868618'
@@ -161,14 +234,6 @@ class Api:
             questionRows.append(row)
         
         tree.write(archivo_salida, encoding="UTF-8", xml_declaration=True)
-        '''
-        for row in root.findall('.//row'):
-            for question in row.findall('.//question'):
-                if question.text == 'AAA':
-                    question.text = '¿De las siguientes cual comerias?'
-                elif question.text == 'BBB':
-                    question.text = 'Pizza'        
-        '''
         
         xml_str = ET.tostring(root, encoding='utf-8', method='xml')
         base64var = base64.b64encode(xml_str).decode('utf-8')
@@ -196,8 +261,16 @@ class Api:
 
         data = json.dumps(data)
 
-        # print("Data: "+str(self.get_json(data)['result']))
+        print("Data: "+str(self.get_json(data)['result']))
         return self.get_json(data)['result']
+
+
+    def exits_question_list(self, q):
+        if isinstance(q, list):
+            return True
+
+        elif isinstance(q, dict) and q.get('status') == 'No questions found':
+            return False
 
 
     # Añadir respuesta
@@ -398,7 +471,7 @@ class Api:
 
 
     # Lista todas las preguntas
-    def list_all_questions(self):
+    def list_all_questions_ids(self):
         questions = []
         sections_ids = []
         surveys = self.list_surveys()
@@ -412,8 +485,8 @@ class Api:
                 if exist:
                     question_group = self.list_questions(survey_id, section_id)
                     for single_question in question_group:
-                        questions.append(single_question)
-                        
+                        questions.append(single_question[0])
+        
         return questions
     
 

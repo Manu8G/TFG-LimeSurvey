@@ -13,7 +13,9 @@ api = Api(url, username, password)
 
 # ------------------------------------------ENCUESTAS, SECCIONES Y PREGUNTAS-------------------------------
 # print(api.list_all_questions())
-api.list_all_questions()
+respuestas = ['a1','a2','a3']
+api.add_multiple_question('521381', '24', 'NOMGUNTA', 'Ques pregunte', respuestas)
+
 '''
 api.add_survey("prueba encuesta 4", "es")
 survey_id = api.get_survey_id_by_name("prueba encuesta 4")

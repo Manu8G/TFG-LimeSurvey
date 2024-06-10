@@ -206,6 +206,11 @@ class Api:
         print("Estamos dentro de add_multiple_question")
         current_directory = os.path.dirname(__file__)
         
+        questions_ids = self.list_all_questions_ids()
+        new_id = 1  # Empezar a buscar desde 1
+        while new_id in questions_ids:
+            new_id += 1
+            
         # Question
         question_path = os.path.join(current_directory, '../utils/question_xmls/pregunta.xml')
         print('ayome el poath' + question_path)
@@ -293,7 +298,7 @@ class Api:
 
 
     # Lista todas las preguntas
-    def list_all_questions(self):
+    def list_all_questions_ids(self):
         questions = []
         sections_ids = []
         surveys = self.list_surveys()
@@ -307,7 +312,7 @@ class Api:
                 if exist:
                     question_group = self.list_questions(survey_id, section_id)
                     for single_question in question_group:
-                        questions.append(single_question)
+                        questions.append(single_question[0])
                         
         return questions
     

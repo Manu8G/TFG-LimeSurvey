@@ -76,7 +76,7 @@ async def crear_seccion(seccion: Seccion):
 @router.post("/create_text_question")
 async def create_text_question(pregunta: Pregunta):
     try:
-        return question.crear_pregunta_texto(pregunta.id_encuesta, pregunta.id_seccion, pregunta.nombre_real, pregunta.cuerpo_pregunta, pregunta.tipo_pregunta)
+        return question.crear_pregunta_texto(pregunta.id_encuesta, pregunta.id_seccion, pregunta.nombre_real, pregunta.cuerpo_pregunta)
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
 

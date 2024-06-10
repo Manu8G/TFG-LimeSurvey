@@ -69,6 +69,7 @@ export class CreateQuestionComponent implements OnInit{
   }
 
   onSubmit() {
+    console.log('real betis: ',this.respuestas[0]);
     this.data.survey_id = this.surveyControl.value;
     let id_encuesta = this.data.survey_id;
     id_encuesta = id_encuesta.match(/^\d+/);
@@ -83,7 +84,6 @@ export class CreateQuestionComponent implements OnInit{
     for(let i = 0; i < this.tipos.length; i++){
       if(this.tipos[i].value == this.tipo){
         let aux = this.tipos[i].viewValue;
-        console.log("aux: ", aux);
         vare = String(aux.charAt(0));
       }
     }
@@ -112,8 +112,9 @@ export class CreateQuestionComponent implements OnInit{
         id_encuesta: this.data.survey_id,
         id_seccion: this.data.id_seccion,
         tipo_pregunta: this.data.tipo,
-        respuestas: []
+        respuestas: this.respuestas
       };
+      
       this.service.createMultipleQuestion(pregu).subscribe({
         next: (response) => {
           this.modifiedData = response;

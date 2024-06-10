@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <document>
  <LimeSurveyDocType>Question</LimeSurveyDocType>
  <DBVersion>366</DBVersion>
@@ -27,22 +27,22 @@
   </fields>
   <rows>
    <row>
-    <qid>1</qid>
-    <parent_qid>0</parent_qid>
-    <sid>521381</sid>
-    <gid>24</gid>
-    <type>S</type>
-    <title>NOMBREPREGUNTA</title>
-    <question>Que quieres preguntar</question>
-    <preg />
-    <help />
-    <other>N</other>
-    <mandatory>N</mandatory>
-    <question_order>1</question_order>
-    <language>es</language>
-    <scale_id>0</scale_id>
-    <same_default>0</same_default>
-    <relevance>1</relevance>
+    <qid><![CDATA[PQID]]></qid>
+    <parent_qid><![CDATA[0]]></parent_qid>
+    <sid><![CDATA[SID]]></sid>
+    <gid><![CDATA[GID]]></gid>
+    <type><![CDATA[TYPE]]></type>
+    <title><![CDATA[QCODE]]></title>
+    <question><![CDATA[QTEXT]]></question>
+    <preg/>
+    <help/>
+    <other><![CDATA[N]]></other>
+    <mandatory><![CDATA[N]]></mandatory>
+    <question_order><![CDATA[ORDER]]></question_order>
+    <language><![CDATA[es]]></language>
+    <scale_id><![CDATA[0]]></scale_id>
+    <same_default><![CDATA[0]]></same_default>
+    <relevance><![CDATA[1]]></relevance>
    </row>
   </rows>
  </questions>
