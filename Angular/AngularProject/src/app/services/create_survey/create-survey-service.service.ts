@@ -18,7 +18,9 @@ export class CreateSurveyServiceService {
   private listIDSurveyURL = 'http://localhost:8000/admin/get_survey_id/';
   private listIDSectionURL = 'http://localhost:8000/admin/get_section_id/';
   private createUserURL = 'http://localhost:8000/admin/create_user/';
-  
+  private listUsersForAdminURL = 'http://localhost:8000/admin/list_users_for_admin/';
+  private listUsersForProfesionalURL = 'http://localhost:8000/admin/list_users_for_profesional/';
+
 
   constructor(private http: HttpClient) { }
 
@@ -41,10 +43,7 @@ export class CreateSurveyServiceService {
   listIDSurvey(): Observable<any> {
     return this.http.get<any>(this.listIDSurveyURL);
   }
-// console.log("Tipo id survey vairbale tiplo");
-    // console.log(typeof id_survey);
-    // console.log(id_survey);
-    // console.log(id_survey[0]);
+
   listIDSection(id_survey: string): Observable<any> {
     const estructura = {id: id_survey};
     return this.http.post<any>(this.listIDSectionURL, estructura);
@@ -52,6 +51,13 @@ export class CreateSurveyServiceService {
 
   createUser(data: Usuario): Observable<any> {
     return this.http.post<any>(this.createUserURL, data);
+  }
+
+  listAdminUsers(): Observable<any> {
+    return this.http.get<any>(this.listUsersForAdminURL);
+  }
+  listProfesionalUsers(): Observable<any> {
+    return this.http.get<any>(this.listUsersForProfesionalURL);
   }
 
 }

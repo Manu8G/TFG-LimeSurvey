@@ -38,4 +38,30 @@ class UserRepository:
         else:
             return None
         return None
+    
+    def list_users_for_admin(self):
+        admin_view = []
+        users = self.db.query(User)
+        patient = self.db.query(Paciente)
+        profesional = self.db.query(Profesional)
+        admin = self.db.query(Administrador)
+        for u in users:
+            if patient.filter(Paciente.id_usuario == u.id_usuario).first():
+                admin_view.append(u.nombre_y_apellidos)
 
+            elif profesional.filter(Profesional.id_usuario == u.id_usuario).first() and not admin.filter(Administrador.id_usuario == u.id_usuario).first():
+                admin_view.append(u.nombre_y_apellidos)
+        
+        return admin_view
+
+    def list_users_for_profesional(self):
+        profesional_view = []
+        users = self.db.query(User)
+        patient = self.db.query(Paciente)
+        
+        for u in users:
+
+            if patient.filter(Paciente.id_usuario == u.id_usuario).first():
+                profesional_view.append(u.nombre_y_apellidos)
+
+        return profesional_view

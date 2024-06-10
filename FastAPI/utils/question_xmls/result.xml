@@ -29,11 +29,11 @@
    <row>
     <qid>1</qid>
     <parent_qid>0</parent_qid>
-    <sid>521381</sid>
-    <gid>24</gid>
-    <type>M</type>
-    <title>preguntamultiple</title>
-    <question>preguntittamultiple</question>
+    <sid>898031</sid>
+    <gid>31</gid>
+    <type>S</type>
+    <title>SAtisfecho</title>
+    <question>Estas satisfecho?</question>
     <preg />
     <help />
     <other>N</other>
@@ -46,67 +46,4 @@
    </row>
   </rows>
  </questions>
- <subquestions>
-  <fields>
-   <fieldname>qid</fieldname>
-   <fieldname>parent_qid</fieldname>
-   <fieldname>sid</fieldname>
-   <fieldname>gid</fieldname>
-   <fieldname>type</fieldname>
-   <fieldname>title</fieldname>
-   <fieldname>question</fieldname>
-   <fieldname>preg</fieldname>
-   <fieldname>help</fieldname>
-   <fieldname>other</fieldname>
-   <fieldname>mandatory</fieldname>
-   <fieldname>question_order</fieldname>
-   <fieldname>language</fieldname>
-   <fieldname>scale_id</fieldname>
-   <fieldname>same_default</fieldname>
-   <fieldname>relevance</fieldname>
-   <fieldname>modulename</fieldname>
-  </fields>
-  <rows><row>
-    <qid>2</qid>
-    <parent_qid>1</parent_qid>
-    <sid>521381</sid>
-    <gid>24</gid>
-    <type>T</type>
-    <title>a1preguntamultiple</title>
-    <question>a1</question>
-    <other>N</other>
-    <question_order>1</question_order>
-    <language>es</language>
-    <scale_id>0</scale_id>
-    <same_default>0</same_default>
-    <relevance>1</relevance>
-</row><row>
-    <qid>3</qid>
-    <parent_qid>1</parent_qid>
-    <sid>521381</sid>
-    <gid>24</gid>
-    <type>T</type>
-    <title>a2preguntamultiple</title>
-    <question>a2</question>
-    <other>N</other>
-    <question_order>1</question_order>
-    <language>es</language>
-    <scale_id>0</scale_id>
-    <same_default>0</same_default>
-    <relevance>1</relevance>
-</row><row>
-    <qid>4</qid>
-    <parent_qid>1</parent_qid>
-    <sid>521381</sid>
-    <gid>24</gid>
-    <type>T</type>
-    <title>a3preguntamultiple</title>
-    <question>a3</question>
-    <other>N</other>
-    <question_order>1</question_order>
-    <language>es</language>
-    <scale_id>0</scale_id>
-    <same_default>0</same_default>
-    <relevance>1</relevance>
-</row></rows></subquestions>
 </document>

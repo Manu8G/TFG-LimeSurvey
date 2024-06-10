@@ -73,4 +73,8 @@ export class AuthenticationService {
     return false;
   }
 
+  getRole(): string {
+    return (JSON.parse(localStorage.getItem('currentUser') as unknown as string)).role
+  }
+
 }

@@ -30,3 +30,17 @@ class UserService:
       return self.user_repository.create_user(name=name, password=password)
     except Exception as e:
       raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")
+    
+
+  def list_users_for_admin(self):
+    try:
+      return self.user_repository.list_users_for_admin()
+    except Exception as e:
+      raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")
+
+
+  def list_users_for_profesional(self):
+    try:
+      return self.user_repository.list_users_for_profesional()
+    except Exception as e:
+      raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")

@@ -104,3 +104,19 @@ async def listar_secciones(id_survey: IdModel):
         return section.listar_secciones(id_survey.id)
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+    
+
+@router.get("/list_users_for_admin")
+async def list_users_for_admin():
+    try:
+        return ususu.list_users_for_admin()
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+    
+
+@router.get("/list_users_for_profesional")
+async def list_users_for_profesional():
+    try:
+        return ususu.list_users_for_profesional()
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})

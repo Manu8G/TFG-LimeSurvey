@@ -1,27 +1,30 @@
 .container {
-    max-width: 1200px; /* Ajusta esto según el ancho deseado */
-    margin: 20px auto; /* Añade un margen superior de 20px y centra el contenedor */
-    padding: 0; /* Elimina el padding aquí si quieres que el color no se extienda */
-    background-color: #FFFFFF; /* Mantiene el fondo del contenedor principal blanco */
-  }
-  
-  .item-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #AEC6CF; /* Color de fondo para cada ítem, elige el color que prefieras */
-    border-bottom: 1px solid #E0E0E0; /* Opcional: añade un borde inferior para definir mejor cada fila */
-    margin-bottom: 10px; /* Espacio entre elementos, asegúrate de que el margen sea suficiente */
-    padding: 10px;
-    color: black; /* Ajusta el color del texto para que contraste bien con el fondo */
-  }
-  
-  .item-name {
-    flex-grow: 1;
-    margin-right: 20px;
-  }
-  
-  .item-buttons {
-    flex-shrink: 0;
-  }
-  
+  max-width: 1200px; /* Ajusta esto según el ancho deseado */
+  margin: 20px auto; /* Añade un margen superior de 20px y centra el contenedor */
+  padding: 0; /* Elimina el padding aquí si quieres que el color no se extienda */
+  background-color: #FFFFFF; /* Mantiene el fondo del contenedor principal blanco */
+}
+
+.item-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #AEC6CF; /* Color de fondo para cada ítem, elige el color que prefieras */
+  border-bottom: 1px solid #E0E0E0; /* Opcional: añade un borde inferior para definir mejor cada fila */
+  margin-bottom: 10px; /* Espacio entre elementos, asegúrate de que el margen sea suficiente */
+  padding: 10px;
+  color: black; /* Ajusta el color del texto para que contraste bien con el fondo */
+}
+
+.item-name {
+  flex-grow: 1;
+  margin-right: 20px;
+}
+
+.item-buttons {
+  flex-shrink: 0;
+}
+
+.button-new {
+  margin-bottom: 15px; /* Espacio debajo del botón */
+}
