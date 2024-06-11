@@ -13,12 +13,14 @@ from dto.seccion import Seccion
 from dto.pregunta import Pregunta
 from dto.preguntaMultiple import PreguntaMultiple 
 from dto.id import IdModel
+from dto.nuevoPaciente import nuevoPaciente
 
 from service.encuesta_service import encuestaService 
 from service.seccion_service import seccionService
 from service.pregunta_service import preguntaService
 from service.user_service import UserService
 from service.admin_service import AdminService
+from service.flujo_service import flujoService
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 service = AdminService()
@@ -26,6 +28,7 @@ ususu = UserService()
 survey = encuestaService()
 section = seccionService()
 question = preguntaService()
+flujo = flujoService()
 
 @router.post("/token", response_model=Token)
 async def login_for_access_token(usuario: User):
@@ -52,6 +55,15 @@ async def login_for_access_token(usuario: User):
 async def crear_user(user: User):
     try:
         ususu.crear_usuario(name=user.name, password=user.password)
+        return {"message": "User created successfully"}
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+
+
+@router.post("/create_patient")
+async def create_patient(paciente: nuevoPaciente):
+    try:
+        ususu.create_patient(nombre_y_apellidos=paciente.nombre_y_apellidos, password=paciente.password, dni=paciente.dni, estado=paciente.estado, nacionalidad=paciente.nacionalidad, fecha_nacimiento=paciente.fecha_nacimiento, email=paciente.email)
         return {"message": "User created successfully"}
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
@@ -118,5 +130,13 @@ async def list_users_for_admin():
 async def list_users_for_profesional():
     try:
         return ususu.list_users_for_profesional()
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+    
+
+@router.get("/list_flujo")
+async def list_flujo():
+    try:
+        return flujo.list_flujo()
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})

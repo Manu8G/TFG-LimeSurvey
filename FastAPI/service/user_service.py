@@ -17,6 +17,14 @@ class UserService:
     except Exception as e:
       raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")
     
+
+  def create_patient(self, nombre_y_apellidos: str, password: str, dni: str, estado: str, nacionalidad: str, fecha_nacimiento: str, email: str):
+    try:
+      return self.user_repository.create_patient(nombre_y_apellidos=nombre_y_apellidos, password=password, dni=dni, estado=estado, nacionalidad=nacionalidad, fecha_nacimiento=fecha_nacimiento, email=email)
+    except Exception as e:
+      raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")
+
+
   def obtener_rol(self, name: str):
     try:
       return self.user_repository.obtener_rol(name=name)

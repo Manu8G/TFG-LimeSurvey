@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Usuario } from '../../models/usuario/usuario.module';
 import { Pregunta } from '../../models/pregunta/pregunta.module';
 import { PreguntaMultiple } from '../../models/pregunta-multiple/pregunta-multiple.module';
-
+import { Paciente } from '../../models/paciente/paciente.module';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +18,10 @@ export class CreateSurveyServiceService {
   private listIDSurveyURL = 'http://localhost:8000/admin/get_survey_id/';
   private listIDSectionURL = 'http://localhost:8000/admin/get_section_id/';
   private createUserURL = 'http://localhost:8000/admin/create_user/';
+  private createPatientURL = 'http://localhost:8000/admin/create_patient/';
   private listUsersForAdminURL = 'http://localhost:8000/admin/list_users_for_admin/';
   private listUsersForProfesionalURL = 'http://localhost:8000/admin/list_users_for_profesional/';
-
+  private listFlujoURL = 'http://localhost:8000/admin/list_flujo/';
 
   constructor(private http: HttpClient) { }
 
@@ -53,11 +54,21 @@ export class CreateSurveyServiceService {
     return this.http.post<any>(this.createUserURL, data);
   }
 
+  createPatientUser(data: Paciente): Observable<any> {
+    return this.http.post<any>(this.createPatientURL, data);
+  }
+
   listAdminUsers(): Observable<any> {
     return this.http.get<any>(this.listUsersForAdminURL);
   }
+  
   listProfesionalUsers(): Observable<any> {
     return this.http.get<any>(this.listUsersForProfesionalURL);
   }
+
+  listFlujo(): Observable<any> {
+    return this.http.get<any>(this.listFlujoURL);
+  }
+
 
 }

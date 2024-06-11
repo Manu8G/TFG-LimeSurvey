@@ -1,1 +1,52 @@
-<p>create-user works!</p>
+<form (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="fill">
+    <mat-label>Nombre</mat-label>
+    <input matInput type="text" [(ngModel)]="data.name" name="name" id="name" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Password</mat-label>
+    <input matInput type="text" [(ngModel)]="data.password" name="password" id="password">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Tipo de Usuario</mat-label>
+        <mat-select [formControl]="myControl" (selectionChange)="onTipoUsuarioChange()">
+            <mat-option *ngFor="let i of tipos" [value]="i">{{i}}</mat-option>
+        </mat-select>
+  </mat-form-field>
+
+  <div *ngIf="showPacienteFields">
+    <mat-form-field appearance="fill">
+      <mat-label>DNI</mat-label>
+      <input matInput [(ngModel)]="data.dni" name="dni" id="dni">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Estado</mat-label>
+      <mat-select [(ngModel)]="data.estado" name="estado" id="estado">
+        <mat-option value="Pendiente de consulta">Pendiente de consulta</mat-option>
+        <mat-option value="Con cita">Con cita</mat-option>
+        <mat-option value="Graduado">Graduado</mat-option>
+        <mat-option value="Perdido">Perdido</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Nacionalidad</mat-label>
+      <input matInput [(ngModel)]="data.nacionalidad" name="nacionalidad" id="nacionalidad">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha de Nacimiento</mat-label>
+      <input matInput [(ngModel)]="data.nacimiento" name="nacimiento" id="nacimiento">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" [(ngModel)]="data.email" name="email" id="email">
+    </mat-form-field>
+  </div>
+
+  <button mat-raised-button color="primary">Submit</button>
+</form>
