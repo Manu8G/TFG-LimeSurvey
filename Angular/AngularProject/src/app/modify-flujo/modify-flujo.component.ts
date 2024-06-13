@@ -19,7 +19,7 @@ export class ModifyFlujoComponent {
         let values = Object.values(response);
         
         for(let i = 0; i < keys.length; i++){
-          this.items.push(keys[i] + " - " + values[i]);
+          this.items.push(String(values[i]));
         }
       },
       error: (err) => {

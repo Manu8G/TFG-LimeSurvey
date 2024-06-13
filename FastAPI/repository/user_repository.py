@@ -4,7 +4,6 @@ from model.administrador import Administrador
 from model.profesional import Profesional 
 from model.paciente import Paciente
 
-
 from utils.utils import pwd_context
 from utils.db_connections import create_db_connection
 
@@ -16,25 +15,38 @@ class UserRepository:
     def get_user_db(self, name: str):
         return self.db.query(User).filter(User.nombre_y_apellidos == name).first()
 
-    def create_user(self, name: str, password: str):
+    def create_user(self, nombre_y_apellidos: str, password: str, role: str):
         fake_hashed_password = pwd_context.hash(password)
-        db_user = User(password=fake_hashed_password, nombre_y_apellidos=name)
+        db_user = User(password=fake_hashed_password, nombre_y_apellidos=nombre_y_apellidos)
         self.db.add(db_user)
         self.db.commit()
         self.db.refresh(db_user)
+        id_nuevo_paciente = self.db.query(User).order_by(User.id_usuario.desc()).first()
+        db_profesional = Profesional(id_usuario=id_nuevo_paciente.id_usuario)
+        self.db.add(db_profesional)
+        self.db.commit()
+        self.db.refresh(db_profesional)
+        if role == 'admin':
+            db_admin = Administrador(id_usuario=id_nuevo_paciente.id_usuario)
+            self.db.add(db_admin)
+            self.db.commit()
+            self.db.refresh(db_admin)
+        
         return db_user
 
     def create_patient(self, nombre_y_apellidos: str, password: str, dni: str, estado: str, nacionalidad: str, fecha_nacimiento: str, email: str,):
         fake_hashed_password = pwd_context.hash(password)
         db_user = User(password=fake_hashed_password, nombre_y_apellidos=nombre_y_apellidos)
         self.db.add(db_user)
-        id_nuevo_paciente = self.db.query(User).order_by(User.id_usuario.desc()).first()
-        
-        db_patient = Paciente(id_usuario=id_nuevo_paciente,dni=dni, estado=estado, nacionalidad=nacionalidad, fecha_nacimiento=fecha_nacimiento, email=email)
-        self.db.add(db_patient)
         self.db.commit()
         self.db.refresh(db_user)
-        return db_user
+        id_nuevo_paciente = self.db.query(User).order_by(User.id_usuario.desc()).first()
+        db_patient = Paciente(id_usuario=id_nuevo_paciente.id_usuario,dni=dni, estado=estado, nacionalidad=nacionalidad, fecha_nacimiento=fecha_nacimiento, email=email)
+        self.db.add(db_patient)
+        self.db.commit()
+        self.db.refresh(db_patient)
+
+        return db_patient
 
     
     def obtener_rol(self, name: str):
@@ -81,3 +93,11 @@ class UserRepository:
                 profesional_view.append((u.id_usuario ,u.nombre_y_apellidos))
 
         return profesional_view
+
+
+    def get_user_id(self, nombre_y_apellidos: str, password: str, role: str):
+        fake_hashed_password = pwd_context.hash(password)
+        usu = self.db.query(User).filter(User.nombre_y_apellidos == nombre_y_apellidos).first()
+        
+        return usu.id_usuario
+

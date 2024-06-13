@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
 //Componentes
 import { CreateSurveyComponent } from './create-survey/create-survey.component'
@@ -17,7 +18,7 @@ import { ModifyUserComponent } from './modify-user/modify-user.component';
 import { PruebasComponent } from './pruebas/pruebas.component';
 import { ModifySurveyComponent } from './modify-survey/modify-survey.component';
 import { AdminInitialPageComponent } from './admin-initial-page/admin-initial-page.component';
-import { RoleGuard } from './guards/role.guard';
+import { AsignarFlujoComponent } from './asignar-flujo/asignar-flujo.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,8 @@ const routes: Routes = [
         path: 'admin_initial_page', component: AdminInitialPageComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       },{ 
         path: 'user_initial_page', component: UserInitialPageComponent
+      },{ 
+        path: 'asignar_flujo', component: AsignarFlujoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }
     ]
   },{ 

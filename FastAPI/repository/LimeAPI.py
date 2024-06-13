@@ -444,6 +444,7 @@ class Api:
         surveys = []
         for e in json_list_surveys:
             survey = e['sid'], e['surveyls_title']
+            print('sid ' + e['sid'] + ', nombre: ' + e['surveyls_title'])
             surveys.append(survey)
         return surveys
 

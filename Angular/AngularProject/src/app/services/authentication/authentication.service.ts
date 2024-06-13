@@ -17,9 +17,14 @@ export class AuthenticationService {
   // }
   public userLogged: BehaviorSubject<Partial<Usuario> | null> = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser') || '{}'));
   public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject(localStorage.getItem('token') !== null);
+  //public idUsuario: number = 0;
+  private idUsuarioSubject: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(null);
+  public idUsuario$: Observable<number | null> = this.idUsuarioSubject.asObservable();
   // public currentUser: Observable<Usuario | null>;
 
   private createTokenURL = 'http://localhost:8000/admin/token/';
+  private getUserID = 'http://localhost:8000/admin/get_user_id/';
+
 
   constructor(private http: HttpClient, private router: Router) { 
     // this.currentUserSubject =  new BehaviorSubject<Usuario>(JSON.parse(localStorage.getItem('currentUser')));
@@ -37,6 +42,16 @@ export class AuthenticationService {
           role: response.role,
           accessToken: response.access_token,    
         };
+        this.getUserId(userCurrent).subscribe({
+          next: (id) => {
+            this.idUsuarioSubject.next(id);  // Asegúrate de que 'id' sea un número
+            console.log('waka waka waka234: ',this.idUsuarioSubject.value);
+          },
+          error: (err) => {
+            console.error('Error fetching user ID:', err);
+          }
+        });
+        
         localStorage.setItem('token', JSON.stringify(response.access_token));
         localStorage.setItem('currentUser', JSON.stringify(userCurrent));
         this.userLogged.next(userCurrent);
@@ -53,7 +68,7 @@ export class AuthenticationService {
         // localStorage.clear();
       }
     });
-
+    
   }
 
   logout(){
@@ -76,5 +91,10 @@ export class AuthenticationService {
   getRole(): string {
     return (JSON.parse(localStorage.getItem('currentUser') as unknown as string)).role
   }
+
+  getUserId(data: Partial<Usuario>): Observable<any>{
+    return this.http.post<any>(this.getUserID, data);
+  }
+
 
 }

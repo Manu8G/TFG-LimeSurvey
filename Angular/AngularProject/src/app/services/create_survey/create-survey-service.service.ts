@@ -12,6 +12,7 @@ import { Paciente } from '../../models/paciente/paciente.module';
 export class CreateSurveyServiceService {
 
   private createSurveyURL = 'http://localhost:8000/admin/create_survey/';
+  private createSurveyInDBURL = 'http://localhost:8000/admin/create_survey_in_db/';
   private createSectionURL = 'http://localhost:8000/admin/create_section/';
   private createTextQuestionURL = 'http://localhost:8000/admin/create_text_question/';
   private createMultipleQuestionURL = 'http://localhost:8000/admin/create_multiple_question/';
@@ -27,6 +28,10 @@ export class CreateSurveyServiceService {
 
   createSurvey(data: any): Observable<any> {
     return this.http.post<any>(this.createSurveyURL, data);
+  }
+
+  createSurveyInDB(data: any): Observable<any> {
+    return this.http.post<any>(this.createSurveyInDBURL, data);
   }
 
   createSection(data: any): Observable<any> {

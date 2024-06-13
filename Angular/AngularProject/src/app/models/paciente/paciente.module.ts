@@ -1,5 +1,5 @@
 export interface Paciente {
-  name: string;
+  nombre_y_apellidos: string;
   password: string;
   role: string;
   dni: string;

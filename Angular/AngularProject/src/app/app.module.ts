@@ -35,6 +35,7 @@ import { ModifyUserComponent } from './modify-user/modify-user.component';
 import { PruebasComponent } from './pruebas/pruebas.component';
 import { ModifySurveyComponent } from './modify-survey/modify-survey.component';
 import { AdminInitialPageComponent } from './admin-initial-page/admin-initial-page.component';
+import { AsignarFlujoComponent } from './asignar-flujo/asignar-flujo.component';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { AdminInitialPageComponent } from './admin-initial-page/admin-initial-pa
     PruebasComponent,
     ModifySurveyComponent,
     AdminInitialPageComponent,
+    AsignarFlujoComponent,
   ],
   imports: [
     BrowserModule,

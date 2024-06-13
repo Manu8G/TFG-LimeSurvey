@@ -1,0 +1,35 @@
+<p>asignar-flujo works!</p>
+<div class="container">
+    <!-- Botón Nueva al inicio del contenedor -->
+    <button mat-button color="primary" routerLink="/create_user">Nueva</button>
+    
+    <div *ngFor="let item of items" class="item-container">
+        <div class="item-name">{{ item }}</div>
+        <div class="item-buttons">
+            <button mat-button color="primary">Modificar</button>
+            <button mat-button color="warn">Borrar</button>
+        </div>
+    </div>
+</div>
+<form (ngSubmit)="onSubmit()">
+    <table class="example-full-width" cellspacing="0">
+        <tr>
+            <!-- Usuario -->
+            <td><mat-form-field class="example-full-width">  
+                <mat-label>Usuario</mat-label>
+                <mat-select [formControl]="surveyControl" name="usuario_del_flujo">
+                <mat-option *ngFor="let i of items" [value]="i">{{i}}</mat-option>
+                </mat-select> 
+            </mat-form-field></td>
+
+            <!-- Flujo -->
+            <td><mat-form-field class="example-full-width">  
+                <mat-label>Flujo</mat-label>
+                <mat-select [formControl]="sectionControl" [disabled]="!surveyControl" name="question_section">
+                <mat-option *ngFor="let i of idSection" [value]="i">{{i}}</mat-option>
+                </mat-select>
+            </mat-form-field></td>
+        </tr>
+    </table>
+    <button (click)="onSubmit()" mat-flat-button>Asignar</button>
+  </form>

@@ -24,17 +24,17 @@ export class CreateUserComponent {
 
   onSubmit(): void {
     if(String(this.myControl.value) == 'paciente'){
+      
       const usuario: Paciente  = {
-        name: this.data.name,
+        nombre_y_apellidos: this.data.name,
         password: this.data.password,
-        role: this.data.role,
+        role: String(this.myControl.value),
         dni: this.data.dni,
         estado: this.data.estado,
         nacionalidad: this.data.nacionalidad,
-        fecha_nacimiento: this.data.fecha_nacimiento,
-        email: this.data.email,
+        fecha_nacimiento: String(this.data.nacimiento),
+        email: this.data.email
       };
-      
       this.surveyService.createPatientUser(usuario).subscribe({
         next: (response) => {
           //console.log("La estructura de datos en angular es V2: ");
@@ -50,7 +50,7 @@ export class CreateUserComponent {
       const usuario: Usuario  = {
         name: this.data.name,
         password: this.data.password,
-        role: this.data.role,
+        role: String(this.myControl.value),
         accessToken: '',
       };
       

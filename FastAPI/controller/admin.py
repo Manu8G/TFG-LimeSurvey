@@ -8,12 +8,15 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from dto.token import Token
 from dto.user import User
+from dto.nuevoUsuario import nuevoUsuario
 from dto.encuesta import Encuesta 
 from dto.seccion import Seccion
 from dto.pregunta import Pregunta
 from dto.preguntaMultiple import PreguntaMultiple 
 from dto.id import IdModel
 from dto.nuevoPaciente import nuevoPaciente
+from dto.encuestaDB import encuestaDB
+from dto.flujo import Flujo 
 
 from service.encuesta_service import encuestaService 
 from service.seccion_service import seccionService
@@ -34,8 +37,6 @@ flujo = flujoService()
 async def login_for_access_token(usuario: User):
     user = ususu.get_user(name=usuario.name)
     rol = ususu.obtener_rol(name=usuario.name)
-    # print("User.password del malo: "+ usuario.password)
-    # print("User.password del malo2: "+ user.password)
     if not user or not verify_password(usuario.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -52,9 +53,9 @@ async def login_for_access_token(usuario: User):
 
 
 @router.post("/create_user")
-async def crear_user(user: User):
+async def crear_user(user: nuevoUsuario):
     try:
-        ususu.crear_usuario(name=user.name, password=user.password)
+        ususu.crear_usuario(nombre_y_apellidos=user.name, password=user.password, role=user.role)
         return {"message": "User created successfully"}
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
@@ -73,6 +74,14 @@ async def create_patient(paciente: nuevoPaciente):
 async def crear_encuesta(encuesta: Encuesta):
     try:
         return survey.crear_encuesta(nombre_encuesta=encuesta.nombre_encuesta, idioma=encuesta.idioma)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+
+
+@router.post("/create_survey_in_db")
+async def create_survey_in_db(encuesta: encuestaDB):
+    try:
+        return survey.create_survey_in_db(nombre=encuesta.nombre, id_usuario=encuesta.id_usuario)
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
 
@@ -138,5 +147,37 @@ async def list_users_for_profesional():
 async def list_flujo():
     try:
         return flujo.list_flujo()
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+    
+
+@router.post("/get_user_id")
+async def get_user_id(usuario: nuevoUsuario):
+    try:
+        return ususu.get_user_id(usuario.name, usuario.password, usuario.role)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+    
+    
+@router.post("/create_flujo")
+async def create_flujo(flu: Flujo):
+    try:
+        return flujo.create_flujo(flu.id_usuario, flu.tipo_de_flujo, flu.encuestas)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+    
+
+@router.post("/listar_flujos")
+async def listar_flujos():
+    try:
+        return flujo.listar_flujos()
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+
+
+@router.post("/asignar_flujos")
+async def asignar_flujos(flu: Flujo):
+    try:
+        return flujo.asignar_flujos(flu.id_usuario, flu.tipo_de_flujo, flu.encuestas)
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})

@@ -76,7 +76,7 @@ export class CreateQuestionComponent implements OnInit{
     this.data.survey_id = id_encuesta[0];
 
     this.data.id_seccion = this.sectionControl.value;
-    let id_seccion = this.data.id_seccion;
+    let id_seccion = this.data.id_seccion; 
     id_seccion = id_seccion.match(/^\d+/);
     this.data.id_seccion = id_seccion[0];
     // this.data.tipo = this.tipo;
