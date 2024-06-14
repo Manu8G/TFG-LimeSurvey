@@ -1,24 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CreateSurveyServiceService } from '../services/create_survey/create-survey-service.service';
 import { AuthenticationService } from '../services/authentication/authentication.service';
 import { FlujoService } from '../services/flujo/flujo.service';
 import { Id } from '../models/id/id.module';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-caso-usuario',
   templateUrl: './caso-usuario.component.html',
   styleUrl: './caso-usuario.component.css'
 })
-export class CasoUsuarioComponent {
+export class CasoUsuarioComponent implements OnInit{
   idUsuario: number = 0;
 
-  constructor(private surveyService: CreateSurveyServiceService, private flujoService: FlujoService, private authenticationService: AuthenticationService) {}
+  constructor(private surveyService: CreateSurveyServiceService, private route: ActivatedRoute, private flujoService: FlujoService, private authenticationService: AuthenticationService) {}
+
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      let testId = params['id']; // Access the 'id' parameter from the URL
+      console.log('Test ID:', testId);
+    });
+  }
+
 
   onSubmit() {
-    this.authenticationService.idUsuario$.subscribe(id => {
-      // console.log("valladolid: ",id);
-      this.idUsuario = Number(id);
-    });
+    // this.authenticationService.idUsuario$.subscribe(id => {
+    //   // console.log("valladolid: ",id);
+    //   this.idUsuario = Number(id);
+    // });
 
     const id: Id  = {
       // Id: String(this.idUsuario)

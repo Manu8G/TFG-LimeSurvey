@@ -5,7 +5,7 @@
     <div *ngFor="let item of ususe" class="item-container">
         <div class="item-name">{{ item.nombre }}</div>
         <div class="item-buttons">
-            <button mat-button color="primary" routerLink="/caso_usuario" *ngIf="item.rol === 'Paciente'">Estado</button>
+            <button mat-button color="primary" (click)="rutaCaso(item.id)" routerLink="/caso_usuario" *ngIf="item.rol === 'Paciente'">Estado</button>
             <button mat-button color="primary" routerLink="/asignar_flujo" *ngIf="item.rol === 'Paciente'">Asignar flujo</button>
             <button mat-button color="primary">Modificar</button>
             <button mat-button color="warn">Borrar</button>

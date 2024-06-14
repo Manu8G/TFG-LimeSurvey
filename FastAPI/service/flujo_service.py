@@ -44,6 +44,7 @@ class flujoService:
     
 
   def get_caso(self, id: str):
+    print('recibido 2')
     try:
       return self.flujo_repository.get_caso(id)
     except Exception as e:

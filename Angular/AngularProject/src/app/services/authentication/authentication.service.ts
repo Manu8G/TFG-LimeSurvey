@@ -34,23 +34,25 @@ export class AuthenticationService {
   createToken(data: Partial<Usuario>): void { //CAMBIAR NOMBRE - SE HA CAMBIADO DE OBSERVABLE<ANY> A ANY
     this.http.post<any>(this.createTokenURL, data).subscribe({
       next: (response: any)=>{
-        // console.log(" es estas");
-        // console.log(response);
+        console.log(" es estas");
+        console.log(response);
         const userCurrent: Partial<Usuario> = {
           name: data.name,
           password: '',
           role: response.role,
-          accessToken: response.access_token,    
+          accessToken: response.access_token, 
+          id: response.id   
         };
-        this.getUserId(userCurrent).subscribe({
-          next: (id) => {
-            this.idUsuarioSubject.next(id);  // Asegúrate de que 'id' sea un número
-            console.log('waka waka waka234: ',this.idUsuarioSubject.value);
-          },
-          error: (err) => {
-            console.error('Error fetching user ID:', err);
-          }
-        });
+        console.log("este es el id q ricibimos: ",response.id);
+        // this.getUserId(userCurrent).subscribe({
+        //   next: (id) => {
+        //     this.idUsuarioSubject.next(id);  // Asegúrate de que 'id' sea un número
+        //     console.log('waka waka waka234: ',this.idUsuarioSubject.value);
+        //   },
+        //   error: (err) => {
+        //     console.error('Error fetching user ID:', err);
+        //   }
+        // });
         
         localStorage.setItem('token', JSON.stringify(response.access_token));
         localStorage.setItem('currentUser', JSON.stringify(userCurrent));
@@ -92,8 +94,10 @@ export class AuthenticationService {
     return (JSON.parse(localStorage.getItem('currentUser') as unknown as string)).role
   }
 
-  getUserId(data: Partial<Usuario>): Observable<any>{
-    return this.http.post<any>(this.getUserID, data);
+  getUserId(): string{
+    console.log("mensaje34: ",JSON.parse(localStorage.getItem('currentUser') as unknown as string))
+    console.log("mensaje35: ",(JSON.parse(localStorage.getItem('currentUser') as unknown as string)).id)
+    return (JSON.parse(localStorage.getItem('currentUser') as unknown as string)).id
   }
 
 

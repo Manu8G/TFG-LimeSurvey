@@ -37,6 +37,8 @@ import { ModifySurveyComponent } from './modify-survey/modify-survey.component';
 import { AdminInitialPageComponent } from './admin-initial-page/admin-initial-page.component';
 import { AsignarFlujoComponent } from './asignar-flujo/asignar-flujo.component';
 import { CasoUsuarioComponent } from './caso-usuario/caso-usuario.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -76,7 +78,9 @@ import { CasoUsuarioComponent } from './caso-usuario/caso-usuario.component';
     MatAutocompleteModule,
     AsyncPipe,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
     provideAnimationsAsync()

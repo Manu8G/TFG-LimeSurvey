@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CreateSurveyServiceService } from '../services/create_survey/create-survey-service.service';
 import { AuthenticationService } from '../services/authentication/authentication.service'
 import { UsuarioRole } from '../models/usuario-role/usuario-role.module';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-modify-user',
@@ -11,7 +13,7 @@ import { UsuarioRole } from '../models/usuario-role/usuario-role.module';
 export class ModifyUserComponent {
   items: string[] = [];
   ususe: UsuarioRole[] = [];
-  constructor(private serviceSurvey: CreateSurveyServiceService, private authenService: AuthenticationService) {}
+  constructor(private serviceSurvey: CreateSurveyServiceService, private authenService: AuthenticationService, private router: Router) {}
 
   ngOnInit(): void {
     if(this.authenService.getRole() == 'admin'){
@@ -43,6 +45,10 @@ export class ModifyUserComponent {
 
     
     
+  }
+
+  rutaCaso(id: string){
+    this.router.navigate(['caso_usuario',id]);
   }
 
   deleteItem(): void {

@@ -49,7 +49,7 @@ const routes: Routes = [
       },{ 
         path: 'asignar_flujo', component: AsignarFlujoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       },{ 
-        path: 'caso_usuario', component: CasoUsuarioComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
+        path: 'caso_usuario/:id', component: CasoUsuarioComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }
     ]
   },{ 

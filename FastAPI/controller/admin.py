@@ -51,7 +51,7 @@ async def login_for_access_token(usuario: User):
     )
 
     # ACABAR LO DEL ROLE
-    return {"access_token": access_token, "token_type": "bearer", "role":rol}
+    return {"access_token": access_token, "token_type": "bearer", "id": "2", "role":rol} # ARREGLAR ID
 
 
 @router.post("/create_user")
@@ -124,7 +124,7 @@ async def listar_encuestas():
 @router.post("/get_section_id")
 async def listar_secciones(id_survey: IdModel):
     try:
-        return section.listar_secciones(id_survey.id)
+        return section.listar_secciones(id_survey.Id)
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
     
@@ -185,7 +185,8 @@ async def asignar_flujo(caso: Caso):
 
 @router.post("/get_caso")
 async def get_caso(id: IdModel):
+    print('recibido 1')
     try:
-        return flujo.get_caso(id.id)
+        return flujo.get_caso(id.Id)
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})

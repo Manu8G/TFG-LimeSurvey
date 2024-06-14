@@ -43,7 +43,7 @@
         <!--Respuestas-->
         <div *ngIf="showElementsM">
           <div *ngFor="let input of respuestas; let i = index">
-            <mat-form-field appearance="fill">
+            <mat-form-field >
               <mat-label>Respuesta {{i + 1}}</mat-label>
               <input matInput [(ngModel)]="respuestas[i]" placeholder="Escribe la respuesta" name="question_response{{i}}">
             </mat-form-field>

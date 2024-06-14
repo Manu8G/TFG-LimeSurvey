@@ -63,6 +63,7 @@ class FlujoRepository:
         
         
     def get_caso(self, id: str):
+        print('recibido 3')
         try:
             encuestas = []
             db_caso = self.db.query(Caso)

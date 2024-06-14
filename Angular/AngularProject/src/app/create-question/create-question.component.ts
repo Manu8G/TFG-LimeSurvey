@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { OnInit } from '@angular/core';
 import { Pregunta } from '../models/pregunta/pregunta.module'
 import { PreguntaMultiple } from '../models/pregunta-multiple/pregunta-multiple.module'
+import { Id } from '../models/id/id.module'
 
 @Component({
   selector: 'app-create-question',
@@ -140,7 +141,10 @@ export class CreateQuestionComponent implements OnInit{
     this.data.survey_id = this.surveyControl;
     let id_encuesta = this.data.survey_id.value;
     id_encuesta = id_encuesta.match(/\d+/);
-    this.service.listIDSection(id_encuesta[0]).subscribe({
+    const id: Id  = {
+      Id: id_encuesta[0]
+    };
+    this.service.listIDSection(id).subscribe({
       next: (response) => {
         let keys = Object.keys(response);
         let values = Object.values(response);

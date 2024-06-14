@@ -3,6 +3,9 @@ import { CreateSurveyServiceService } from '../services/create_survey/create-sur
 import { Encuesta } from '../models/encuesta/encuesta.module';
 import { EncuestaDB } from '../models/encuesta-bd/encuesta-bd.module';
 import { AuthenticationService } from '../services/authentication/authentication.service';
+import { forkJoin } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-survey',
@@ -14,13 +17,18 @@ export class CreateSurveyComponent {
   modifiedData: any;
   idUsuario: number = 0;
 
-  constructor(private surveyService: CreateSurveyServiceService, private authenticationService: AuthenticationService) {}
+  constructor(private surveyService: CreateSurveyServiceService, private router: Router, private toastr: ToastrService, private authenticationService: AuthenticationService) {
+    console.log("usuarioIDID: ",this.authenticationService.getUserId());
+
+  }
 
   onSubmit() {
-    this.authenticationService.idUsuario$.subscribe(id => {
-      console.log("valladolid: ",id);
-      this.idUsuario = Number(id);
-    });
+    // this.authenticationService.idUsuario$.subscribe(id => {
+    //   console.log("valladolid: ",id);
+    //   this.idUsuario = Number(id);
+    // });
+
+    console.log("usuarioIDID: ",this.authenticationService.getUserId());
 
     const encuesta: Encuesta  = {
       nombre_encuesta: this.data.nombre_encuesta,
@@ -32,25 +40,43 @@ export class CreateSurveyComponent {
       id_usuario: this.idUsuario
     };
 
-    this.surveyService.createSurvey(encuesta).subscribe({
+
+    forkJoin([this.surveyService.createSurvey(encuesta),this.surveyService.createSurveyInDB(encuestadb)]).subscribe({
       next: (response) => {
-        //console.log("La estructura de datos en angular es V2: ");
-        //console.dir(response);
-        this.modifiedData = response;
-      },
-      error: (err) => {
-        console.error('Error:', err);
-      }
-    });
-    this.surveyService.createSurveyInDB(encuestadb).subscribe({
-      next: (response) => {
-        //console.log("La estructura de datos en angular es V2: ");
-        //console.dir(response);
-        console.log(response);
-      },
-      error: (err) => {
-        console.error('Error:', err);
-      }
-    });
+            //console.log("La estructura de datos en angular es V2: ");
+            //console.dir(response);
+            this.modifiedData = response[0];
+            console.log(response[1]);
+            this.toastr.success('Hello world!', 'Toastr fun!');
+            this.router.navigate(['/modify_survey'])
+          },
+          error: (err) => {
+            this.toastr.error('Hello world!', 'Toastr fun!');
+            console.error('Error:', err);
+          }
+    })
+
+    // this.surveyService.createSurvey(encuesta).subscribe({
+    //   next: (response) => {
+    //     //console.log("La estructura de datos en angular es V2: ");
+    //     //console.dir(response);
+    //     this.modifiedData = response;
+    //   },
+    //   error: (err) => {
+    //     console.error('Error:', err);
+    //   }
+    // });
+    // this.surveyService.createSurveyInDB(encuestadb).subscribe({
+    //   next: (response) => {
+    //     //console.log("La estructura de datos en angular es V2: ");
+    //     //console.dir(response);
+    //     console.log(response);
+    //   },
+    //   error: (err) => {
+    //     console.error('Error:', err);
+    //   }
+    // });
+
+
   }
 }

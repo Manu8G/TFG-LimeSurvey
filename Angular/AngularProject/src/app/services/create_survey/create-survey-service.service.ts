@@ -5,6 +5,7 @@ import { Usuario } from '../../models/usuario/usuario.module';
 import { Pregunta } from '../../models/pregunta/pregunta.module';
 import { PreguntaMultiple } from '../../models/pregunta-multiple/pregunta-multiple.module';
 import { Paciente } from '../../models/paciente/paciente.module';
+import { Id } from '../../models/id/id.module';
 
 @Injectable({
   providedIn: 'root'
@@ -50,9 +51,8 @@ export class CreateSurveyServiceService {
     return this.http.get<any>(this.listIDSurveyURL);
   }
 
-  listIDSection(id_survey: string): Observable<any> {
-    const estructura = {id: id_survey};
-    return this.http.post<any>(this.listIDSectionURL, estructura);
+  listIDSection(id: Id): Observable<any> {
+    return this.http.post<any>(this.listIDSectionURL, id);
   }
 
   createUser(data: Usuario): Observable<any> {

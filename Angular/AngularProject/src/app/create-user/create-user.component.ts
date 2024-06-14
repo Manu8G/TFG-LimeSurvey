@@ -52,6 +52,7 @@ export class CreateUserComponent {
         password: this.data.password,
         role: String(this.myControl.value),
         accessToken: '',
+        id: '0'
       };
       
       this.surveyService.createUser(usuario).subscribe({
