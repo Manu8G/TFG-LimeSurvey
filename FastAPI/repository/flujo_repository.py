@@ -1,3 +1,4 @@
+from model.caso import Caso
 from model.user import User 
 from model.paciente import Paciente
 from model.flujo import Flujo
@@ -11,16 +12,6 @@ class FlujoRepository:
     
     def __init__(self) -> None:
         self.db = create_db_connection()
-
-
-    def list_flujo(self):
-        flujo_list = []
-        flujos = self.db.query(Flujo)
-        
-        for u in flujos:
-            flujo_list.append((u.id_flujo, u.tipo_de_flujo))
-
-        return flujo_list
 
 
     def create_flujo(self, id_usuario: int, tipo_de_flujo: str, encuestas: List[str]):
@@ -48,19 +39,52 @@ class FlujoRepository:
 
 
     def listar_flujos(self):
+        print("LISTAR FLUJOS3")
         flujos = []
         flujodb = self.db.query(Flujo)
         
         for u in flujodb:
-            flujos.append((u.id_flujo ,u.tipo_de_flujo))
+            flujos.append({'id':u.id_flujo , 'nombre':u.tipo_de_flujo})
 
         return flujos
     
 
-    def asignar_flujos(self, id_usuario: int, tipo_de_flujo: str, encuestas: List[str]):
-        db_flujo = Flujo(id_usuario=id_usuario, tipo_de_flujo=tipo_de_flujo)
-        self.db.add(db_flujo)
-        self.db.commit()
-        self.db.refresh(db_flujo)
+    def asignar_flujo(self, id_flujo: str, id_usuario: str):
+        try:
+            db_caso = Caso(id_usuario=id_usuario, id_flujo=id_flujo, nivel_actual=0)
+            self.db.add(db_caso)
+            self.db.commit()
+            self.db.refresh(db_caso)
 
-        return db_flujo
+            return db_caso
+        except Exception as e:
+            print("eroro " + str(e))
+            raise RuntimeError(f"FlujoResponse: algo fue mal en crear_flujo: {str(e)}")
+        
+        
+    def get_caso(self, id: str):
+        try:
+            encuestas = []
+            db_caso = self.db.query(Caso)
+            usuario_caso = db_caso.filter(Caso.id_usuario == id).first()
+            # print("id_Caso: "+str(usuario_caso.id_caso))
+            # print("id_flujo: "+str(usuario_caso.id_flujo))
+            # print("id_usuario: "+str(usuario_caso.id_usuario))
+            # print("nivel_actual: "+str(usuario_caso.nivel_actual))
+            db_flujo = self.db.query(Flujo)
+            usuario_flujo = db_flujo.filter(Flujo.id_flujo == usuario_caso.id_flujo).first()
+            db_formado = self.db.query(Formado)
+            usuario_formado = db_formado.filter(Formado.id_flujo == usuario_caso.id_flujo)
+
+
+            for i in usuario_formado:
+                # print("COsa1flujo: "+str(i.id_flujo))
+                # print("COsa2version: "+str(i.id_version_formulario))
+                # print("COsa3formulario: "+str(i.id_formulario))
+                # print("COsa4numeroorden: "+str(i.numero_orden))
+                encuestas.append({'tipo_de_flujo': usuario_flujo.tipo_de_flujo, 'id_formulario':i.id_formulario, 'numero_orden': i.numero_orden, 'nivel_actual': usuario_caso.nivel_actual})
+            # encuestas.append({'id':u.id_flujo , 'nombre':u.tipo_de_flujo})
+            return encuestas
+        except Exception as e:
+            print("eroro " + str(e))
+            raise RuntimeError(f"FlujoResponse: algo fue mal en crear_flujo: {str(e)}")    

@@ -3,8 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Usuario } from '../../models/usuario/usuario.module';
 import { Flujo } from '../../models/flujo/flujo.module';
+import { Caso } from '../../models/caso/caso.module';
 import { PreguntaMultiple } from '../../models/pregunta-multiple/pregunta-multiple.module';
 import { Paciente } from '../../models/paciente/paciente.module';
+import { Id } from '../../models/id/id.module';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +14,12 @@ import { Paciente } from '../../models/paciente/paciente.module';
 export class FlujoService {
   private createFlujoURL = 'http://localhost:8000/admin/create_flujo/';
   private listFlujosURL = 'http://localhost:8000/admin/listar_flujos/';
-  private asignarFlujoURL = 'http://localhost:8000/admin/asignar_flujos/';
+  private asignarFlujoURL = 'http://localhost:8000/admin/asignar_flujo/';
+  private getCasoURL = 'http://localhost:8000/admin/get_caso/';
   
   constructor(private http: HttpClient) { }
 
   createFlujo(data: Flujo): Observable<any> {
-    console.log("asdf asdfwwwd", data);
     return this.http.post<any>(this.createFlujoURL, data);
   }
 
@@ -25,8 +27,12 @@ export class FlujoService {
     return this.http.get<any>(this.listFlujosURL);
   }
 
-  asignarFlujo(data: Flujo): Observable<any> {
+  asignarFlujo(data: Caso): Observable<any> {
     return this.http.post<any>(this.asignarFlujoURL, data);
+  }
+
+  getCaso(data: Id): Observable<any> {
+    return this.http.post<any>(this.getCasoURL, data);
   }
 
 }

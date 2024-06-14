@@ -59,18 +59,12 @@ export class CreateSectionComponent implements OnInit{
     this.data.survey_id = this.myControl;
     let id_encuesta = this.data.survey_id.value;
     id_encuesta = id_encuesta.match(/\d+/);
-    //console.log("La id: ",varea[0]);
-    //console.log("La name: ",this.data.nombre_seccion);
     const seccion: Seccion  = {
       nombre_seccion: this.data.nombre_seccion,
       id_encuesta: id_encuesta[0]
     };
-    //console.log("La seccion es seccion2: ");
-    //console.dir(seccion);
     this.service.createSection(seccion).subscribe({
       next: (response) => {
-        //console.log("La estructura de datos en angular es V2: ");
-        //console.dir(response);
         this.modifiedData = response;
       },
       error: (err) => {

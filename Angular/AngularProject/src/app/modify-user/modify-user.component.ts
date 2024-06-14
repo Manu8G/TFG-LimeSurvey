@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CreateSurveyServiceService } from '../services/create_survey/create-survey-service.service';
 import { AuthenticationService } from '../services/authentication/authentication.service'
+import { UsuarioRole } from '../models/usuario-role/usuario-role.module';
 
 @Component({
   selector: 'app-modify-user',
@@ -9,20 +10,17 @@ import { AuthenticationService } from '../services/authentication/authentication
 })
 export class ModifyUserComponent {
   items: string[] = [];
-
+  ususe: UsuarioRole[] = [];
   constructor(private serviceSurvey: CreateSurveyServiceService, private authenService: AuthenticationService) {}
 
   ngOnInit(): void {
     if(this.authenService.getRole() == 'admin'){
       this.serviceSurvey.listAdminUsers().subscribe({
         next: (response) => {
-          let keys = Object.keys(response);
-          let values = Object.values(response);
-          
-          for(let i = 0; i < keys.length; i++){
-            this.items.push(String(values[i]));
+          this.ususe = response;
+          for(let i = 0; i < this.ususe.length; i++){
+            this.items.push(String(this.ususe[i].nombre));
           }
-          
         },
         error: (err) => {
           console.error('Error:', err);
@@ -31,13 +29,10 @@ export class ModifyUserComponent {
     }else{
       this.serviceSurvey.listProfesionalUsers().subscribe({
         next: (response) => {
-          let keys = Object.keys(response);
-          let values = Object.values(response);
-          
-          for(let i = 0; i < keys.length; i++){
-            this.items.push(String(values[i]));
+          this.ususe = response;
+          for(let i = 0; i < this.ususe.length; i++){
+            this.items.push(String(this.ususe[i].nombre));
           }
-          
         },
         error: (err) => {
           console.error('Error:', err);

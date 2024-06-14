@@ -75,10 +75,10 @@ class UserRepository:
         print('AQUI 2: '+str(users))
         for u in users:
             if patient.filter(Paciente.id_usuario == u.id_usuario).first():
-                admin_view.append((u.id_usuario ,u.nombre_y_apellidos))
+                admin_view.append({'id':u.id_usuario , 'nombre': u.nombre_y_apellidos, 'rol':'Paciente'})
 
             elif profesional.filter(Profesional.id_usuario == u.id_usuario).first() and not admin.filter(Administrador.id_usuario == u.id_usuario).first():
-                admin_view.append((u.id_usuario ,u.nombre_y_apellidos))
+                admin_view.append({'id':u.id_usuario , 'nombre': u.nombre_y_apellidos, 'rol':'Profesional'})
         
         return admin_view
 
@@ -90,7 +90,7 @@ class UserRepository:
         for u in users:
 
             if patient.filter(Paciente.id_usuario == u.id_usuario).first():
-                profesional_view.append((u.id_usuario ,u.nombre_y_apellidos))
+                profesional_view.append({'id':u.id_usuario , 'nombre': u.nombre_y_apellidos, 'rol':'Paciente'})
 
         return profesional_view
 

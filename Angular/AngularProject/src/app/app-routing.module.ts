@@ -19,6 +19,7 @@ import { PruebasComponent } from './pruebas/pruebas.component';
 import { ModifySurveyComponent } from './modify-survey/modify-survey.component';
 import { AdminInitialPageComponent } from './admin-initial-page/admin-initial-page.component';
 import { AsignarFlujoComponent } from './asignar-flujo/asignar-flujo.component';
+import { CasoUsuarioComponent } from './caso-usuario/caso-usuario.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,8 @@ const routes: Routes = [
         path: 'user_initial_page', component: UserInitialPageComponent
       },{ 
         path: 'asignar_flujo', component: AsignarFlujoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
+      },{ 
+        path: 'caso_usuario', component: CasoUsuarioComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }
     ]
   },{ 
