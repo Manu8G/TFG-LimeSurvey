@@ -72,7 +72,6 @@ class UserRepository:
         patient = self.db.query(Paciente)
         profesional = self.db.query(Profesional)
         admin = self.db.query(Administrador)
-        print('AQUI 2: '+str(users))
         for u in users:
             if patient.filter(Paciente.id_usuario == u.id_usuario).first():
                 admin_view.append({'id':u.id_usuario , 'nombre': u.nombre_y_apellidos, 'rol':'Paciente'})

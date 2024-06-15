@@ -6,7 +6,7 @@
         <div class="item-name">{{ item }}</div>
         <div class="item-buttons">
             <button mat-button color="primary" [matMenuTriggerFor]="encuestas">Añadir</button>
-            <button mat-button color="warn">Borrar</button>
+            <button mat-button color="warn" (click)="eliminarEncuesta(item)">Borrar</button>
             <mat-menu #encuestas="matMenu">
                 <button mat-menu-item routerLink="/create_section">Sección</button>
                 <button mat-menu-item routerLink="/create_question">Pregunta</button>

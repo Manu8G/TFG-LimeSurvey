@@ -51,9 +51,7 @@ class Api:
         for survey in surveys: 
             if(str(sid) == survey[0]):
                 numero_aleatorio = random.randint(100000, 999999)
-                # print("La encuesta "+ str(sid)+" existe, este seria un sustituto: "+str(numero_aleatorio))
                 return numero_aleatorio
-        # print("La encuesta "+str(sid)+" no existe.")
         return None
 
 
@@ -296,7 +294,6 @@ class Api:
 
         data = json.dumps(data)
 
-        print("Data: "+str(self.get_json(data)['result']))
         return self.get_json(data)['result']
 
 
@@ -444,7 +441,6 @@ class Api:
         surveys = []
         for e in json_list_surveys:
             survey = e['sid'], e['surveyls_title']
-            print('sid ' + e['sid'] + ', nombre: ' + e['surveyls_title'])
             surveys.append(survey)
         return surveys
 
@@ -469,9 +465,7 @@ class Api:
         sections = []
         try:
             json_list_section = self.list_sections_json(sid)
-            # print('Semos dentro: '+ str(json_list_section))
             for sect in json_list_section:
-                # print('\nsec: '+str(sect))
                 section = sect['gid'], sect['group_name']
                 sections.append(section)
         except:
@@ -498,9 +492,7 @@ class Api:
     def get_section_id_by_name(self, survey_id, section_name):
         groups = self.list_sections_json(survey_id)
         for group in groups:
-            # print("Group: "+str(group))
             if group['group_name'] == section_name:
-                # print('ID del grupo'+group['gid'])
                 return group['gid']
         return None
 
@@ -510,7 +502,6 @@ class Api:
         questions = []
         try:
             json_list_questions = self.list_questions_json(sid, gid)
-            # print('sid: '+str(sid)+', gid: '+str(gid))
             for q in json_list_questions:
                 question = q['id']['qid'], q['question']
                 questions.append(question)
@@ -538,16 +529,12 @@ class Api:
     
     def get_survey_info(self):
         surveys = self.list_surveys_json()
-        print("Seleccione una encuesta: ")
         opciones = []
         contador = 0
         for survey in surveys:
-            # print(str(survey))
-            print('Opcion '+str(contador)+': ID -> '+str(survey['sid'])+', Nombre de la encuesta -> '+str(survey['surveyls_title']))
             opciones.append(survey)
             contador += 1
         opcion = input("Cual opcion eliges?: ") # ['sid']
-        print(opciones[int(opcion)])
         return opciones[int(opcion)]
     
     def get_survey_id(self):
@@ -573,12 +560,9 @@ class Api:
 
     def get_section_info(self, sid):
         sections = self.list_sections_json(sid)
-        print("Seleccione una seccion: ")
         opciones = []
         contador = 0
         for section in sections:
-            # print(str(section))
-            print('Opcion '+str(contador)+': ID -> '+str(section['gid'])+', Nombre de la seccion -> '+str(section['group_name']))
             opciones.append(section)
             contador += 1
         opcion = input("Cual opcion eliges?: ") # ['sid']
@@ -590,12 +574,9 @@ class Api:
 
     def get_question_info(self, sid, gid):
         questions = self.list_questions_json(sid, gid)
-        print("Seleccione una pregunta: ")
         opciones = []
         contador = 0
         for question in questions:
-            # print(str(question))
-            print('Opcion '+str(contador)+': ID -> '+str(question['qid'])+', Nombre de la seccion -> '+str(question['question']))
             opciones.append(question)
             contador += 1
         opcion = input("Cual opcion eliges?: ") # ['sid']
@@ -728,7 +709,6 @@ class Api:
     
     
     def get_responses(self, sid):
-        print("EStamos en la funcion get_responses")
         data = {
             "id": 1,
             "method": "export_responses",
@@ -750,7 +730,6 @@ class Api:
         datada = self.get_json(data)['result']
         
         decoded_data = base64.b64decode(datada).decode('utf-8')
-        print("DAtos de dta" + str(decoded_data))
         # datad = pd.read_json(StringIO(decoded_data))
         '''
         [

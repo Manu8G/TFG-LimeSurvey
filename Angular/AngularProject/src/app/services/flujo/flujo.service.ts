@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Usuario } from '../../models/usuario/usuario.module';
 import { Flujo } from '../../models/flujo/flujo.module';
 import { Caso } from '../../models/caso/caso.module';
-import { PreguntaMultiple } from '../../models/pregunta-multiple/pregunta-multiple.module';
-import { Paciente } from '../../models/paciente/paciente.module';
 import { Id } from '../../models/id/id.module';
 
 @Injectable({

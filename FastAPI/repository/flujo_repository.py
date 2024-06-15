@@ -39,7 +39,6 @@ class FlujoRepository:
 
 
     def listar_flujos(self):
-        print("LISTAR FLUJOS3")
         flujos = []
         flujodb = self.db.query(Flujo)
         
@@ -58,12 +57,10 @@ class FlujoRepository:
 
             return db_caso
         except Exception as e:
-            print("eroro " + str(e))
             raise RuntimeError(f"FlujoResponse: algo fue mal en crear_flujo: {str(e)}")
         
         
     def get_caso(self, id: str):
-        print('recibido 3')
         try:
             encuestas = []
             db_caso = self.db.query(Caso)
@@ -87,5 +84,5 @@ class FlujoRepository:
             # encuestas.append({'id':u.id_flujo , 'nombre':u.tipo_de_flujo})
             return encuestas
         except Exception as e:
-            print("eroro " + str(e))
+            # print("eroro " + str(e))
             raise RuntimeError(f"FlujoResponse: algo fue mal en crear_flujo: {str(e)}")    

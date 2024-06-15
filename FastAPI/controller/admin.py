@@ -51,7 +51,7 @@ async def login_for_access_token(usuario: User):
     )
 
     # ACABAR LO DEL ROLE
-    return {"access_token": access_token, "token_type": "bearer", "id": "2", "role":rol} # ARREGLAR ID
+    return {"access_token": access_token, "token_type": "bearer", "role":rol, "id":str(user.id_usuario)} # ARREGLAR ID
 
 
 @router.post("/create_user")
@@ -98,7 +98,6 @@ async def crear_seccion(seccion: Seccion):
 
 @router.post("/create_text_question")
 async def create_text_question(pregunta: Pregunta):
-    print("Estamos dentro")
     try:
         return question.crear_pregunta_texto(pregunta.id_encuesta, pregunta.id_seccion, pregunta.nombre_real, pregunta.cuerpo_pregunta)
     except Exception as e:
@@ -185,8 +184,17 @@ async def asignar_flujo(caso: Caso):
 
 @router.post("/get_caso")
 async def get_caso(id: IdModel):
-    print('recibido 1')
     try:
         return flujo.get_caso(id.Id)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+    
+
+@router.post("/eliminar_encuesta")
+async def eliminar_encuesta(id: IdModel):
+    print("llegamosdf")
+    try:
+        survey.eliminar_encuesta(id=id.Id)
+        return {"message": "User created successfully"}
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})

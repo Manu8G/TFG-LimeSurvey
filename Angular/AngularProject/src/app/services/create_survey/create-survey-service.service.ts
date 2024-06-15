@@ -6,6 +6,8 @@ import { Pregunta } from '../../models/pregunta/pregunta.module';
 import { PreguntaMultiple } from '../../models/pregunta-multiple/pregunta-multiple.module';
 import { Paciente } from '../../models/paciente/paciente.module';
 import { Id } from '../../models/id/id.module';
+import { EncuestaDB } from '../../models/encuesta-bd/encuesta-bd.module';
+import { Encuesta } from '../../models/encuesta/encuesta.module';
 
 @Injectable({
   providedIn: 'root'
@@ -24,14 +26,15 @@ export class CreateSurveyServiceService {
   private listUsersForAdminURL = 'http://localhost:8000/admin/list_users_for_admin/';
   private listUsersForProfesionalURL = 'http://localhost:8000/admin/list_users_for_profesional/';
   private listFlujoURL = 'http://localhost:8000/admin/list_flujo/';
+  private eliminarEncuestaURL = 'http://localhost:8000/admin/eliminar_encuesta/';
 
   constructor(private http: HttpClient) { }
 
-  createSurvey(data: any): Observable<any> {
+  createSurvey(data: Encuesta): Observable<any> {
     return this.http.post<any>(this.createSurveyURL, data);
   }
 
-  createSurveyInDB(data: any): Observable<any> {
+  createSurveyInDB(data: EncuestaDB): Observable<any> {
     return this.http.post<any>(this.createSurveyInDBURL, data);
   }
 
@@ -74,6 +77,10 @@ export class CreateSurveyServiceService {
   listFlujo(): Observable<any> {
     return this.http.get<any>(this.listFlujoURL);
   }
-
+  
+  eliminarEncuesta(data: Id): Observable<any> {
+    console.log('vmaos a lallamosdm');
+    return this.http.post<any>(this.eliminarEncuestaURL, data);
+  }
 
 }

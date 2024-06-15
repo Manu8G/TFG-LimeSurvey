@@ -18,7 +18,7 @@ export class CreateSurveyComponent {
   idUsuario: number = 0;
 
   constructor(private surveyService: CreateSurveyServiceService, private router: Router, private toastr: ToastrService, private authenticationService: AuthenticationService) {
-    console.log("usuarioIDID: ",this.authenticationService.getUserId());
+    // console.log("usuarioIDID: ",this.authenticationService.getUserId());
 
   }
 
@@ -28,7 +28,7 @@ export class CreateSurveyComponent {
     //   this.idUsuario = Number(id);
     // });
 
-    console.log("usuarioIDID: ",this.authenticationService.getUserId());
+    // console.log("usuarioIDID: ",this.authenticationService.getUserId());
 
     const encuesta: Encuesta  = {
       nombre_encuesta: this.data.nombre_encuesta,
@@ -37,7 +37,7 @@ export class CreateSurveyComponent {
     
     const encuestadb: EncuestaDB  = {
       nombre: this.data.nombre_encuesta,
-      id_usuario: this.idUsuario
+      id_usuario: String(this.authenticationService.getUserId())
     };
 
 
@@ -46,36 +46,15 @@ export class CreateSurveyComponent {
             //console.log("La estructura de datos en angular es V2: ");
             //console.dir(response);
             this.modifiedData = response[0];
-            console.log(response[1]);
+            // console.log(response[1]);
             this.toastr.success('Hello world!', 'Toastr fun!');
             this.router.navigate(['/modify_survey'])
           },
           error: (err) => {
             this.toastr.error('Hello world!', 'Toastr fun!');
-            console.error('Error:', err);
+            // console.error('Error:', err);
           }
     })
-
-    // this.surveyService.createSurvey(encuesta).subscribe({
-    //   next: (response) => {
-    //     //console.log("La estructura de datos en angular es V2: ");
-    //     //console.dir(response);
-    //     this.modifiedData = response;
-    //   },
-    //   error: (err) => {
-    //     console.error('Error:', err);
-    //   }
-    // });
-    // this.surveyService.createSurveyInDB(encuestadb).subscribe({
-    //   next: (response) => {
-    //     //console.log("La estructura de datos en angular es V2: ");
-    //     //console.dir(response);
-    //     console.log(response);
-    //   },
-    //   error: (err) => {
-    //     console.error('Error:', err);
-    //   }
-    // });
 
 
   }

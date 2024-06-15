@@ -1,4 +1,4 @@
 export interface EncuestaDB {
   nombre: string;
-  id_usuario: number;
+  id_usuario: string;
 }

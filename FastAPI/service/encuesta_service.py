@@ -26,10 +26,15 @@ class encuestaService:
       cont = 0
       datos = {}
       for sid, survey_title in surveys:
-          print('sid2 ' + sid + ', nombre2: ' + survey_title)
           datos[f"{sid}"] = survey_title
           cont += 1
       return datos
     except Exception as e:
       raise RuntimeError(f"EncuestaServices: algo fue mal en listar_encuestas: {str(e)}")
     
+
+  def eliminar_encuesta(self, id: str):
+    try:
+      return self.survey_repository.eliminar_encuesta(id=id)
+    except Exception as e:
+      raise RuntimeError(f"EncuestaServices: algo fue mal en eliminar_encuesta: {str(e)}")
