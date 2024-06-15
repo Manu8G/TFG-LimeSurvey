@@ -2,12 +2,12 @@
     <table class="example-full-width" cellspacing="0">
       <tr>
         <!--ENCUESTA-->
-        <td><mat-form-field class="example-full-width">  
+        <!-- <td><mat-form-field class="example-full-width">  
           <mat-label>Id de la encuesta</mat-label>
           <mat-select [formControl]="surveyControl" (selectionChange)="onFirstSelectChange()" name="question_survey">
             <mat-option *ngFor="let i of idSurvey" [value]="i">{{i}}</mat-option>
           </mat-select> 
-        </mat-form-field></td>
+        </mat-form-field></td> -->
 
         <!--SECCION-->
         <td><mat-form-field class="example-full-width">  
@@ -42,6 +42,20 @@
 
         <!--Respuestas-->
         <div *ngIf="showElementsM">
+          <ng-container *ngFor="let respuesta of respuestas; let i = index">
+            <td>
+              <mat-form-field >
+                <mat-label>Respuesta {{i + 1}}</mat-label>
+                <input matInput [(ngModel)]="respuestas[i]" placeholder="Escribe la respuesta" name="question_response{{i}}">
+              </mat-form-field>
+            </td>
+          </ng-container>
+
+          <td>
+            <button mat-raised-button color="primary" (click)="addInput()" type="button">Agregar entrada</button>
+          </td>
+        </div>
+        <!-- <div *ngIf="showElementsM">
           <div *ngFor="let input of respuestas; let i = index">
             <mat-form-field >
               <mat-label>Respuesta {{i + 1}}</mat-label>
@@ -50,7 +64,7 @@
           </div>
           
           <button mat-raised-button color="primary" (click)="addInput()" type="button">Agregar entrada</button>
-        </div>
+        </div> -->
         
       </tr>
     </table>

@@ -27,9 +27,9 @@ const routes: Routes = [
       {
         path: 'create_survey', component: CreateSurveyComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }, {
-        path: 'create_section', component: CreateSectionComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
+        path: 'create_section/:id', component: CreateSectionComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }, {
-        path: 'create_question', component: CreateQuestionComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
+        path: 'create_question/:id', component: CreateQuestionComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }, {
         path: 'create_flujo', component: CreateFlujoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }, {
@@ -47,7 +47,7 @@ const routes: Routes = [
       },{ 
         path: 'user_initial_page', component: UserInitialPageComponent
       },{ 
-        path: 'asignar_flujo', component: AsignarFlujoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
+        path: 'asignar_flujo/:id', component: AsignarFlujoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       },{ 
         path: 'caso_usuario/:id', component: CasoUsuarioComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }

@@ -47,12 +47,13 @@ export class CreateSurveyComponent {
             //console.dir(response);
             this.modifiedData = response[0];
             // console.log(response[1]);
-            this.toastr.success('Hello world!', 'Toastr fun!');
+            let mensaje = this.data.nombre_encuesta + ' se creo con exito'
+            this.toastr.success(mensaje,'Encuesta creada');
             this.router.navigate(['/modify_survey'])
           },
           error: (err) => {
-            this.toastr.error('Hello world!', 'Toastr fun!');
-            // console.error('Error:', err);
+            this.toastr.error('No se pudo crear la encuesta', 'Error');
+            console.error('Error:', err);
           }
     })
 

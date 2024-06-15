@@ -7,6 +7,7 @@ import { OnInit } from '@angular/core';
 import { Pregunta } from '../models/pregunta/pregunta.module'
 import { PreguntaMultiple } from '../models/pregunta-multiple/pregunta-multiple.module'
 import { Id } from '../models/id/id.module'
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-question',
@@ -19,7 +20,8 @@ export class CreateQuestionComponent implements OnInit{
   surveyControl = new FormControl('');
   sectionControl = new FormControl('');
   idSurvey: string[] = [''];
-  idSection: string[] = ['']
+  idSection: string[] = [''];
+  idEncuesta: string = '';
   filteredSurveyOptions!: Observable<string[]>;
   filteredSectionOptions!: Observable<string[]>;
   tipos = [
@@ -32,49 +34,72 @@ export class CreateQuestionComponent implements OnInit{
   respuestas: string[] = [''];
   cuerpo:string='';
   
-  constructor(private service: CreateSurveyServiceService) {}
+  constructor(private service: CreateSurveyServiceService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.service.listIDSurvey().subscribe({
+    this.route.params.subscribe(params => {
+      this.idEncuesta = params['id']; // Access the 'id' parameter from the URL
+      console.log('Test ID question:', this.idEncuesta);
+    });
+    
+    const id: Id  = {
+      Id: this.idEncuesta
+    };
+
+    this.service.listIDSection(id).subscribe({
       next: (response) => {
         let keys = Object.keys(response);
         let values = Object.values(response);
         
         for(let i = 0; i < keys.length; i++){
-          this.idSurvey.push(keys[i] + " - " + values[i]);
+          this.idSection.push(keys[i] + " - " + values[i]);
         }
-        //console.log("La idSurvey: ");
-        //console.dir(this.idSurvey);
       },
       error: (err) => {
         console.error('Error:', err);
       }
     });
+
+    // this.service.listIDSurvey().subscribe({
+    //   next: (response) => {
+    //     let keys = Object.keys(response);
+    //     let values = Object.values(response);
+        
+    //     for(let i = 0; i < keys.length; i++){
+    //       this.idSurvey.push(keys[i] + " - " + values[i]);
+    //     }
+    //     //console.log("La idSurvey: ");
+    //     //console.dir(this.idSurvey);
+    //   },
+    //   error: (err) => {
+    //     console.error('Error:', err);
+    //   }
+    // });
     
-    this.filteredSurveyOptions = this.surveyControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
+    // this.filteredSurveyOptions = this.surveyControl.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filter(value || '')),
+    // );
 
-    this.idSection = ['Rellena antes la encuesta'];
+    // this.idSection = ['Rellena antes la encuesta'];
 
-    this.filteredSectionOptions = this.sectionControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
+    // this.filteredSectionOptions = this.sectionControl.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filter(value || '')),
+    // );
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.idSurvey.filter(idSurvey => idSurvey.toLowerCase().includes(filterValue));
-  }
+  // private _filter(value: string): string[] {
+  //   const filterValue = value.toLowerCase();
+  //   return this.idSurvey.filter(idSurvey => idSurvey.toLowerCase().includes(filterValue));
+  // }
 
   onSubmit() {
-    console.log('real betis: ',this.respuestas[0]);
-    this.data.survey_id = this.surveyControl.value;
-    let id_encuesta = this.data.survey_id;
-    id_encuesta = id_encuesta.match(/^\d+/);
-    this.data.survey_id = id_encuesta[0];
+    // console.log('real betis: ',this.respuestas[0]);
+    // this.data.survey_id = this.surveyControl.value;
+    // let id_encuesta = this.data.survey_id;
+    // id_encuesta = id_encuesta.match(/^\d+/);
+    // this.data.survey_id = id_encuesta[0];
 
     this.data.id_seccion = this.sectionControl.value;
     let id_seccion = this.data.id_seccion; 
@@ -94,7 +119,7 @@ export class CreateQuestionComponent implements OnInit{
       const pregu: Pregunta  = {
         nombre_real: this.data.question_title,
         cuerpo_pregunta: this.cuerpo,
-        id_encuesta: this.data.survey_id,
+        id_encuesta: this.idEncuesta,
         id_seccion: this.data.id_seccion,
         tipo_pregunta: this.data.tipo
       };
@@ -110,7 +135,7 @@ export class CreateQuestionComponent implements OnInit{
       const pregu: PreguntaMultiple  = {
         nombre_real: this.data.question_title,
         cuerpo_pregunta: this.cuerpo,
-        id_encuesta: this.data.survey_id,
+        id_encuesta: this.idEncuesta,
         id_seccion: this.data.id_seccion,
         tipo_pregunta: this.data.tipo,
         respuestas: this.respuestas
@@ -136,27 +161,27 @@ export class CreateQuestionComponent implements OnInit{
     this.respuestas.push('');
   }
 
-  onFirstSelectChange() {
-    this.idSection = [];
-    this.data.survey_id = this.surveyControl;
-    let id_encuesta = this.data.survey_id.value;
-    id_encuesta = id_encuesta.match(/\d+/);
-    const id: Id  = {
-      Id: id_encuesta[0]
-    };
-    this.service.listIDSection(id).subscribe({
-      next: (response) => {
-        let keys = Object.keys(response);
-        let values = Object.values(response);
+  // onFirstSelectChange() {
+  //   this.idSection = [];
+  //   this.data.survey_id = this.surveyControl;
+  //   let id_encuesta = this.data.survey_id.value;
+  //   id_encuesta = id_encuesta.match(/\d+/);
+  //   const id: Id  = {
+  //     Id: id_encuesta[0]
+  //   };
+  //   this.service.listIDSection(id).subscribe({
+  //     next: (response) => {
+  //       let keys = Object.keys(response);
+  //       let values = Object.values(response);
         
-        for(let i = 0; i < keys.length; i++){
-          this.idSection.push(keys[i] + " - " + values[i]);
-        }
-      },
-      error: (err) => {
-        console.error('Error:', err);
-      }
-    });
-  }
+  //       for(let i = 0; i < keys.length; i++){
+  //         this.idSection.push(keys[i] + " - " + values[i]);
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error('Error:', err);
+  //     }
+  //   });
+  // }
 
 }

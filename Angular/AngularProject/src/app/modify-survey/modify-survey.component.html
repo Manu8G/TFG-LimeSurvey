@@ -3,13 +3,13 @@
     <button mat-button color="primary" routerLink="/create_survey">Nueva</button>
     
     <div *ngFor="let item of items" class="item-container">
-        <div class="item-name">{{ item }}</div>
+        <div class="item-name">{{ item.nombre }}</div>
         <div class="item-buttons">
             <button mat-button color="primary" [matMenuTriggerFor]="encuestas">Añadir</button>
             <button mat-button color="warn" (click)="eliminarEncuesta(item)">Borrar</button>
             <mat-menu #encuestas="matMenu">
-                <button mat-menu-item routerLink="/create_section">Sección</button>
-                <button mat-menu-item routerLink="/create_question">Pregunta</button>
+                <button mat-menu-item routerLink="/create_section" (click)="rutaSeccion(item.id)">Sección</button>
+                <button mat-menu-item routerLink="/create_question" (click)="rutaPregunta(item.id)">Pregunta</button>
             </mat-menu> 
         </div>
     </div>

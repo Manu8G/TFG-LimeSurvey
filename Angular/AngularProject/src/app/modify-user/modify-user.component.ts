@@ -20,9 +20,6 @@ export class ModifyUserComponent {
       this.serviceSurvey.listAdminUsers().subscribe({
         next: (response) => {
           this.ususe = response;
-          for(let i = 0; i < this.ususe.length; i++){
-            this.items.push(String(this.ususe[i].nombre));
-          }
         },
         error: (err) => {
           console.error('Error:', err);
@@ -32,23 +29,20 @@ export class ModifyUserComponent {
       this.serviceSurvey.listProfesionalUsers().subscribe({
         next: (response) => {
           this.ususe = response;
-          for(let i = 0; i < this.ususe.length; i++){
-            this.items.push(String(this.ususe[i].nombre));
-          }
         },
         error: (err) => {
           console.error('Error:', err);
         }
       }); 
     }
-    
-
-    
-    
   }
 
   rutaCaso(id: string){
     this.router.navigate(['caso_usuario',id]);
+  }
+
+  rutaFlujo(id: string){
+    this.router.navigate(['asignar_flujo',id]);
   }
 
   deleteItem(): void {
