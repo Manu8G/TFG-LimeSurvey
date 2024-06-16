@@ -14,11 +14,11 @@ class flujoService:
 #       raise RuntimeError(f"EncuestaServices: algo fue mal en create_encuesta: {str(e)}")
     
 
-  def list_flujo(self):
-    try:
-      return self.flujo_repository.list_flujo()
-    except Exception as e:
-      raise RuntimeError(f"FlujoService: algo fue mal en listar_encuestas: {str(e)}")
+  # def list_flujo(self):
+  #   try:
+  #     return self.flujo_repository.list_flujo()
+  #   except Exception as e:
+  #     raise RuntimeError(f"FlujoService: algo fue mal en listar_encuestas: {str(e)}")
     
 
   def create_flujo(self, id_usuario: int, tipo_de_flujo: str, encuestas: List[str]):
@@ -29,8 +29,9 @@ class flujoService:
     
 
   def listar_flujos(self):
+    print("Esa2")
     try:
-      return self.flujo_repository.listar_flujos()
+      return self.flujo_repository.list_flujo()
     except Exception as e:
       print("ERROR LISTAR FLUJOS "+e)
       raise RuntimeError(f"FlujoService: algo fue mal en crear_flujo: {str(e)}")
@@ -44,7 +45,6 @@ class flujoService:
     
 
   def get_caso(self, id: str):
-    print('recibido 2')
     try:
       return self.flujo_repository.get_caso(id)
     except Exception as e:

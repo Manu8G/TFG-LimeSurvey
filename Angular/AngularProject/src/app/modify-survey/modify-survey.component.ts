@@ -14,20 +14,13 @@ export class ModifySurveyComponent {
 
   constructor(private surveyService: CreateSurveyServiceService, private router: Router) {}
 
-  eliminarEncuesta(encuesta: String){
-    for (const item of this.idSurvey) {
-      // Dividimos cada item por el separador " ' " para separar el identificador y el nombre
-      const partes = item.split(" - ");
-      // Checamos si el segundo elemento (nombre de la encuesta) coincide con el nombreEncuesta proporcionado
-      if (partes[1] === encuesta) {
-        console.log('esta es la elegida: ',item);
-        console.log('esta es la elegida id: ',partes[0]);
-        const idEncuesta: Id  = {
-          Id: String(partes[0]) 
-        };
-        this.surveyService.eliminarEncuesta(idEncuesta);
-      }
-    }
+  eliminarEncuesta(encuesta: string){
+    console.log('esta es la elegida: ',encuesta);
+    const idEncuesta: Id  = {
+      Id: encuesta 
+    };
+    this.surveyService.eliminarEncuesta(idEncuesta).subscribe();
+      
   }
 
   rutaSeccion(id: string): void{

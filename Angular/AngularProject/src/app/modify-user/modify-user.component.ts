@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CreateSurveyServiceService } from '../services/create_survey/create-survey-service.service';
+import { UsuarioService } from '../services/usuario/usuario.service';
 import { AuthenticationService } from '../services/authentication/authentication.service'
 import { UsuarioRole } from '../models/usuario-role/usuario-role.module';
 import { Router } from '@angular/router';
@@ -13,11 +13,11 @@ import { Router } from '@angular/router';
 export class ModifyUserComponent {
   items: string[] = [];
   ususe: UsuarioRole[] = [];
-  constructor(private serviceSurvey: CreateSurveyServiceService, private authenService: AuthenticationService, private router: Router) {}
+  constructor(private usuarioService: UsuarioService, private authenService: AuthenticationService, private router: Router) {}
 
   ngOnInit(): void {
     if(this.authenService.getRole() == 'admin'){
-      this.serviceSurvey.listAdminUsers().subscribe({
+      this.usuarioService.listAdminUsers().subscribe({
         next: (response) => {
           this.ususe = response;
         },
@@ -26,7 +26,7 @@ export class ModifyUserComponent {
         }
       });   
     }else{
-      this.serviceSurvey.listProfesionalUsers().subscribe({
+      this.usuarioService.listProfesionalUsers().subscribe({
         next: (response) => {
           this.ususe = response;
         },

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CreateSurveyServiceService } from '../services/create_survey/create-survey-service.service';
+import { AuthenticationService } from '../services/authentication/authentication.service';
 import { FlujoService } from '../services/flujo/flujo.service';
 import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
@@ -7,6 +8,8 @@ import { Observable } from 'rxjs';
 import { OnInit } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Flujo } from '../models/flujo/flujo.module'
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-flujo',
@@ -25,7 +28,7 @@ export class CreateFlujoComponent {
   encuestaNameId: Map<string, any> = new Map<string, any>();
   encuestasId: string[] = [];
 
-  constructor(private service: CreateSurveyServiceService, private flujoService: FlujoService, private cdr: ChangeDetectorRef) {}
+  constructor(private service: CreateSurveyServiceService, private authenticationService: AuthenticationService, private router: Router, private toastr: ToastrService, private flujoService: FlujoService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.service.listIDSurvey().subscribe({
@@ -66,17 +69,16 @@ export class CreateFlujoComponent {
 
   onSubmit() {
     this.data.survey_id = this.myControl;
-    
-    for (let [key, val] of this.encuestaNameId.entries()) {
-      this.encuestas.forEach(encuesta => {
+    this.encuestas.forEach(encuesta => {
+      for (let [key, val] of this.encuestaNameId.entries()) {
         if (encuesta === val) {
               this.encuestasId.push(key);
-            }
-      });
-    }
+        }
+      }
+    });
 
     const flujo:  Flujo = {
-      id_usuario: this.data.id_usuario,
+      id_usuario: this.authenticationService.getUserId(),
       tipo_de_flujo: this.data.tipo_de_flujo,
       encuestas: this.encuestasId
     };
@@ -84,8 +86,12 @@ export class CreateFlujoComponent {
     this.flujoService.createFlujo(flujo).subscribe({
       next: (response) => {
         this.modifiedData = response;
+        let mensaje = this.data.tipo_de_flujo + ' se creo con exito';
+        this.toastr.success(mensaje,'Flujo creado');
+        this.router.navigate(['/modify_flujo'])
       },
       error: (err) => {
+        this.toastr.error('No se pudo crear el flujo', 'Error');
         console.error('Error:', err);
       }
     });

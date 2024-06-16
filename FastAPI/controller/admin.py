@@ -19,6 +19,7 @@ from dto.nuevoPaciente import nuevoPaciente
 from dto.encuestaDB import encuestaDB
 from dto.flujo import Flujo 
 from dto.caso import Caso
+from dto.correo import Correo
 
 from service.encuesta_service import encuestaService 
 from service.seccion_service import seccionService
@@ -143,15 +144,17 @@ async def list_users_for_profesional():
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
     
-@router.get("/list_flujo")
-async def list_flujo():
-    try:
-        return flujo.list_flujo()
-    except Exception as e:
-        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+# @router.get("/list_flujo")
+# async def list_flujo():
+#     print('esta se lista')
+#     try:
+#         return flujo.list_flujo()
+#     except Exception as e:
+#         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
 
 @router.get("/listar_flujos")
 async def listar_flujos():
+    print("Esa1")
     try:
         return flujo.listar_flujos()
     except Exception as e:
@@ -195,6 +198,15 @@ async def eliminar_encuesta(id: IdModel):
     print("llegamosdf")
     try:
         survey.eliminar_encuesta(id=id.Id)
+        return {"message": "User created successfully"}
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+    
+
+@router.post("/mandar_correo")
+async def mandar_correo(correo: Correo):
+    try:
+        survey.mandar_correo(id_encuesta=correo.id_encuesta, id_usuario=correo.id_usuario)
         return {"message": "User created successfully"}
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})

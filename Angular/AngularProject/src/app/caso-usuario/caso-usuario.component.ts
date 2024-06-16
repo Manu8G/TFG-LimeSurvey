@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CreateSurveyServiceService } from '../services/create_survey/create-survey-service.service';
 import { AuthenticationService } from '../services/authentication/authentication.service';
 import { FlujoService } from '../services/flujo/flujo.service';
+import { UsuarioService } from '../services/usuario/usuario.service';
 import { Id } from '../models/id/id.module';
+import { Correo } from '../models/correo/correo.module';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -12,48 +13,53 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CasoUsuarioComponent implements OnInit{
   idUsuario: number = 0;
+  tipo_flujo: string = '';
+  id_formulario: string[]  = [];
+  nombre_encuesta: string[] = [];
+  numero_orden: number[] = [];
+  nivel_actual: number = 0;
+  arrayRelacionEncuestas: any[] = [];
 
-  constructor(private surveyService: CreateSurveyServiceService, private route: ActivatedRoute, private flujoService: FlujoService, private authenticationService: AuthenticationService) {}
+
+  constructor(private usuarioService: UsuarioService, private route: ActivatedRoute, private flujoService: FlujoService, private authenticationService: AuthenticationService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      let testId = params['id']; // Access the 'id' parameter from the URL
-      console.log('Test ID:', testId);
+      this.idUsuario = params['id']; // ID del usuario del caso
     });
-  }
-
-
-  onSubmit() {
-    // this.authenticationService.idUsuario$.subscribe(id => {
-    //   // console.log("valladolid: ",id);
-    //   this.idUsuario = Number(id);
-    // });
 
     const id: Id  = {
       // Id: String(this.idUsuario)
-      Id: '26'
+      Id: String(this.idUsuario)
     };
 
     this.flujoService.getCaso(id).subscribe({
       next: (response) => {
-        
+        this.tipo_flujo = response[0].tipo_de_flujo;
+        this.nivel_actual = response[0].nivel_actual;
+
+        for(let i=0; i<response.length; i++){
+          this.nombre_encuesta.push(response[i].nombre_orden)
+          this.numero_orden.push(response[i].numero_orden)
+          this.id_formulario.push(response[i].id_formulario)
+          this.arrayRelacionEncuestas.push({id: response[i].numero_orden, titulo: response[i].nombre_encuesta})
+        }
+
       },
       error: (err) => {
         console.error('Error:', err);
       }
-    });
+    }); 
+  }
 
-    // api.activate_survey(777423)
-    // api.add_participant_table(777423)
-    // participantes = [{'email': 'manuelmesias@correo.ugr.es', 'lastname': 'Guerrero', 'firstname': 'Manu' }]
-    // api.add_participant(777423, participantes)
-    // participantesL = api.list_participants(777423)
-    // participante = [participant['tid'] for participant in participantesL]
-    // print('ID del participante: ' + str(participante[0]))
-    // tokensP = [participante[0]]
-    // api.invite_participant(777423, tokensP)
-    
-    
-    
+
+  mandarCorreo(){
+    let nivel = this.nivel_actual-1
+    const correo: Correo  = {
+      id_encuesta: String(this.id_formulario[nivel]),
+      id_usuario: String(this.idUsuario)
+    };
+    console.log('CORREO: ',correo);
+    this.usuarioService.mandarCorreo(correo).subscribe();
   }
 }

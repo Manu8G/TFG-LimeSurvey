@@ -7,6 +7,8 @@ import { Caso } from '../models/caso/caso.module';
 import { UsuarioRole } from '../models/usuario-role/usuario-role.module';
 import { FlujoId } from '../models/flujo-id/flujo-id.module';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-asignar-flujo',
@@ -24,7 +26,7 @@ export class AsignarFlujoComponent {
   flujoId: FlujoId [] = [];
   idUsuario: String = '';
 
-  constructor(private serviceSurvey: CreateSurveyServiceService, private route: ActivatedRoute, private flujoService: FlujoService) {}
+  constructor(private serviceSurvey: CreateSurveyServiceService, private router: Router, private route: ActivatedRoute, private toastr: ToastrService, private flujoService: FlujoService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -64,6 +66,7 @@ export class AsignarFlujoComponent {
     // console.log("id_usuario: ",String(this.surveyControl.value))
     // let id_usu = '';
     let id_flu = '';
+    let name_flu = '';
     // for(let i = 0; i < this.ususe.length; i++){
     //   if(String(this.ususe[i].nombre) == String(this.surveyControl.value)){
     //     id_usu = this.ususe[i].id;
@@ -72,6 +75,7 @@ export class AsignarFlujoComponent {
     for(let i = 0; i < this.flujoId.length; i++){
       if(String(this.flujoId[i].nombre) == String(this.sectionControl.value)){
         id_flu = this.flujoId[i].id;
+        name_flu = this.flujoId[i].nombre;
       }
     }
     
@@ -83,8 +87,12 @@ export class AsignarFlujoComponent {
     this.flujoService.asignarFlujo(caso).subscribe({
       next: (response) => {
         this.modifiedData = response;
+        let mensaje = name_flu + ' se asigno con exito';
+        this.toastr.success(mensaje,'Flujo asignado');
+        this.router.navigate(['/modify_user'])
       },
       error: (err) => {
+        this.toastr.error('No se pudo asignar el flujo', 'Error');
         console.error('Error:', err);
       }
     });

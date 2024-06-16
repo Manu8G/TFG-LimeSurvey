@@ -38,3 +38,10 @@ class encuestaService:
       return self.survey_repository.eliminar_encuesta(id=id)
     except Exception as e:
       raise RuntimeError(f"EncuestaServices: algo fue mal en eliminar_encuesta: {str(e)}")
+  
+
+  def mandar_correo(self, id_encuesta: str, id_usuario: str):
+    try:
+      return self.survey_repository.mandar_correo(id_encuesta=id_encuesta, id_usuario=id_usuario)
+    except Exception as e:
+      raise RuntimeError(f"EncuestaServices: algo fue mal en eliminar_encuesta: {str(e)}")

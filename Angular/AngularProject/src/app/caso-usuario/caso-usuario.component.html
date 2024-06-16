@@ -1,3 +1,18 @@
-<p>caso-usuario works!</p>
+<!-- <p>caso-usuario works!</p> -->
 <!-- <p>id usuario ok</p> -->
-<button  mat-flat-button (click)="onSubmit()">Asignar</button> 
+<!-- <button  mat-flat-button (click)="onSubmit()">Asignar</button> 
+<button  mat-flat-button (click)="mandarCorreo()">Mandar correo</button>  -->
+
+<div class="container">
+    <h1>{{ tipo_flujo }}</h1>
+    <div class="array-container">
+      <div *ngFor="let item of arrayRelacionEncuestas; let i = index" 
+           [class.selected]="item.id === nivel_actual" 
+           class="item">
+        <div class="id">{{ item.id }}</div>
+        <div class="titulo">{{ item.titulo }}</div>
+      </div>
+    </div>
+    <button mat-flat-button (click)="mandarCorreo()">Botón de Acción</button>
+  </div>
+  

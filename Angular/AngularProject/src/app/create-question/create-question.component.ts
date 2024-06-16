@@ -7,7 +7,9 @@ import { OnInit } from '@angular/core';
 import { Pregunta } from '../models/pregunta/pregunta.module'
 import { PreguntaMultiple } from '../models/pregunta-multiple/pregunta-multiple.module'
 import { Id } from '../models/id/id.module'
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-question',
@@ -34,7 +36,7 @@ export class CreateQuestionComponent implements OnInit{
   respuestas: string[] = [''];
   cuerpo:string='';
   
-  constructor(private service: CreateSurveyServiceService, private route: ActivatedRoute) {}
+  constructor(private service: CreateSurveyServiceService, private router: Router, private toastr: ToastrService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -126,8 +128,12 @@ export class CreateQuestionComponent implements OnInit{
       this.service.createTextQuestion(pregu).subscribe({
         next: (response) => {
           this.modifiedData = response;
+          let mensaje = this.data.question_title + ' se creo con exito';
+          this.toastr.success(mensaje,'Pregunta creada');
+          this.router.navigate(['/modify_survey'])
         },
         error: (err) => {
+          this.toastr.error('No se pudo crear la pregunta', 'Error');
           console.error('Error:', err);
         }
       });
@@ -144,8 +150,12 @@ export class CreateQuestionComponent implements OnInit{
       this.service.createMultipleQuestion(pregu).subscribe({
         next: (response) => {
           this.modifiedData = response;
+          let mensaje = this.data.question_title + ' se creo con exito';
+          this.toastr.success(mensaje,'Pregunta creada');
+          this.router.navigate(['/modify_survey'])
         },
         error: (err) => {
+          this.toastr.error('No se pudo crear la pregunta', 'Error');
           console.error('Error:', err);
         }
       });

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CreateSurveyServiceService } from '../services/create_survey/create-survey-service.service'
+import { FlujoService } from '../services/flujo/flujo.service'
 
 @Component({
   selector: 'app-modify-flujo',
@@ -7,19 +7,20 @@ import { CreateSurveyServiceService } from '../services/create_survey/create-sur
   styleUrl: './modify-flujo.component.css'
 })
 export class ModifyFlujoComponent {
-  items: string[] = [];
+  items: any[] = [];
 
-  constructor(private surveyService: CreateSurveyServiceService) {}
+  constructor(private flujoService: FlujoService) {}
 
   ngOnInit(): void {
     //this.items = ['USU1','USU2','USU3','USU4','USU5','USU6','USU7'];
-    this.surveyService.listFlujo().subscribe({
+    this.flujoService.listFlujos().subscribe({
       next: (response) => {
         let keys = Object.keys(response);
         let values = Object.values(response);
         
         for(let i = 0; i < keys.length; i++){
-          this.items.push(String(values[i]));
+          console.log('esta es lala ',values[i]);
+          this.items.push(values[i]);
         }
       },
       error: (err) => {
