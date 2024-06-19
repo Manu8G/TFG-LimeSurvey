@@ -60,4 +60,9 @@ class UserService:
     except Exception as e:
       raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")
 
-    
+
+  def get_user_info(self, id: str):
+    try:
+      return self.user_repository.get_user_info(id=id)
+    except Exception as e:
+      raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")

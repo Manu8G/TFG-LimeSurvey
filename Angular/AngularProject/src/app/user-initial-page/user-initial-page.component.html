@@ -1,1 +1,27 @@
-<p>user-initial-page works!</p>
+<div class="container" style="display: flex; justify-content: space-between;">
+    <div class="user-info" style="flex: 1;">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Información del Usuario</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p><strong>Nombre:</strong> {{ Nombre }}</p>
+          <p><strong>Email:</strong> {{ Email }}</p>
+          <p><strong>DNI:</strong> {{ DNI }}</p>
+          <p><strong>Nacionalidad:</strong> {{ nacionalidad }}</p>
+          <p><strong>Fecha de Nacimiento:</strong> {{ fechaNacimiento }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <div class="aviso" style="flex: 1;" *ngIf="estado == 'Pendiente de consulta'">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Tiene una encuesta por rellenar</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p class="sub-message">Por favor acceda al enlace proporcionado a su correo para realizarla.</p>
+            </mat-card-content>
+        </mat-card>
+    </div>
+  

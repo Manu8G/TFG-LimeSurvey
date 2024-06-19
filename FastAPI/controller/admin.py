@@ -210,3 +210,11 @@ async def mandar_correo(correo: Correo):
         return {"message": "User created successfully"}
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+    
+
+@router.post("/get_user_info")
+async def get_user_info(id: IdModel):
+    try:
+        return ususu.get_user_info(id=id.Id)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})

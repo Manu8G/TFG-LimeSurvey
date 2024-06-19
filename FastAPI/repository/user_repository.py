@@ -99,4 +99,12 @@ class UserRepository:
         usu = self.db.query(User).filter(User.nombre_y_apellidos == nombre_y_apellidos).first()
         
         return usu.id_usuario
+    
+
+    def get_user_info(self, id: str):
+        usu = self.db.query(User).filter(User.id_usuario == id).first()
+        paciente = self.db.query(Paciente).filter(Paciente.id_usuario == id).first()
+
+        return {'Nombre': usu.nombre_y_apellidos, 'Email': paciente.email, 'Estado':paciente.estado,
+                'DNI':paciente.dni, 'Nacionalidad': paciente.nacionalidad, 'Fecha_nacimiento':paciente.fecha_nacimiento}
 
