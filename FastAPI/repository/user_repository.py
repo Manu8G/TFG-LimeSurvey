@@ -3,6 +3,10 @@ from model.user import User
 from model.administrador import Administrador
 from model.profesional import Profesional 
 from model.paciente import Paciente
+from model.caso import Caso
+from model.versionformulario import VersionFormulario
+from model.formulario import Formulario
+from model.flujo import Flujo
 
 from utils.utils import pwd_context
 from utils.db_connections import create_db_connection
@@ -108,3 +112,95 @@ class UserRepository:
         return {'Nombre': usu.nombre_y_apellidos, 'Email': paciente.email, 'Estado':paciente.estado,
                 'DNI':paciente.dni, 'Nacionalidad': paciente.nacionalidad, 'Fecha_nacimiento':paciente.fecha_nacimiento}
 
+
+    def delete_user(self, id: str):
+        usu = self.db.query(User).filter(User.id_usuario == id).first()
+        paciente = self.db.query(Paciente).filter(Paciente.id_usuario == id).first()
+        print('Paciente: '+str(paciente))
+        profesional = self.db.query(Profesional).filter(Profesional.id_usuario == id).first()
+        print('Profesional: '+str(profesional))
+        administrador = self.db.query(Administrador).filter(Administrador.id_usuario == id).first()
+        print('Administrador: '+str(administrador))
+
+        if paciente != None:
+            print('Dentro del paciente1')
+            caso = self.db.query(Caso).filter(Caso.id_usuario == id).first()
+            print('Dentro del paciente2')
+            self.db.delete(caso)
+            print('Dentro del paciente3')
+            self.db.commit()
+            print('Dentro del paciente4')
+            self.db.delete(paciente)
+            print('Dentro del paciente5')
+            self.db.commit()
+            print('Dentro del paciente6')
+
+        if administrador != None:
+            print('Dentro del administrador1')
+            verison = self.db.query(VersionFormulario).filter(VersionFormulario.id_usuario == id).first()
+            print('Dentro del administrador2')
+            self.db.delete(verison)
+            print('Dentro del administrador3')
+            self.db.commit()
+            print('Dentro del administrador4')
+            formulario = self.db.query(Formulario).filter(Formulario.id_usuario == id).first()
+            print('Dentro del administrador5')
+            self.db.delete(formulario)
+            print('Dentro del administrador6')
+            self.db.commit()
+            print('Dentro del administrador7')
+            flujo = self.db.query(Flujo).filter(Flujo.id_usuario == id).first()
+            print('Dentro del administrador8')
+            self.db.delete(flujo)
+            print('Dentro del administrador9')
+            self.db.commit()
+            print('Dentro del administrador10')
+            self.db.delete(administrador)
+            print('Dentro del administrador11')
+            self.db.commit()
+            print('Dentro del administrador12')
+            self.db.delete(profesional)
+            print('Dentro del administrador13')
+            self.db.commit()
+            print('Dentro del administrador14')
+
+        if profesional != None:
+            print('Dentro del profesional1')
+            try:
+                verison = self.db.query(VersionFormulario).filter(VersionFormulario.id_usuario == id).first()
+                print('Dentro del profesional2')
+                self.db.delete(verison)
+                print('Dentro del profesional3')
+                self.db.commit()
+            except:
+                None
+            try:
+                print('Dentro del profesional4')
+                formulario = self.db.query(Formulario).filter(Formulario.id_usuario == id).first()
+                print('Dentro del profesional5')
+                self.db.delete(formulario)
+                print('Dentro del profesional6')
+                self.db.commit()
+            except:
+                None
+            
+            try:
+                print('Dentro del profesional7')
+                flujo = self.db.query(Flujo).filter(Flujo.id_usuario == id).first()
+                print('Dentro del profesional8')
+                self.db.delete(flujo)
+                print('Dentro del profesional9')
+                self.db.commit()
+            except:
+                None
+            print('Dentro del profesional10')
+            self.db.delete(profesional)
+            print('Dentro del profesional11')
+            self.db.commit()
+            print('Dentro del profesional12')
+
+        self.db.delete(usu)
+        self.db.commit()
+
+
+        return {'result':'Usuario eliminado con exito'}

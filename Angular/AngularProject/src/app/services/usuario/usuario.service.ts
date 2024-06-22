@@ -17,6 +17,7 @@ export class UsuarioService {
   private listUsersForProfesionalURL = 'http://localhost:8000/admin/list_users_for_profesional';
   private mandarCorreoURL = 'http://localhost:8000/admin/mandar_correo';
   private getUserInfoURL = 'http://localhost:8000/admin/get_user_info';
+  private deleteUserURL = 'http://localhost:8000/admin/delete_user';
 
   constructor(private http: HttpClient) { }
 
@@ -37,11 +38,16 @@ export class UsuarioService {
   }
 
   mandarCorreo(data: Correo): Observable<any> {
+    console.log('auidi');
     return this.http.post<any>(this.mandarCorreoURL, data);
   } 
 
   getUserInfo(data: Id): Observable<any> {
     return this.http.post<any>(this.getUserInfoURL, data);
+  }
+
+  borrarUsuario(data: Id): Observable<any> {
+    return this.http.post<any>(this.deleteUserURL, data);
   }
 
 }

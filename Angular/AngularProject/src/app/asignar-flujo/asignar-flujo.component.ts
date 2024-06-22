@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CreateSurveyServiceService } from '../services/create_survey/create-survey-service.service';
+import { UsuarioService } from '../services/usuario/usuario.service';
 import { FlujoService } from '../services/flujo/flujo.service';
-import { Observable } from 'rxjs/internal/Observable';
 import { FormControl } from '@angular/forms';
 import { Caso } from '../models/caso/caso.module';
 import { UsuarioRole } from '../models/usuario-role/usuario-role.module';
@@ -9,6 +9,8 @@ import { FlujoId } from '../models/flujo-id/flujo-id.module';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { Correo } from '../models/correo/correo.module';
+import { Id } from '../models/id/id.module';
 
 @Component({
   selector: 'app-asignar-flujo',
@@ -25,13 +27,13 @@ export class AsignarFlujoComponent {
   ususe: UsuarioRole[] = [];
   flujoId: FlujoId [] = [];
   idUsuario: String = '';
+  primeraEncuesta: String = '';
 
-  constructor(private serviceSurvey: CreateSurveyServiceService, private router: Router, private route: ActivatedRoute, private toastr: ToastrService, private flujoService: FlujoService) {}
+  constructor(private serviceSurvey: CreateSurveyServiceService, private router: Router, private route: ActivatedRoute, private toastr: ToastrService, private flujoService: FlujoService, private usuarioService: UsuarioService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.idUsuario = params['id']; // Access the 'id' parameter from the URL
-      console.log('Test ID flujo:', this.idUsuario);
     });
     // this.serviceSurvey.listProfesionalUsers().subscribe({
     //   next: (response) => {
@@ -62,6 +64,7 @@ export class AsignarFlujoComponent {
   }
 
   onSubmit() {
+     
     // console.log("id_flujo: ",String(this.sectionControl.value))
     // console.log("id_usuario: ",String(this.surveyControl.value))
     // let id_usu = '';
@@ -79,7 +82,6 @@ export class AsignarFlujoComponent {
       }
     }
     
-    
     const caso: Caso  = {
       id_flujo: String(id_flu),
       id_usuario: String(this.idUsuario)
@@ -96,6 +98,38 @@ export class AsignarFlujoComponent {
         console.error('Error:', err);
       }
     });
+
+    const id: Id  = {
+      Id: String(this.idUsuario)
+    };
+    this.flujoService.getCaso(id).subscribe({
+      next: (response) => {
+        this.primeraEncuesta = String(response[0].id_formulario);
+      },
+      error: (err) => {
+        console.error('Error:', err);
+      }
+    });
+
+    this.prueba();
+
+
   }
+
+
+  prueba(){
+    console.log('preauidi');
+    setTimeout(() => {
+      const correo: Correo  = {
+        id_encuesta: String(this.primeraEncuesta),
+        id_usuario: String(this.idUsuario)
+      };
+      //NO funca
+      console.log('auidi: ', correo);
+      this.usuarioService.mandarCorreo(correo).subscribe();
+    }, 5000);
+    console.log('postauidi');
+  }
+
 
 }

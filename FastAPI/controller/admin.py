@@ -218,3 +218,11 @@ async def get_user_info(id: IdModel):
         return ususu.get_user_info(id=id.Id)
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+    
+
+@router.post("/delete_user")
+async def delete_user(id: IdModel):
+    try:
+        return ususu.delete_user(id=id.Id)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})

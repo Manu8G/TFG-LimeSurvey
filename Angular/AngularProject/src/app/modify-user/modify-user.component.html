@@ -1,8 +1,39 @@
 <div class="container">
     <!-- Botón Nueva al inicio del contenedor -->
-    <button mat-button color="primary" routerLink="/create_user">Nueva</button>
+    <button mat-button color="primary" routerLink="/create_user">Nuevo usuario</button>
     
-    <div *ngFor="let item of ususe" class="item-container">
+    <div class="non-patients-container">
+        <h2>Usuarios Profesionales</h2>
+        <ng-container *ngFor="let item of ususe">
+            <div class="item-container" *ngIf="item.rol !== 'Paciente'">
+                <div class="item-name">{{ item.nombre }}</div>
+                <div class="item-buttons">
+                    <!-- <button mat-button color="primary">Modificar</button> -->
+                    <button mat-button color="warn" (click)="borrarUsuario(item.id)">Borrar</button>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+    <!-- Contenedor para pacientes -->
+    <div class="patients-container">
+        <h2>Usuarios Pacientes</h2>
+        <ng-container *ngFor="let item of ususe">
+            <div class="item-container" *ngIf="item.rol === 'Paciente'">
+                <div class="item-name">{{ item.nombre }}</div>
+                <div class="item-buttons">
+                    <button mat-button color="primary" (click)="rutaCaso(item.id)" routerLink="/caso_usuario">Estado</button>
+                    <button mat-button color="primary" (click)="rutaFlujo(item.id)" routerLink="/asignar_flujo">Asignar flujo</button>
+                    <!-- <button mat-button color="primary">Modificar</button> -->
+                    <button mat-button color="warn" (click)="borrarUsuario(item.id)">Borrar</button>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    
+
+
+    <!-- <div *ngFor="let item of ususe" class="item-container">
         <div class="item-name">{{ item.nombre }}</div>
         <div class="item-buttons">
             <button mat-button color="primary" (click)="rutaCaso(item.id)" routerLink="/caso_usuario" *ngIf="item.rol === 'Paciente'">Estado</button>
@@ -10,6 +41,8 @@
             <button mat-button color="primary">Modificar</button>
             <button mat-button color="warn">Borrar</button>
         </div>
-    </div>
+    </div> -->
+
+
 </div>
 

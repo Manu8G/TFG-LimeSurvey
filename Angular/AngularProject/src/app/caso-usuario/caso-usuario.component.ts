@@ -59,7 +59,6 @@ export class CasoUsuarioComponent implements OnInit{
       id_encuesta: String(this.id_formulario[nivel]),
       id_usuario: String(this.idUsuario)
     };
-    console.log('CORREO: ',correo);
     this.usuarioService.mandarCorreo(correo).subscribe();
   }
 }

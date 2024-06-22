@@ -66,3 +66,10 @@ class UserService:
       return self.user_repository.get_user_info(id=id)
     except Exception as e:
       raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")
+    
+  
+  def delete_user(self, id: str):
+    try:
+      return self.user_repository.delete_user(id=id)
+    except Exception as e:
+      raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")

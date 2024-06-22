@@ -1,3 +1,9 @@
+.non-patients-container, .patients-container {
+  border: 1px solid #ccc;
+  margin-top: 20px;
+  padding: 10px;
+}
+
 .container {
   max-width: 1200px; /* Ajusta esto según el ancho deseado */
   margin: 20px auto; /* Añade un margen superior de 20px y centra el contenedor */

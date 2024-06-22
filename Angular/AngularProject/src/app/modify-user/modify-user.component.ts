@@ -3,6 +3,7 @@ import { UsuarioService } from '../services/usuario/usuario.service';
 import { AuthenticationService } from '../services/authentication/authentication.service'
 import { UsuarioRole } from '../models/usuario-role/usuario-role.module';
 import { Router } from '@angular/router';
+import { Id } from '../models/id/id.module';
 
 
 @Component({
@@ -45,12 +46,20 @@ export class ModifyUserComponent {
     this.router.navigate(['asignar_flujo',id]);
   }
 
-  deleteItem(): void {
-      // Refresh the list
+  borrarUsuario(id: string): void {
+    const idUsuario: Id  = {
+      Id: String(id)
+    };
+    this.usuarioService.borrarUsuario(idUsuario).subscribe({
+      next: (response) => {
+        this.ususe = response;
+      },
+      error: (err) => {
+        console.error('Error:', err);
+      }
+    });
+    window.location.reload();
   }
 
-  updateItem(): void {
-    
-    
-  }
+  
 }
