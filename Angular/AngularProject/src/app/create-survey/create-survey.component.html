@@ -1,15 +1,15 @@
-<form (ngSubmit)="onSubmit()">
-<table class="example-full-width" cellspacing="0">
-  <tr>
-    <td><mat-form-field class="example-full-width">
-        <mat-label>Nombre de la encuesta</mat-label>
-        <input matInput type="text" id="nombre_encuesta" [(ngModel)]="data.nombre_encuesta" name="nombre_encuesta" required>
-      </mat-form-field></td>
-    <td><mat-form-field class="example-full-width">
-        <mat-label>Idioma de la encuesta (para español introducir 'es')</mat-label>
-        <input matInput type="text" id="idioma" [(ngModel)]="data.idioma" name="idioma">
-      </mat-form-field></td>
-  </tr>
-</table>
-<button type="submit" mat-flat-button>Crear</button>
+<form (ngSubmit)="onSubmit()" class="form-container">
+  <div class="fields-container">
+    <mat-form-field class="field">
+      <mat-label>Nombre de la encuesta</mat-label>
+      <input matInput type="text" id="nombre_encuesta" [(ngModel)]="data.nombre_encuesta" name="nombre_encuesta" required>
+    </mat-form-field>
+    <mat-form-field class="field">
+      <mat-label>Idioma de la encuesta (para español introducir 'es')</mat-label>
+      <input matInput type="text" id="idioma" [(ngModel)]="data.idioma" name="idioma">
+    </mat-form-field>
+  </div>
+  <div class="button-container">
+    <button type="submit" mat-flat-button color="primary">Crear</button>
+  </div>
 </form>

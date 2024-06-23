@@ -1,28 +1,28 @@
-<form (ngSubmit)="onSubmit()">
-  <table class="example-full-width" cellspacing="0">
-    <tr>
-      <td>
-        <mat-form-field class="example-full-width">
-          <mat-label>Nombre del flujo</mat-label>
-          <input matInput type="text" id="tipo_de_flujo" [(ngModel)]="data.tipo_de_flujo" name="tipo_de_flujo" required>
-        </mat-form-field>
-      </td>
-      <ng-container *ngFor="let input of encuestas; let i = index">
-        <td>
-          <mat-form-field appearance="fill">
-            <mat-label>Encuesta numero {{i + 1}}</mat-label>
-            <mat-select [(ngModel)]="encuestas[i]" name="encuesta{{i}}">
-              <mat-option *ngFor="let opcion of idSurvey" [value]="opcion">
-                {{ opcion }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </td>
-      </ng-container>
-      <td>
-        <button mat-raised-button color="primary" (click)="addInput()" type="button">Agregar entrada</button>
-      </td>
-    </tr>
-  </table>
-  <button mat-flat-button>Crear</button>
+<form (ngSubmit)="onSubmit()" class="form-container">
+  <div class="fields-container">
+    <!-- Nombre del flujo -->
+    <mat-form-field class="field">
+      <mat-label>Nombre del flujo</mat-label>
+      <input matInput type="text" id="tipo_de_flujo" [(ngModel)]="data.tipo_de_flujo" name="tipo_de_flujo" required>
+    </mat-form-field>
+
+    <!-- Encuestas dinámicas -->
+    <ng-container *ngFor="let input of encuestas; let i = index">
+      <mat-form-field class="field" appearance="fill">
+        <mat-label>Encuesta numero {{i + 1}}</mat-label>
+        <mat-select [(ngModel)]="encuestas[i]" name="encuesta{{i}}">
+          <mat-option *ngFor="let opcion of idSurvey" [value]="opcion">
+            {{ opcion }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+    
+    <!-- Botón para agregar nuevas encuestas -->
+    <button mat-raised-button color="primary" (click)="addInput()" type="button" class="add-input-button">Agregar entrada</button>
+  </div>
+
+  <div class="button-container">
+    <button type="submit" mat-flat-button color="primary">Crear</button>
+  </div>
 </form>

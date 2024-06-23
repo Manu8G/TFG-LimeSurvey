@@ -206,6 +206,8 @@ async def eliminar_encuesta(id: IdModel):
 @router.post("/mandar_correo")
 async def mandar_correo(correo: Correo):
     try:
+        print('ova142 id_encuesta: '+correo.id_encuesta)
+        print('ova142 id_usuario: '+correo.id_encuesta)
         survey.mandar_correo(id_encuesta=correo.id_encuesta, id_usuario=correo.id_usuario)
         return {"message": "User created successfully"}
     except Exception as e:
