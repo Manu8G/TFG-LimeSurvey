@@ -14,10 +14,13 @@ import { Id } from '../models/id/id.module';
 export class ModifyUserComponent {
   items: string[] = [];
   ususe: UsuarioRole[] = [];
-  constructor(private usuarioService: UsuarioService, private authenService: AuthenticationService, private router: Router) {}
+  roleUser: string = '';
+  constructor(private usuarioService: UsuarioService, private authenService: AuthenticationService, private router: Router) {
+    this.roleUser = this.authenService.getRole();
+  }
 
   ngOnInit(): void {
-    if(this.authenService.getRole() == 'admin'){
+    if(this.roleUser == 'admin'){
       this.usuarioService.listAdminUsers().subscribe({
         next: (response) => {
           this.ususe = response;

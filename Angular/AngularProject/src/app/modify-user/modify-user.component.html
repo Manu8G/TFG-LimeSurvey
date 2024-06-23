@@ -2,7 +2,7 @@
     <!-- Botón Nueva al inicio del contenedor -->
     <button mat-button color="primary" routerLink="/create_user">Nuevo usuario</button>
     
-    <div class="non-patients-container">
+    <div class="non-patients-container" *ngIf="roleUser !== 'profesional'">
         <h2>Usuarios Profesionales</h2>
         <ng-container *ngFor="let item of ususe">
             <div class="item-container" *ngIf="item.rol !== 'Paciente'">

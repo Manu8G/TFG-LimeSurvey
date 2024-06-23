@@ -1,0 +1,34 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh; /* Centrado vertical del formulario */
+    padding: 20px;
+  }
+  
+  .fields-container {
+    width: 90%; /* Aprovecha mejor el espacio horizontal */
+    max-width: 800px; /* Límite máximo para el contenedor de campos */
+    display: flex;
+    flex-direction: column; /* Alinea los campos verticalmente */
+    gap: 20px; /* Espacio entre cada campo */
+  }
+  
+  .field {
+    width: 100%; /* Cada campo toma todo el ancho del contenedor */
+  }
+  
+  .patient-fields {
+    background-color: #f0f0f0; /* Fondo para distinguir secciones */
+    padding: 10px; /* Padding interno */
+    border-radius: 8px; /* Bordes redondeados para la sección de pacientes */
+    margin-top: 20px; /* Espacio antes de la sección paciente */
+  }
+  
+  .button-container {
+    margin-top: 20px; /* Espacio antes del botón */
+    display: flex;
+    justify-content: center; /* Centra el botón de envío */
+  }
+  

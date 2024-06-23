@@ -1,0 +1,27 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh; /* Centrado vertical del formulario */
+    padding: 20px;
+  }
+  
+  .fields-container {
+    width: 90%; /* Uso más eficiente del espacio horizontal */
+    max-width: 500px; /* Máximo ancho del contenedor */
+    display: flex;
+    flex-direction: column; /* Elementos apilados verticalmente */
+    gap: 20px; /* Espacio entre campos */
+  }
+  
+  .field {
+    width: 100%; /* Los campos ocupan todo el ancho disponible */
+  }
+  
+  .button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center; /* Centra el botón de asignación horizontalmente */
+  }
+  

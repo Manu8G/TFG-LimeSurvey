@@ -29,11 +29,11 @@
    <row>
     <qid>1</qid>
     <parent_qid>0</parent_qid>
-    <sid>762890</sid>
-    <gid>40</gid>
-    <type>M</type>
-    <title>ptaoe</title>
-    <question>paritio</question>
+    <sid>432473</sid>
+    <gid>41</gid>
+    <type>S</type>
+    <title>PreguntaPrueba</title>
+    <question>¿Como te llamas?</question>
     <preg />
     <help />
     <other>N</other>
@@ -46,67 +46,4 @@
    </row>
   </rows>
  </questions>
- <subquestions>
-  <fields>
-   <fieldname>qid</fieldname>
-   <fieldname>parent_qid</fieldname>
-   <fieldname>sid</fieldname>
-   <fieldname>gid</fieldname>
-   <fieldname>type</fieldname>
-   <fieldname>title</fieldname>
-   <fieldname>question</fieldname>
-   <fieldname>preg</fieldname>
-   <fieldname>help</fieldname>
-   <fieldname>other</fieldname>
-   <fieldname>mandatory</fieldname>
-   <fieldname>question_order</fieldname>
-   <fieldname>language</fieldname>
-   <fieldname>scale_id</fieldname>
-   <fieldname>same_default</fieldname>
-   <fieldname>relevance</fieldname>
-   <fieldname>modulename</fieldname>
-  </fields>
-  <rows><row>
-    <qid>2</qid>
-    <parent_qid>1</parent_qid>
-    <sid>762890</sid>
-    <gid>40</gid>
-    <type>T</type>
-    <title>aptaoe</title>
-    <question>a</question>
-    <other>N</other>
-    <question_order>1</question_order>
-    <language>es</language>
-    <scale_id>0</scale_id>
-    <same_default>0</same_default>
-    <relevance>1</relevance>
-</row><row>
-    <qid>3</qid>
-    <parent_qid>1</parent_qid>
-    <sid>762890</sid>
-    <gid>40</gid>
-    <type>T</type>
-    <title>bptaoe</title>
-    <question>b</question>
-    <other>N</other>
-    <question_order>1</question_order>
-    <language>es</language>
-    <scale_id>0</scale_id>
-    <same_default>0</same_default>
-    <relevance>1</relevance>
-</row><row>
-    <qid>4</qid>
-    <parent_qid>1</parent_qid>
-    <sid>762890</sid>
-    <gid>40</gid>
-    <type>T</type>
-    <title>cptaoe</title>
-    <question>c</question>
-    <other>N</other>
-    <question_order>1</question_order>
-    <language>es</language>
-    <scale_id>0</scale_id>
-    <same_default>0</same_default>
-    <relevance>1</relevance>
-</row></rows></subquestions>
 </document>

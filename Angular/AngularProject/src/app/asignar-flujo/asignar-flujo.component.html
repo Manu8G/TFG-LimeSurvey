@@ -1,22 +1,15 @@
-<form (ngSubmit)="onSubmit()">
-    <table class="example-full-width" cellspacing="0">
-        <tr>
-            <!-- Usuario -->
-            <!-- <td><mat-form-field class="example-full-width">  
-                <mat-label>Usuario</mat-label>
-                <mat-select [formControl]="surveyControl" name="usuario_del_flujo">
-                <mat-option *ngFor="let i of usuarios" [value]="i">{{i}}</mat-option>
-                </mat-select> 
-            </mat-form-field></td> -->
-
-            <!-- Flujo -->
-            <td><mat-form-field class="example-full-width">  
-                <mat-label>Flujo</mat-label>
-                <mat-select [formControl]="sectionControl" [disabled]="!surveyControl" name="question_section">
-                <mat-option *ngFor="let i of flujos" [value]="i">{{i}}</mat-option>
-                </mat-select>
-            </mat-form-field></td>
-        </tr>
-    </table>
-    <button  mat-flat-button>Asignar</button>
+<form (ngSubmit)="onSubmit()" class="form-container">
+    <div class="fields-container">
+      <!-- Flujo -->
+      <mat-form-field class="field">
+        <mat-label>Flujo</mat-label>
+        <mat-select [formControl]="sectionControl" [disabled]="!surveyControl" name="question_section">
+          <mat-option *ngFor="let i of flujos" [value]="i">{{i}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="button-container">
+      <button type="submit" mat-flat-button color="primary">Asignar</button>
+    </div>
   </form>
+  
