@@ -7,7 +7,9 @@ from model.caso import Caso
 from model.versionformulario import VersionFormulario
 from model.formulario import Formulario
 from model.flujo import Flujo
+from model.sesion import Sesion
 
+from fastapi import HTTPException
 from utils.utils import pwd_context
 from utils.db_connections import create_db_connection
 
@@ -204,3 +206,38 @@ class UserRepository:
 
 
         return {'result':'Usuario eliminado con exito'}
+
+
+    def cita_user(self, descripcion: str, fecha: str, hora: str, id_paciente: str, id_profesional: str):
+        hora_ajustada = hora + ':00'
+        
+        try:
+            db_sesion = Sesion(
+                numero_sesion='1',
+                fecha=fecha, 
+                hora=hora_ajustada, 
+                asistencia='1', 
+                observaciones=True, 
+                id_usuario_profesional=id_profesional, 
+                id_usuario_paciente=id_paciente
+            )
+            self.db.add(db_sesion)
+            self.db.commit()
+            self.db.refresh(db_sesion)
+            return {'resultado': 'todo ok'}
+        except Exception as e:
+            self.db.rollback()
+            print(f"Error2342342: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+
+
+    def cita_user(self, id: str):
+        
+        try:
+            sesion = self.db.query(Sesion).filter(Sesion.id_usuario_paciente == id).first()
+            return {'fecha': sesion.fecha, 'hora':sesion.hora}
+        except Exception as e:
+            self.db.rollback()
+            print(f"Error2342342: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+

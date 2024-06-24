@@ -20,6 +20,7 @@ from dto.encuestaDB import encuestaDB
 from dto.flujo import Flujo 
 from dto.caso import Caso
 from dto.correo import Correo
+from dto.cita import Cita
 
 from service.encuesta_service import encuestaService 
 from service.seccion_service import seccionService
@@ -226,5 +227,21 @@ async def get_user_info(id: IdModel):
 async def delete_user(id: IdModel):
     try:
         return ususu.delete_user(id=id.Id)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+    
+
+@router.post("/cita_user")
+async def cita_user(cita: Cita):
+    try:
+        return ususu.cita_user(descripcion=cita.descripcion, fecha=cita.fecha, hora=cita.hora, id_paciente=cita.id_paciente, id_profesional=cita.id_profesional)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+
+
+@router.post("/get_cita")
+async def get_cita(id: IdModel):
+    try:
+        return ususu.get_cita(id=id.Id)
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})

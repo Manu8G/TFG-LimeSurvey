@@ -1,0 +1,27 @@
+<form (ngSubmit)="onSubmit()" class="form-container">
+    <div class="fields-container">
+      <!-- Entrada de texto -->
+      <mat-form-field class="field">
+        <mat-label>Nombre del Evento</mat-label>
+        <input matInput type="text" [(ngModel)]="data.descripcion" name="eventName" required>
+      </mat-form-field>
+  
+      <!-- Selector de fecha -->
+      <mat-form-field class="field">
+        <mat-label>Fecha de la cita</mat-label>
+        <input matInput type="date" [(ngModel)]="data.fecha" name="nacimiento" id="nacimiento">
+      </mat-form-field>
+
+        <!-- Selector de hora -->
+        <mat-form-field class="field">
+            <mat-label>Hora de la cita</mat-label>
+            <input matInput type="time" [(ngModel)]="data.hora" name="eventTime">
+          </mat-form-field>
+
+    </div>
+  
+    <div class="button-container">
+      <button type="submit" mat-flat-button color="primary">Guardar</button>
+    </div>
+  </form>
+  

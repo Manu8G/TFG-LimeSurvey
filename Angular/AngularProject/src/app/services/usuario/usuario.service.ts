@@ -6,6 +6,7 @@ import { Usuario } from '../../models/usuario/usuario.module';
 import { Paciente } from '../../models/paciente/paciente.module';
 import { Correo } from '../../models/correo/correo.module';
 import { Id } from '../../models/id/id.module';
+import { Cita } from '../../models/cita/cita.module';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,8 @@ export class UsuarioService {
   private mandarCorreoURL = 'http://localhost:8000/admin/mandar_correo';
   private getUserInfoURL = 'http://localhost:8000/admin/get_user_info';
   private deleteUserURL = 'http://localhost:8000/admin/delete_user';
+  private citaUserURL = 'http://localhost:8000/admin/cita_user';
+  private getCitaURL = 'http://localhost:8000/admin/get_cita';
 
   constructor(private http: HttpClient) { }
 
@@ -48,6 +51,14 @@ export class UsuarioService {
 
   borrarUsuario(data: Id): Observable<any> {
     return this.http.post<any>(this.deleteUserURL, data);
+  }
+
+  mandarCita(data: Cita): Observable<any> {
+    return this.http.post<any>(this.citaUserURL, data);
+  }
+
+  getCita(data: Id): Observable<any> {
+    return this.http.post<any>(this.getCitaURL, data);
   }
 
 }

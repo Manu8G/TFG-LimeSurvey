@@ -73,3 +73,17 @@ class UserService:
       return self.user_repository.delete_user(id=id)
     except Exception as e:
       raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")
+    
+
+  def cita_user(self, descripcion: str, fecha: str, hora: str, id_paciente: str, id_profesional: str):
+    try:
+      return self.user_repository.cita_user(descripcion=descripcion, fecha=fecha, hora=hora, id_paciente=id_paciente, id_profesional=id_profesional)
+    except Exception as e:
+      raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")
+    
+
+  def get_cita(self, id: str):
+    try:
+      return self.user_repository.get_cita(id)
+    except Exception as e:
+      raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")

@@ -21,7 +21,7 @@ export class CasoUsuarioComponent implements OnInit{
   arrayRelacionEncuestas: any[] = [];
 
 
-  constructor(private usuarioService: UsuarioService, private route: ActivatedRoute, private flujoService: FlujoService, private authenticationService: AuthenticationService) {}
+  constructor(private usuarioService: UsuarioService, private router: Router, private route: ActivatedRoute, private flujoService: FlujoService, private authenticationService: AuthenticationService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -61,4 +61,9 @@ export class CasoUsuarioComponent implements OnInit{
     };
     this.usuarioService.mandarCorreo(correo).subscribe();
   }
+
+  citaUsuario(){
+    this.router.navigate(['cita_usuario',this.idUsuario]);
+  }
+
 }

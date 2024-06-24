@@ -20,6 +20,7 @@ import { ModifySurveyComponent } from './modify-survey/modify-survey.component';
 import { AdminInitialPageComponent } from './admin-initial-page/admin-initial-page.component';
 import { AsignarFlujoComponent } from './asignar-flujo/asignar-flujo.component';
 import { CasoUsuarioComponent } from './caso-usuario/caso-usuario.component';
+import { MandarCitaComponent } from './mandar-cita/mandar-cita.component';
 
 const routes: Routes = [
   {
@@ -50,6 +51,8 @@ const routes: Routes = [
         path: 'asignar_flujo/:id', component: AsignarFlujoComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       },{ 
         path: 'caso_usuario/:id', component: CasoUsuarioComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
+      },{ 
+        path: 'cita_usuario/:id', component: MandarCitaComponent, canActivate:[RoleGuard], data:{requiredRoles: ['admin', 'profesional']}
       }
     ]
   },{ 

@@ -39,6 +39,7 @@ import { AsignarFlujoComponent } from './asignar-flujo/asignar-flujo.component';
 import { CasoUsuarioComponent } from './caso-usuario/caso-usuario.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MandarCitaComponent } from './mandar-cita/mandar-cita.component';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AdminInitialPageComponent,
     AsignarFlujoComponent,
     CasoUsuarioComponent,
+    MandarCitaComponent,
   ],
   imports: [
     BrowserModule,
