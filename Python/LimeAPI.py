@@ -820,7 +820,7 @@ class Api:
         y ahi pone Y en las q se han escogido, las demas son pregunas de texto normales
         '''
         
-        return datada
+        return decoded_data
         
 
     # Libera la clave de la sesion

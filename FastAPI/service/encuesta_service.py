@@ -22,20 +22,12 @@ class encuestaService:
 
   def listar_encuestas(self):
     try:
-      print('yes1')
       surveys = api.list_surveys()
-      print('yes2')
       cont = 0
-      print('yes3')
       datos = {}
-      print('yes4')
       for sid, survey_title in surveys:
-          print('yes 5 sid: '+sid)
-          print('yes 6 sid: '+survey_title)
           datos[f"{sid}"] = survey_title
-          print('yes7')
           cont += 1
-          print('yes8')
       return datos
     except Exception as e:
       raise RuntimeError(f"EncuestaServices: algo fue mal en listar_encuestas: {str(e)}")

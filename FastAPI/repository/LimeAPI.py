@@ -20,7 +20,6 @@ class Api:
     def get_json(self, data):
         data_bytes = data.encode('utf-8')
         req = urllib2.Request(url=self.url, data=data_bytes)
-        # req = urllib2.Request(url=self.url, data=data)
         req.add_header('content-type', 'application/json')
         req.add_header('connection', 'Keep-Alive')
         
@@ -45,7 +44,6 @@ class Api:
         self.session_key = self.get_json(data)['result']
 
 
-    # Comprueba si existe una encuesta con ese numero identificador
     def check_if_exists_survey(self, sid):
         surveys = self.list_surveys()
         for survey in surveys: 
@@ -55,7 +53,6 @@ class Api:
         return None
 
 
-    # Crea una nueva encuesta
     def add_survey(self, survey_title, survey_languaje, format="G"):
         numero_aleatorio = random.randint(100000, 999999)
         self.check_if_exists_survey(numero_aleatorio)
@@ -76,7 +73,6 @@ class Api:
         return self.get_json(data)['result']
 
 
-    # Eliminar encuesta
     def delete_survey(self, sid):
         data = {
             "id": 1,
@@ -92,7 +88,6 @@ class Api:
         return self.get_json(data)['result']
     
 
-    # Añadir una nueva seccion
     def add_section(self, sid, section_title):
         data = {
             "id": 1,
@@ -111,7 +106,7 @@ class Api:
     def add_text_question(self, sid, gid, question_name, question_body):
         current_directory = os.path.dirname(__file__)
         questions_ids = self.list_all_questions_ids()
-        new_id = 1  # Empezar a buscar desde 1
+        new_id = 1  
         while new_id in questions_ids:
             new_id += 1
 
@@ -175,17 +170,14 @@ class Api:
         return self.get_json(data)['result']
 
 
-
-    # Añadir pregunta de tipo respuesta multiple
     def add_multiple_question(self, sid, gid, question_name, question_body, respuestas):
         current_directory = os.path.dirname(__file__)
         
         questions_ids = self.list_all_questions_ids()
-        new_id = 1  # Empezar a buscar desde 1
+        new_id = 1  
         while new_id in questions_ids:
             new_id += 1
             
-        # Question
         question_path = os.path.join(current_directory, '../utils/question_xmls/pregunta.xml')
         tree = ET.parse(question_path)
         root = tree.getroot()
@@ -225,7 +217,6 @@ class Api:
         if questionRows is not None:
             questionRows.clear()
 
-        #Subquestions
         id_subquestion = int(new_id)
         for i in respuestas:
             subquestion_path = os.path.join(current_directory, '../utils/question_xmls/subpregunta.xml')
@@ -305,7 +296,6 @@ class Api:
             return False
 
 
-    # Lista todas las preguntas
     def list_all_questions_ids(self):
         questions = []
         sections_ids = []
@@ -326,7 +316,6 @@ class Api:
     
 
 
-    # Añadir respuesta
     def add_answer(self, sid, qid, answer_text, answer_code, languaje):
         data = """{ "id": 1,
             "method": "add_question",
@@ -407,7 +396,6 @@ class Api:
         return self.get_json(data)['result']
 
 
-    # ACTUALIZAR Modifica una respuesta 
     def update_response(self, sid, response_data):
         data = """ {          "id": 1,
                               "method":"update_response",
@@ -434,7 +422,6 @@ class Api:
             sleep(1)
 
 
-    # Lista las encuestas con su nombre e ID
     def list_surveys(self):
         json_list_surveys = self.list_surveys_json()
 
@@ -445,7 +432,6 @@ class Api:
         return surveys
 
 
-    # Devuelve el json de las encuestas con toda la informacion de las mismas
     def list_surveys_json(self):
         data = {
             "id": 1,
@@ -460,7 +446,6 @@ class Api:
         return self.get_json(data)['result']
 
 
-    # Lista las secciones con los nombres e ID
     def list_sections(self, sid):
         sections = []
         try:
@@ -473,7 +458,6 @@ class Api:
         return sections
 
 
-    # Devuelve el json de las secciones con toda la informacion de las mismas
     def list_sections_json(self, sid):
         data = {
             "id": 1,
@@ -497,7 +481,6 @@ class Api:
         return None
 
 
-    # Listar las preguntas de una encuesta y grupo dadno su codigo y nombre
     def list_questions(self, sid, gid):
         questions = []
         try:
@@ -510,7 +493,6 @@ class Api:
         return questions
 
 
-    # Listar las preguntas de una encuesta y grupo dando su json
     def list_questions_json(self, sid, gid):
         data = {
             "id": 1,
@@ -534,7 +516,7 @@ class Api:
         for survey in surveys:
             opciones.append(survey)
             contador += 1
-        opcion = input("Cual opcion eliges?: ") # ['sid']
+        opcion = input("Cual opcion eliges?: ") 
         return opciones[int(opcion)]
     
     def get_survey_id(self):
@@ -565,7 +547,7 @@ class Api:
         for section in sections:
             opciones.append(section)
             contador += 1
-        opcion = input("Cual opcion eliges?: ") # ['sid']
+        opcion = input("Cual opcion eliges?: ") 
         return opciones[int(opcion)]
     
     def get_section_id(self, sid):
@@ -579,7 +561,7 @@ class Api:
         for question in questions:
             opciones.append(question)
             contador += 1
-        opcion = input("Cual opcion eliges?: ") # ['sid']
+        opcion = input("Cual opcion eliges?: ") 
         return opciones[int(opcion)]
     
     
@@ -588,7 +570,6 @@ class Api:
         return question['qid']
 
 
-    # Activar encuesta
     def activate_survey(self, sid):
         data = {
             "id": 1,
@@ -604,7 +585,6 @@ class Api:
         return self.get_json(data)['result']
 
 
-    # Crear tabla de participantes
     def add_participant_table(self, sid):
         data = {
             "id": 1,
@@ -619,7 +599,6 @@ class Api:
         return self.get_json(data)['result']
 
 
-    # Añadir participantes a la encuesta
     def add_participant(self, sid, participant):
         data = {
             "id": 1,
@@ -635,7 +614,6 @@ class Api:
         return self.get_json(data)['result']
 
 
-    # Eliminar participantes de una encuesta
     def delete_participant(self, sid, token):
         data = {
             "id": 1,
@@ -662,9 +640,7 @@ class Api:
         return self.get_json(data)['result']
     
 
-    # Manda invitaciones a los participantes
     def invite_participant(self, sid, tokenId):
-        # EL id es el del participante de la encuesta
         data = {
             "id": 1,
             "method": "invite_participants",
@@ -680,7 +656,6 @@ class Api:
         return self.get_json(data)['result']
 
 
-    # Listar participantes
     def list_participants(self, sid, start=0, limit=10, unused=False):
         data = {
             "id": 1,
@@ -731,65 +706,10 @@ class Api:
         
         decoded_data = base64.b64decode(datada).decode('utf-8')
         # datad = pd.read_json(StringIO(decoded_data))
-        '''
-        [
-            {
-                "1": {
-                    "id": "1",
-                    "submitdate": "1980-01-01 00:00:00",
-                    "lastpage": "2",
-                    "startlanguage": "es",
-                    "seed": "1764863911",
-                    "Pregunta1": "Manu",
-                    "Pregunta2": "Breve parrafo 1",
-                    "Pregunta8[SQ001]": "Y",
-                    "Pregunta8[SQ002]": "",
-                    "Pregunta8[SQ003]": "",
-                    "Pregunta8[SQ004]": "",
-                    "PersonaNombre": "Lamamadelamamadelamama"
-                }
-            },
-            {
-                "2": {
-                    "id": "2",
-                    "submitdate": "1980-01-01 00:00:00",
-                    "lastpage": "2",
-                    "startlanguage": "es",
-                    "seed": "1078266662",
-                    "Pregunta1": "Ana",
-                    "Pregunta2": "Este es un breve parrafo 2",
-                    "Pregunta8[SQ001]": "",
-                    "Pregunta8[SQ002]": "",
-                    "Pregunta8[SQ003]": "",
-                    "Pregunta8[SQ004]": "Y",
-                    "PersonaNombre": "La 2 mama 2"
-                }
-            },
-            {
-                "3": {
-                    "id": "3",
-                    "submitdate": "1980-01-01 00:00:00",
-                    "lastpage": "2",
-                    "startlanguage": "es",
-                    "seed": "1340384792",
-                    "Pregunta1": "24g524v",
-                    "Pregunta2": "q3rfgq245",
-                    "Pregunta8[SQ001]": "",
-                    "Pregunta8[SQ002]": "Y",
-                    "Pregunta8[SQ003]": "Y",
-                    "Pregunta8[SQ004]": "",
-                    "PersonaNombre": "asrxfhnb,6svdfbghj"
-                }
-            }
-        ]
-        Esta es la estructura q nos interesa siendo als de seleccion las q pone SQ00 
-        y ahi pone Y en las q se han escogido, las demas son pregunas de texto normales
-        '''
-        
-        return datada
+         
+        return decoded_data
         
 
-    # Libera la clave de la sesion
     def release_session_key(self):
         data = {
             "id": 1,

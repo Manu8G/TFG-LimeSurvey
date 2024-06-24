@@ -25,3 +25,16 @@
         </mat-card>
     </div>
   
+    <div class="cita-info" *ngIf="tieneCita">
+      <mat-card>
+          <mat-card-header>
+              <mat-card-title>Detalles de la Cita</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+              <p><strong>Fecha de la cita:</strong> {{ fechaCita }}</p>
+              <p><strong>Hora de la cita:</strong> {{ horaCita }}</p>
+              <button mat-raised-button color="primary" (click)="aceptarCita()" *ngIf="mostrarBotones">Aceptar cita</button>
+              <button mat-raised-button color="warn" (click)="rechazarCita()" *ngIf="mostrarBotones">Rechazar cita</button>
+          </mat-card-content>
+      </mat-card>
+  </div>

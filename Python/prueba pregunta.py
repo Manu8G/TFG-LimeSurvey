@@ -1,15 +1,14 @@
 import requests
 import json
 
-# Configura la URL de la API de LimeSurvey y tu clave de API
 api_url = 'https://tu-servidor-limesurvey.com/index.php/admin/remotecontrol'
 api_key = 'Tu-API-Key'
 
-# Define los datos para la sección y la pregunta
-survey_id = 123  # Reemplaza con el ID de la encuesta existente
+
+survey_id = 123  
 section_title = 'Nueva Sección'
 question_title = 'Nueva Pregunta'
-question_type = 'T'  # Tipo de pregunta (puedes ajustarlo según tus necesidades)
+question_type = 'T' 
 
 # Crea la sección
 section_data = {
@@ -28,10 +27,8 @@ if response.status_code == 200:
 else:
     print("Error al crear la sección:", response.text)
 
-# Obtén el ID de la sección recién creada (necesario para la pregunta)
 section_id = json.loads(response.text)['result']
 
-# Crea la pregunta en la sección
 question_data = {
     "method": "add_question",
     "params": {

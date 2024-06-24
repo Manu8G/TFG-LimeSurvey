@@ -1,3 +1,4 @@
+import json
 from sqlalchemy.orm import Session
 from model.user import User
 from model.administrador import Administrador
@@ -8,10 +9,12 @@ from model.versionformulario import VersionFormulario
 from model.formulario import Formulario
 from model.flujo import Flujo
 from model.sesion import Sesion
+from model.formado import Formado
 
 from fastapi import HTTPException
 from utils.utils import pwd_context
 from utils.db_connections import create_db_connection
+from utils.Lime_API_run import api
 
 class UserRepository:
     
@@ -22,23 +25,34 @@ class UserRepository:
         return self.db.query(User).filter(User.nombre_y_apellidos == name).first()
 
     def create_user(self, nombre_y_apellidos: str, password: str, role: str):
-        fake_hashed_password = pwd_context.hash(password)
-        db_user = User(password=fake_hashed_password, nombre_y_apellidos=nombre_y_apellidos)
-        self.db.add(db_user)
-        self.db.commit()
-        self.db.refresh(db_user)
-        id_nuevo_paciente = self.db.query(User).order_by(User.id_usuario.desc()).first()
-        db_profesional = Profesional(id_usuario=id_nuevo_paciente.id_usuario)
-        self.db.add(db_profesional)
-        self.db.commit()
-        self.db.refresh(db_profesional)
-        if role == 'admin':
-            db_admin = Administrador(id_usuario=id_nuevo_paciente.id_usuario)
-            self.db.add(db_admin)
+        try:
+            # Crea una contraseña hasheada simulada
+            fake_hashed_password = pwd_context.hash(password)
+            db_user = User(password=fake_hashed_password, nombre_y_apellidos=nombre_y_apellidos)
+            self.db.add(db_user)
             self.db.commit()
-            self.db.refresh(db_admin)
+            self.db.refresh(db_user)
+            
+            # Asumiendo que quieres capturar el ID del usuario recién creado
+            id_nuevo_paciente = self.db.query(User).order_by(User.id_usuario.desc()).first()
+            db_profesional = Profesional(id_usuario=id_nuevo_paciente.id_usuario)
+            self.db.add(db_profesional)
+            self.db.commit()
+            self.db.refresh(db_profesional)
+            
+            if role == 'admin':
+                db_admin = Administrador(id_usuario=id_nuevo_paciente.id_usuario)
+                self.db.add(db_admin)
+                self.db.commit()
+                self.db.refresh(db_admin)
+            
+            return db_user
+
         
-        return db_user
+        except Exception as e:
+            print(f"Error general: {e}")
+            # Si no quieres especificar que es un error de la base de datos
+            raise HTTPException(status_code=500, detail="Error al procesar la solicitud")
 
     def create_patient(self, nombre_y_apellidos: str, password: str, dni: str, estado: str, nacionalidad: str, fecha_nacimiento: str, email: str,):
         fake_hashed_password = pwd_context.hash(password)
@@ -118,88 +132,53 @@ class UserRepository:
     def delete_user(self, id: str):
         usu = self.db.query(User).filter(User.id_usuario == id).first()
         paciente = self.db.query(Paciente).filter(Paciente.id_usuario == id).first()
-        print('Paciente: '+str(paciente))
         profesional = self.db.query(Profesional).filter(Profesional.id_usuario == id).first()
-        print('Profesional: '+str(profesional))
         administrador = self.db.query(Administrador).filter(Administrador.id_usuario == id).first()
-        print('Administrador: '+str(administrador))
 
         if paciente != None:
-            print('Dentro del paciente1')
             caso = self.db.query(Caso).filter(Caso.id_usuario == id).first()
-            print('Dentro del paciente2')
             self.db.delete(caso)
-            print('Dentro del paciente3')
             self.db.commit()
-            print('Dentro del paciente4')
             self.db.delete(paciente)
-            print('Dentro del paciente5')
             self.db.commit()
-            print('Dentro del paciente6')
 
         if administrador != None:
-            print('Dentro del administrador1')
             verison = self.db.query(VersionFormulario).filter(VersionFormulario.id_usuario == id).first()
-            print('Dentro del administrador2')
             self.db.delete(verison)
-            print('Dentro del administrador3')
             self.db.commit()
-            print('Dentro del administrador4')
             formulario = self.db.query(Formulario).filter(Formulario.id_usuario == id).first()
-            print('Dentro del administrador5')
             self.db.delete(formulario)
-            print('Dentro del administrador6')
             self.db.commit()
-            print('Dentro del administrador7')
             flujo = self.db.query(Flujo).filter(Flujo.id_usuario == id).first()
-            print('Dentro del administrador8')
             self.db.delete(flujo)
-            print('Dentro del administrador9')
             self.db.commit()
-            print('Dentro del administrador10')
             self.db.delete(administrador)
-            print('Dentro del administrador11')
             self.db.commit()
-            print('Dentro del administrador12')
             self.db.delete(profesional)
-            print('Dentro del administrador13')
             self.db.commit()
-            print('Dentro del administrador14')
 
         if profesional != None:
-            print('Dentro del profesional1')
             try:
                 verison = self.db.query(VersionFormulario).filter(VersionFormulario.id_usuario == id).first()
-                print('Dentro del profesional2')
                 self.db.delete(verison)
-                print('Dentro del profesional3')
                 self.db.commit()
             except:
                 None
             try:
-                print('Dentro del profesional4')
                 formulario = self.db.query(Formulario).filter(Formulario.id_usuario == id).first()
-                print('Dentro del profesional5')
                 self.db.delete(formulario)
-                print('Dentro del profesional6')
                 self.db.commit()
             except:
                 None
             
             try:
-                print('Dentro del profesional7')
                 flujo = self.db.query(Flujo).filter(Flujo.id_usuario == id).first()
-                print('Dentro del profesional8')
                 self.db.delete(flujo)
-                print('Dentro del profesional9')
                 self.db.commit()
             except:
                 None
-            print('Dentro del profesional10')
             self.db.delete(profesional)
-            print('Dentro del profesional11')
             self.db.commit()
-            print('Dentro del profesional12')
 
         self.db.delete(usu)
         self.db.commit()
@@ -216,7 +195,7 @@ class UserRepository:
                 numero_sesion='1',
                 fecha=fecha, 
                 hora=hora_ajustada, 
-                asistencia='1', 
+                asistencia='PC', 
                 observaciones=True, 
                 id_usuario_profesional=id_profesional, 
                 id_usuario_paciente=id_paciente
@@ -231,13 +210,64 @@ class UserRepository:
             raise HTTPException(status_code=500, detail=str(e))
 
 
-    def cita_user(self, id: str):
+    def get_cita(self, id: str):
         
         try:
             sesion = self.db.query(Sesion).filter(Sesion.id_usuario_paciente == id).first()
-            return {'fecha': sesion.fecha, 'hora':sesion.hora}
+            return {'fecha': sesion.fecha, 'hora':sesion.hora, 'asistencia': sesion.asistencia}
         except Exception as e:
             self.db.rollback()
             print(f"Error2342342: {e}")
             raise HTTPException(status_code=500, detail=str(e))
 
+
+    def respuesta_cita(self, id_paciente: str, respuesta: str):
+        
+        try:
+            
+            sesion = self.db.query(Sesion).filter(Sesion.id_usuario_paciente == id_paciente).order_by(Sesion.id_sesion.desc()).first()
+            if respuesta == '0':
+                sesion.asistencia = 'No'
+            else:
+                sesion.asistencia = 'Si'
+
+            self.db.commit()
+            self.db.refresh(sesion)
+
+
+            return {'resultado': 'Todo ok'}
+        except Exception as e:
+            self.db.rollback()
+            print(f"Error2342342: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+        
+
+    def estado_encuesta(self, id: str):
+        
+        try:
+            usuario = self.db.query(User).filter(User.id_usuario == id).first()
+            nombre_y_apellidos = usuario.nombre_y_apellidos
+            nombre = nombre_y_apellidos.split(' ', 1)
+            casoUsuario = self.db.query(Caso).filter(Caso.id_usuario == id).first()
+            flujoUsuario = self.db.query(Formado).filter(Formado.id_flujo == casoUsuario.id_flujo).first()
+            idUsuario = ''
+
+            respuestas = api.get_responses(flujoUsuario.id_formulario)
+            participantesL = api.list_participants(flujoUsuario.id_formulario)
+            for i in participantesL: 
+                nombreEncuestado =  i['participant_info']
+                if nombre[0] == nombreEncuestado['firstname']:
+                    idUsuario = i['tid']
+                    break
+            datosRespuesta = json.loads(respuestas)
+            
+            ids = [response[next(iter(response))]['id'] for response in datosRespuesta['responses']]
+            if idUsuario in ids:
+                return {'result':'YES'}
+            else:
+                return {'result':'NO'}
+
+        except Exception as e:
+            self.db.rollback()
+            print(f"Error2342342: {e}")
+            raise HTTPException(status_code=500, detail=str(e))

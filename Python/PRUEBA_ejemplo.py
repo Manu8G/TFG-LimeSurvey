@@ -1,16 +1,13 @@
-import base64  # to encode the surveys
+import base64  
 import json
 from LimeAPI import Api
 
-# Authentication
 user = "manuel"
 password = "1234Lime"
 url = "http://localhost/limesurvey/index.php/admin/remotecontrol"
 
-# Build the API
 lime = Api(url, user, password)
 
-# SET TOKEN BASE and Survey
 sid = 'sid'
 token = 'token'
 

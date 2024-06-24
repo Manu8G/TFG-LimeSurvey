@@ -40,8 +40,7 @@ export class CreateQuestionComponent implements OnInit{
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.idEncuesta = params['id']; // Access the 'id' parameter from the URL
-      console.log('Test ID question:', this.idEncuesta);
+      this.idEncuesta = params['id']; 
     });
     
     const id: Id  = {
@@ -61,53 +60,15 @@ export class CreateQuestionComponent implements OnInit{
         console.error('Error:', err);
       }
     });
-
-    // this.service.listIDSurvey().subscribe({
-    //   next: (response) => {
-    //     let keys = Object.keys(response);
-    //     let values = Object.values(response);
-        
-    //     for(let i = 0; i < keys.length; i++){
-    //       this.idSurvey.push(keys[i] + " - " + values[i]);
-    //     }
-    //     //console.log("La idSurvey: ");
-    //     //console.dir(this.idSurvey);
-    //   },
-    //   error: (err) => {
-    //     console.error('Error:', err);
-    //   }
-    // });
-    
-    // this.filteredSurveyOptions = this.surveyControl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => this._filter(value || '')),
-    // );
-
-    // this.idSection = ['Rellena antes la encuesta'];
-
-    // this.filteredSectionOptions = this.sectionControl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => this._filter(value || '')),
-    // );
   }
 
-  // private _filter(value: string): string[] {
-  //   const filterValue = value.toLowerCase();
-  //   return this.idSurvey.filter(idSurvey => idSurvey.toLowerCase().includes(filterValue));
-  // }
 
   onSubmit() {
-    // console.log('real betis: ',this.respuestas[0]);
-    // this.data.survey_id = this.surveyControl.value;
-    // let id_encuesta = this.data.survey_id;
-    // id_encuesta = id_encuesta.match(/^\d+/);
-    // this.data.survey_id = id_encuesta[0];
 
     this.data.id_seccion = this.sectionControl.value;
     let id_seccion = this.data.id_seccion; 
     id_seccion = id_seccion.match(/^\d+/);
     this.data.id_seccion = id_seccion[0];
-    // this.data.tipo = this.tipo;
     let vare = '';
     for(let i = 0; i < this.tipos.length; i++){
       if(this.tipos[i].value == this.tipo){
@@ -170,28 +131,5 @@ export class CreateQuestionComponent implements OnInit{
   addInput(): void {
     this.respuestas.push('');
   }
-
-  // onFirstSelectChange() {
-  //   this.idSection = [];
-  //   this.data.survey_id = this.surveyControl;
-  //   let id_encuesta = this.data.survey_id.value;
-  //   id_encuesta = id_encuesta.match(/\d+/);
-  //   const id: Id  = {
-  //     Id: id_encuesta[0]
-  //   };
-  //   this.service.listIDSection(id).subscribe({
-  //     next: (response) => {
-  //       let keys = Object.keys(response);
-  //       let values = Object.values(response);
-        
-  //       for(let i = 0; i < keys.length; i++){
-  //         this.idSection.push(keys[i] + " - " + values[i]);
-  //       }
-  //     },
-  //     error: (err) => {
-  //       console.error('Error:', err);
-  //     }
-  //   });
-  // }
 
 }

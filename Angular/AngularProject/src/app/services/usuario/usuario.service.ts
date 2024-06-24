@@ -7,6 +7,7 @@ import { Paciente } from '../../models/paciente/paciente.module';
 import { Correo } from '../../models/correo/correo.module';
 import { Id } from '../../models/id/id.module';
 import { Cita } from '../../models/cita/cita.module';
+import { tieneCita } from '../../models/tiene-cita/tiene-cita.module';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,8 @@ export class UsuarioService {
   private deleteUserURL = 'http://localhost:8000/admin/delete_user';
   private citaUserURL = 'http://localhost:8000/admin/cita_user';
   private getCitaURL = 'http://localhost:8000/admin/get_cita';
+  private respuestaCitaURL = 'http://localhost:8000/admin/respuesta_cita';
+  private estadoEncuestaURL = 'http://localhost:8000/admin/estado_encuesta';
 
   constructor(private http: HttpClient) { }
 
@@ -41,7 +44,6 @@ export class UsuarioService {
   }
 
   mandarCorreo(data: Correo): Observable<any> {
-    console.log('auidi');
     return this.http.post<any>(this.mandarCorreoURL, data);
   } 
 
@@ -59,6 +61,14 @@ export class UsuarioService {
 
   getCita(data: Id): Observable<any> {
     return this.http.post<any>(this.getCitaURL, data);
+  }
+
+  respuestaCita(data: tieneCita): Observable<any> {
+    return this.http.post<any>(this.respuestaCitaURL, data);
+  }
+
+  estadoEncuestas(data: Id): Observable<any> {
+    return this.http.post<any>(this.estadoEncuestaURL, data);
   }
 
 }

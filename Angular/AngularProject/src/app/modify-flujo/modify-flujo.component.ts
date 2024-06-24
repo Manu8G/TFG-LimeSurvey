@@ -12,14 +12,12 @@ export class ModifyFlujoComponent {
   constructor(private flujoService: FlujoService) {}
 
   ngOnInit(): void {
-    //this.items = ['USU1','USU2','USU3','USU4','USU5','USU6','USU7'];
     this.flujoService.listFlujos().subscribe({
       next: (response) => {
         let keys = Object.keys(response);
         let values = Object.values(response);
         
         for(let i = 0; i < keys.length; i++){
-          console.log('esta es lala ',values[i]);
           this.items.push(values[i]);
         }
       },
@@ -30,7 +28,6 @@ export class ModifyFlujoComponent {
   }
 
   deleteItem(): void {
-      // Refresh the list
   }
 
   updateItem(): void {

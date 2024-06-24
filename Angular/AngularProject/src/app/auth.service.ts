@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  private loginUrl = 'http://localhost:8000/token'; // Asegúrate de que la URL coincida con tu endpoint de FastAPI
+  private loginUrl = 'http://localhost:8000/token'; 
 
   constructor(private http: HttpClient) {}
 

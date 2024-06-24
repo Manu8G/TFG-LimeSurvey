@@ -12,12 +12,12 @@ password = "1234Lime"
 api = Api(url, username, password)
 
 # ------------------------------------------ENCUESTAS, SECCIONES Y PREGUNTAS-------------------------------
-# print(api.list_all_questions())
-encuestas = api.list_surveys()
-print(encuestas)
+# # print(api.list_all_questions())
+# encuestas = api.list_surveys()
+# print(encuestas)
 
-print('primera: ' + str(encuestas[0]))
-print('segunda: ' + str(encuestas[0][0]))
+# print('primera: ' + str(encuestas[0]))
+# print('segunda: ' + str(encuestas[0][0]))
 '''
 api.add_survey("prueba encuesta 4", "es")
 survey_id = api.get_survey_id_by_name("prueba encuesta 4")
@@ -109,15 +109,15 @@ print("Opcion resultado: "+ str(resultadito))
 '''
 
 
-api.activate_survey(200923)
-api.add_participant_table(200923)
-participantes = [{'email': 'manuelmesias@correo.ugr.es', 'lastname': 'Guerrero', 'firstname': 'Manu' }]
-api.add_participant(200923, participantes)
-participantesL = api.list_participants(200923)
-participante = [participant['tid'] for participant in participantesL]
-print('ID del participante: ' + str(participante[0]))
-tokensP = [participante[0]]
-api.invite_participant(200923, tokensP)
+# api.activate_survey(200923)
+# api.add_participant_table(200923)
+# participantes = [{'email': 'manuelmesias@correo.ugr.es', 'lastname': 'Guerrero', 'firstname': 'Manu' }]
+# api.add_participant(200923, participantes)
+# participantesL = api.list_participants(200923)
+# participante = [participant['tid'] for participant in participantesL]
+# print('ID del participante: ' + str(participante[0]))
+# tokensP = [participante[0]]
+# api.invite_participant(200923, tokensP)
 
 
 '''     Eliminar un participante de una encuesta
@@ -125,6 +125,13 @@ token = [1, 2]  # ELimina los participantes de la encuesta con ID 1 y 2
 result = api.delete_participant("777423", token)
 print('Resultado de la invitacion: ' + str(result))
 '''
+
+print(api.get_responses(516034))
+participantesL = api.list_participants(516034)
+print('Participantes: ' + str(participantesL))
+participante = [participant['tid'] for participant in participantesL]
+print('ID del participante: ' + str(participante[0]))
+
 
 
 api.release_session_key()

@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from model.formulario import Formulario
+from model.formado import Formado
 from model.user import User
 from model.paciente import Paciente
 from model.versionformulario import VersionFormulario
@@ -38,52 +39,66 @@ class SurveyRepository:
     
 
     def eliminar_encuesta(self, id: str):
-        db_Vformulario = self.db.query(VersionFormulario).filter(VersionFormulario.id_formulario == id).first()
-        db_formulario = self.db.query(Formulario).filter(Formulario.id_formulario == id).first()
+        try:
+            db_formado = self.db.query(Formado).filter(Formado.id_formulario == id).first()
+            db_Vformulario = self.db.query(VersionFormulario).filter(VersionFormulario.id_formulario == id).first()
+            db_formulario = self.db.query(Formulario).filter(Formulario.id_formulario == id).first()
+            
+            if db_formado:
+                self.db.delete(db_formado)
+                self.db.commit()
+
+            if db_Vformulario:
+                self.db.delete(db_Vformulario)
+                self.db.commit()
+
+            self.db.delete(db_formulario)
+            self.db.commit()
+
+            api.delete_survey(id)
+
+            return {"mensaje": "Formulario eliminado correctamente"}
+
+        except Exception as e:
+            print(f"Error al eliminar la encuesta: {e}")
+            return {"error": str(e)}
+
         
-        if not db_formulario:
-            raise HTTPException(status_code=404, detail="Formulario no encontrado")
-
-        self.db.delete(db_Vformulario)
-        self.db.commit()
-        # Eliminar el formulario encontrado
-        self.db.delete(db_formulario)
-        self.db.commit()
-
-        api.delete_survey(id)
-        # Puedes elegir qué devolver, aquí simplemente devolvemos un mensaje de éxito
-        return {"mensaje": "Formulario eliminado correctamente"}
-    
 
     def mandar_correo(self, id_encuesta: str, id_usuario: str):
-        api.activate_survey(int(id_encuesta))
-        api.add_participant_table(int(id_encuesta))
-        db_usuario = self.db.query(User).filter(User.id_usuario == id_usuario).first()
-        db_paciente = self.db.query(Paciente).filter(Paciente.id_usuario == id_usuario).first()
-        nombre_y_apellidos = db_usuario.nombre_y_apellidos
-        nombre = nombre_y_apellidos.split(' ',1)
-        nombre_correo = ''
-        apellido_correo = ''
-
-        if nombre[0]:
-            nombre_correo = nombre[0]
-        else:
-            nombre_correo = 'Nombre'
         try:
-            if nombre[1]:
-                apellido_correo = nombre[1]
+            api.activate_survey(int(id_encuesta))
+            api.add_participant_table(int(id_encuesta))
+            db_usuario = self.db.query(User).filter(User.id_usuario == id_usuario).first()
+            db_paciente = self.db.query(Paciente).filter(Paciente.id_usuario == id_usuario).first()
+            nombre_y_apellidos = db_usuario.nombre_y_apellidos
+            nombre = nombre_y_apellidos.split(' ', 1)
+            nombre_correo = ''
+            apellido_correo = ''
+
+            if nombre[0]:
+                nombre_correo = nombre[0]
             else:
-                apellido_correo = 'Apellidos'
-        except:
-            None
-        
-        participante = [{'email': str(db_paciente.email), 'lastname': apellido_correo, 'firstname': nombre_correo}]
-        api.add_participant(int(id_encuesta), participante)
-        participantesL = api.list_participants(int(id_encuesta))
-        participante = [participant['tid'] for participant in participantesL]
-        tokensP = [participante[0]]
-        api.invite_participant(int(id_encuesta), tokensP)
-        
-        # Puedes elegir qué devolver, aquí simplemente devolvemos un mensaje de éxito
-        return {"mensaje": "Correo enviado correctamente"}
-        
+                nombre_correo = 'Nombre'
+            try:
+                if nombre[1]:
+                    apellido_correo = nombre[1]
+                else:
+                    apellido_correo = 'Apellidos'
+            except Exception as e:
+                print('Error al separar apellido:', e)
+
+            participante = [{'email': str(db_paciente.email), 'lastname': apellido_correo, 'firstname': nombre_correo}]
+            api.add_participant(int(id_encuesta), participante)
+            participantesL = api.list_participants(int(id_encuesta))
+            participante = [participant['tid'] for participant in participantesL]
+            tokensP = [participante[0]]
+            api.invite_participant(int(id_encuesta), tokensP)
+            
+            return {"mensaje": "Correo enviado correctamente"}
+
+        except Exception as e:
+            print(f'Error en mandar_correo: {e}')
+            return {"error": str(e)}
+
+            

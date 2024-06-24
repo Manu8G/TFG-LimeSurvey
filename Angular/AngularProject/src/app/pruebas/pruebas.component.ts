@@ -15,7 +15,6 @@ export class PruebasComponent {
   }
 
   deleteItem(): void {
-      // Refresh the list
   }
 
   updateItem(): void {

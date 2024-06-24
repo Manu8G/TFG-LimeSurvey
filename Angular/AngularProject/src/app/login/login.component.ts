@@ -28,7 +28,6 @@ export class LoginComponent {
       name: this.loginData.name,
       password: this.loginData.password
     };
-    console.log("creando token");
     const usuarJSON = JSON.stringify(usuar);
     this.authenticationService.createToken(usuar);
   }

@@ -22,15 +22,11 @@ export class MandarCitaComponent {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.idUsuario = params['id']; // ID del usuario del caso
+      this.idUsuario = params['id']; 
     });
   }
 
-
   onSubmit(): void {
-    console.log('descripcion: ',this.data.descripcion);
-    console.log('fecha: ',this.data.fecha);
-    console.log('hora: ',this.data.hora);
     const cita: Cita  = {
       descripcion: String(this.data.descripcion),
       fecha: String(this.data.fecha),
@@ -40,7 +36,6 @@ export class MandarCitaComponent {
     };
 
     this.usuarioService.mandarCita(cita).subscribe();
-
-    //this.router.navigate(['caso_usuario',this.idUsuario]);
+    this.router.navigate(['caso_usuario',this.idUsuario]);
   }
 }

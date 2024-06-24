@@ -20,7 +20,6 @@ export class CreateSectionComponent implements OnInit{
   IDSurveyL: any = {};
   modifiedData: any;
   myControl = new FormControl('');
-  // idSurvey: string[] = [];
   idEncuesta: string[] = [];
   filteredOptions!: Observable<string[]>;
   datosP: any[] = [];
@@ -32,41 +31,13 @@ export class CreateSectionComponent implements OnInit{
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.idEncuesta = params['id']; // Access the 'id' parameter from the URL
+      this.idEncuesta = params['id']; 
       console.log('Test ID section:', this.idEncuesta);
     });
-    // this.service.listIDSurvey().subscribe({
-    //   next: (response) => {
-    //     let keys = Object.keys(response);
-    //     let values = Object.values(response);
-        
-    //     for(let i = 0; i < keys.length; i++){
-    //       this.idSurvey.push(keys[i] + " - " + values[i]);
-    //     }
-    //     this.cdr.detectChanges();
-    //   },
-    //   error: (err) => {
-    //     console.error('Error:', err);
-    //   }
-    // });
-    
-    // this.filteredOptions = this.myControl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => this._filter(value || '')),
-    // );
-    
   }
 
-  // private _filter(value: string): string[] {
-  //   const filterValue = value.toLowerCase();
-  //   //console.log("EL value es: ",value);
-  //   return this.idSurvey.filter(idSurvey => idSurvey.toLowerCase().includes(filterValue));
-  // }
 
   onSubmit() {
-    // this.data.survey_id = this.myControl;
-    // let id_encuesta = this.data.survey_id.value;
-    // id_encuesta = id_encuesta.match(/\d+/);
     const seccion: Seccion  = {
       nombre_seccion: this.data.nombre_seccion,
       id_encuesta: String(this.idEncuesta)

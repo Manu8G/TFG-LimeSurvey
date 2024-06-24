@@ -21,6 +21,7 @@ from dto.flujo import Flujo
 from dto.caso import Caso
 from dto.correo import Correo
 from dto.cita import Cita
+from dto.respuestaCita import respuestaCita
 
 from service.encuesta_service import encuestaService 
 from service.seccion_service import seccionService
@@ -52,8 +53,7 @@ async def login_for_access_token(usuario: User):
         data={"sub": user.nombre_y_apellidos}, expires_delta=access_token_expires
     )
 
-    # ACABAR LO DEL ROLE
-    return {"access_token": access_token, "token_type": "bearer", "role":rol, "id":str(user.id_usuario)} # ARREGLAR ID
+    return {"access_token": access_token, "token_type": "bearer", "role":rol, "id":str(user.id_usuario)} 
 
 
 @router.post("/create_user")
@@ -145,17 +145,9 @@ async def list_users_for_profesional():
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
     
-# @router.get("/list_flujo")
-# async def list_flujo():
-#     print('esta se lista')
-#     try:
-#         return flujo.list_flujo()
-#     except Exception as e:
-#         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
 
 @router.get("/listar_flujos")
 async def listar_flujos():
-    print("Esa1")
     try:
         return flujo.listar_flujos()
     except Exception as e:
@@ -196,7 +188,6 @@ async def get_caso(id: IdModel):
 
 @router.post("/eliminar_encuesta")
 async def eliminar_encuesta(id: IdModel):
-    print("llegamosdf")
     try:
         survey.eliminar_encuesta(id=id.Id)
         return {"message": "User created successfully"}
@@ -207,8 +198,6 @@ async def eliminar_encuesta(id: IdModel):
 @router.post("/mandar_correo")
 async def mandar_correo(correo: Correo):
     try:
-        print('ova142 id_encuesta: '+correo.id_encuesta)
-        print('ova142 id_usuario: '+correo.id_encuesta)
         survey.mandar_correo(id_encuesta=correo.id_encuesta, id_usuario=correo.id_usuario)
         return {"message": "User created successfully"}
     except Exception as e:
@@ -243,5 +232,20 @@ async def cita_user(cita: Cita):
 async def get_cita(id: IdModel):
     try:
         return ususu.get_cita(id=id.Id)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+    
+@router.post("/respuesta_cita")
+async def respuesta_cita(respuestaCita: respuestaCita):
+    try:
+        return ususu.respuesta_cita(id_paciente=respuestaCita.id_paciente, respuesta=respuestaCita.respuesta)
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})
+    
+
+@router.post("/estado_encuesta")
+async def estado_encuesta(id: IdModel):
+    try:
+        return ususu.estado_encuesta(id=id.Id)
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": f"Something goes wrong: {str(e)}"})

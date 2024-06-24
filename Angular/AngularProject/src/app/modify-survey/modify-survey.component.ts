@@ -15,12 +15,11 @@ export class ModifySurveyComponent {
   constructor(private surveyService: CreateSurveyServiceService, private router: Router) {}
 
   eliminarEncuesta(encuesta: string){
-    console.log('esta es la elegida: ',encuesta);
     const idEncuesta: Id  = {
       Id: encuesta 
     };
     this.surveyService.eliminarEncuesta(idEncuesta).subscribe();
-      
+    window.location.reload();
   }
 
   rutaSeccion(id: string): void{
@@ -47,9 +46,5 @@ export class ModifySurveyComponent {
         console.error('Error:', err);
       }
     });
-
-    // this.items = ['USU1','USU2','USU3','USU4','USU5','USU6','USU7'];
-
   }
-
 }

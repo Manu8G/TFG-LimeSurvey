@@ -12,12 +12,10 @@ export class RoleGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         const requiredRoles = route.data?.['requiredRoles'] || [];
-        console.log('AVELLANAS');
-        console.log(requiredRoles);
         if(requiredRoles && this.authenticationService.hasRole(requiredRoles)){
             return true;
         }else{
-            this.router.navigate(['/user_initial_page']); //SE PUEDE PONER LO DE NO TIENES ACCESO
+            this.router.navigate(['/user_initial_page']); 
             return false;
         }
     }

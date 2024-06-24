@@ -1,12 +1,9 @@
 <form (ngSubmit)="onSubmit()" class="form-container">
   <div class="fields-container">
-    <!-- Nombre del flujo -->
     <mat-form-field class="field">
       <mat-label>Nombre del flujo</mat-label>
       <input matInput type="text" id="tipo_de_flujo" [(ngModel)]="data.tipo_de_flujo" name="tipo_de_flujo" required>
     </mat-form-field>
-
-    <!-- Encuestas dinámicas -->
     <ng-container *ngFor="let input of encuestas; let i = index">
       <mat-form-field class="field" appearance="fill">
         <mat-label>Encuesta numero {{i + 1}}</mat-label>
@@ -17,8 +14,6 @@
         </mat-select>
       </mat-form-field>
     </ng-container>
-    
-    <!-- Botón para agregar nuevas encuestas -->
     <button mat-raised-button color="primary" (click)="addInput()" type="button" class="add-input-button">Añadir encuesta</button>
   </div>
 

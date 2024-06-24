@@ -10,32 +10,20 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  // private currentUserSubject: BehaviorSubject<Usuario | null>;
-  // if(localStorage){
-
-  // }else{
-
-  // }
   public userLogged: BehaviorSubject<Partial<Usuario> | null> = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser') || '{}'));
   public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject(localStorage.getItem('token') !== null);
-  //public idUsuario: number = 0;
   private idUsuarioSubject: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(null);
   public idUsuario$: Observable<number | null> = this.idUsuarioSubject.asObservable();
-  // public currentUser: Observable<Usuario | null>;
 
   private createTokenURL = 'http://localhost:8000/admin/token/';
 
 
-  constructor(private http: HttpClient, private router: Router) { 
-    // this.currentUserSubject =  new BehaviorSubject<Usuario>(JSON.parse(localStorage.getItem('currentUser')));
-    // this.currentUser = this.currentUserSubject.asObservable();
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   createToken(data: Partial<Usuario>): void {
     this.http.post<any>(this.createTokenURL, data).subscribe({
       next: (response: any)=>{
-        console.log(" es estas");
-        console.log(response);
         const userCurrent: FullUsuario = {
           name: String(data.name),
           password: '',
@@ -43,12 +31,11 @@ export class AuthenticationService {
           accessToken: response.access_token, 
           id: response.id   
         };
-        console.log("este es el id q ricibimos: ",response.id);
         
         localStorage.setItem('token', JSON.stringify(response.access_token));
         localStorage.setItem('currentUser', JSON.stringify(userCurrent));
         this.userLogged.next(userCurrent);
-        this.isAuthenticated.next(true); //HACER UN IF ROL QUE VAYA A UN SITIO U OTRO
+        this.isAuthenticated.next(true); 
         if(userCurrent.role == 'paciente'){
           this.router.navigate(['/user_initial_page']);
         }else{
@@ -58,7 +45,6 @@ export class AuthenticationService {
       },
       error:()=>{
         this.isAuthenticated.next(false);
-        // localStorage.clear();
       }
     });
     

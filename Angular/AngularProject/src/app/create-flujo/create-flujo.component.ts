@@ -36,8 +36,6 @@ export class CreateFlujoComponent {
         let keys = Object.keys(response);
         let values = Object.values(response);
         keys.forEach((key, index) => {
-          // console.log('key: ',key);
-          // console.log('values: ',values[index]);
           this.encuestaNameId.set(key, values[index]);
         });
         for(let i = 0; i < keys.length; i++){
@@ -59,7 +57,6 @@ export class CreateFlujoComponent {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    console.log("EL value es: ",value);
     return this.idSurvey.filter(idSurvey => idSurvey.toLowerCase().includes(filterValue));
   }
 

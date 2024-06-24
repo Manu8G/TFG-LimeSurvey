@@ -1,19 +1,17 @@
-<!-- <p>caso-usuario works!</p> -->
-<!-- <p>id usuario ok</p> -->
-<!-- <button  mat-flat-button (click)="onSubmit()">Asignar</button> 
-<button  mat-flat-button (click)="mandarCorreo()">Mandar correo</button>  -->
-
 <div class="container">
-    <h1>{{ tipo_flujo }}</h1>
-    <div class="array-container">
-      <div *ngFor="let item of arrayRelacionEncuestas; let i = index" 
-           [class.selected]="item.id === nivel_actual" 
-           class="item">
-        <div class="id">{{ item.id }}</div>
-        <div class="titulo">{{ item.titulo }}</div>
-      </div>
+  <h1>{{ tipo_flujo }}</h1>
+  <div class="array-container">
+    <div *ngFor="let item of arrayRelacionEncuestas; let i = index" 
+         [class.selected]="item.id === nivel_actual"
+         [ngClass]="item.id === nivel_actual ? (encuestaHecha ? 'border-green' : 'border-red') : ''" 
+         class="item">
+      <div class="id">{{ item.id }}</div>
+      <div class="titulo">{{ item.titulo }}</div>
     </div>
-    <button mat-flat-button (click)="mandarCorreo()">Enviar encuesta</button>
-    <button mat-flat-button (click)="citaUsuario()">Enviar cita</button>
   </div>
-  
+  <div *ngIf="encuestaHecha" class="completed-message">
+    <p>El usuario ha realizado la encuesta.</p>
+  </div>
+  <button mat-flat-button (click)="mandarCorreo()" *ngIf="!encuestaHecha">Enviar encuesta</button>
+  <button mat-flat-button (click)="citaUsuario()">Enviar cita</button>
+</div>

@@ -4,10 +4,7 @@ import urllib.request as urllib2
 import sys
 import xmlrpc.client
 
-# Configuración
 url = "http://localhost/limesurvey/index.php/admin/remotecontrol"
-# api_key = "tu-clave-de-api"
-# Credenciales de autenticación
 username = "manuel"
 password = "1234Lime"
 

@@ -6,7 +6,6 @@ class preguntaService:
         None
     
     def crear_pregunta_texto(self, id_encuesta: str, id_seccion: str, nombre_real: str, cuerpo_pregunta: str):
-        print("Estamos dentro2")
         try:
             return api.add_text_question(id_encuesta, id_seccion, nombre_real, cuerpo_pregunta)
         except Exception as e:

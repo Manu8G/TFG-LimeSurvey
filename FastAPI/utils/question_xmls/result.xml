@@ -29,11 +29,11 @@
    <row>
     <qid>1</qid>
     <parent_qid>0</parent_qid>
-    <sid>432473</sid>
-    <gid>41</gid>
+    <sid>516034</sid>
+    <gid>42</gid>
     <type>S</type>
-    <title>PreguntaPrueba</title>
-    <question>¿Como te llamas?</question>
+    <title>Preguntelimi</title>
+    <question>ELiminare esta pregunta</question>
     <preg />
     <help />
     <other>N</other>

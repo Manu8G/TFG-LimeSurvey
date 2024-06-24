@@ -4,26 +4,26 @@
     align-items: center;
     justify-content: center;
     min-height: 80vh;
-    background-color: #f4f4f4; /* Fondo más claro */
+    background-color: #f4f4f4; 
   }
   
   .fields-container {
-    width: 90%; /* Uso más eficiente del espacio horizontal */
+    width: 90%;
     max-width: 800px;
     display: flex;
-    flex-wrap: wrap; /* Permite la responsividad */
-    gap: 20px; /* Espacio entre campos */
-    padding: 20px; /* Padding interno */
-    background-color: #ffffff; /* Fondo blanco para los campos */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra sutil */
+    flex-wrap: wrap; 
+    gap: 20px; 
+    padding: 20px; 
+    background-color: #ffffff; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
   }
   
   .field {
-    flex: 1 1 300px; /* Cada campo crece hasta 300px */
+    flex: 1 1 300px; 
   }
   
   .responses-container {
-    width: 100%; /* Respuestas ocupan todo el ancho */
+    width: 100%; 
     display: flex;
     flex-direction: column;
     gap: 10px;

@@ -39,8 +39,6 @@ export class CreateUserComponent {
       };
       this.usuarioService.createPatientUser(usuario).subscribe({
         next: (response) => {
-          //console.log("La estructura de datos en angular es V2: ");
-          //console.dir(response);
           this.modifiedData = response;
           let mensaje = this.data.name + ' se creo con exito'
           this.toastr.success(mensaje,'Usuario creado');
@@ -62,8 +60,6 @@ export class CreateUserComponent {
       
       this.usuarioService.createUser(usuario).subscribe({
         next: (response) => {
-          //console.log("La estructura de datos en angular es V2: ");
-          //console.dir(response);
           this.modifiedData = response;
           let mensaje = this.data.name + ' se creo con exito'
           this.toastr.success(mensaje,'Usuario creado');

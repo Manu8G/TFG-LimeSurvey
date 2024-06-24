@@ -22,6 +22,7 @@ export class UserInitialPageComponent {
   tieneCita: boolean = false;
   fechaCita: string = '';
   horaCita: string = '';
+  mostrarBotones: boolean = false;
 
   constructor(private authenticationService: AuthenticationService, private usuarioService: UsuarioService){
     this.idUsuario = String(this.authenticationService.getUserId());
@@ -34,27 +35,50 @@ export class UserInitialPageComponent {
 
     this.usuarioService.getUserInfo(idUsu).subscribe({
       next: (response) => {
-        //this.modifiedData = response;
         this.Nombre = response.Nombre;
         this.Email = response.Email;
         this.DNI = response.DNI;
         this.nacionalidad = response.Nacionalidad;
         this.fechaNacimiento = response.Fecha_nacimiento;
         this.estado = response.Estado;
-        // this.aviso = response.;
-        // console.log("esto recibimos: ",response);
       },
       error: (err) => {
         console.error('Erroroso:', err);
       }
     });
     
-
+    
     this.usuarioService.getCita(idUsu).subscribe({
       next: (response) => {
+        this.fechaCita = response.fecha;
+        this.horaCita = response.hora;
+        if(response.asistencia == 'No'){
+          this.tieneCita = false;
+          this.mostrarBotones = false;
+        }else if(response.asistencia == 'Si'){
+          this.tieneCita = true;
+          this.mostrarBotones = false;
+        }else{
+          this.tieneCita = true;
+          this.mostrarBotones = true;
+        }
+      },
+      error: (err) => {
+        console.error('Erroroso:', err);
+      }
+    });
+    
+  }
+
+  aceptarCita(){
+    this.mostrarBotones = false;
+    const tieneCita: tieneCita  = {
+      id_paciente: String(this.idUsuario),
+      respuesta: '1'
+    };
+    this.usuarioService.respuestaCita(tieneCita).subscribe({
+      next: (response) => {
         
-        console.log("esto recibimos fecha: ",response.fecha);
-        console.log("esto recibimos hora: ",response.hora);
       },
       error: (err) => {
         console.error('Erroroso:', err);
@@ -62,6 +86,20 @@ export class UserInitialPageComponent {
     });
   }
 
-
+  rechazarCita(){
+    this.tieneCita = false;
+    const tieneCita: tieneCita  = {
+      id_paciente: String(this.idUsuario),
+      respuesta: '0'
+    };
+    this.usuarioService.respuestaCita(tieneCita).subscribe({
+      next: (response) => {
+        
+      },
+      error: (err) => {
+        console.error('Erroroso:', err);
+      }
+    });
+  }
 
 }

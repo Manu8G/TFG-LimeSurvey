@@ -13,13 +13,13 @@
     color: #333;
     margin: 20px;
     padding: 20px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); 
   }
   
   .sub-message {
-    font-size: 0.8em; /* Hace el texto más pequeño */
-    color: #666; /* Un color más suave */
-    margin-top: 5px; /* Agrega un pequeño margen superior para separación */
+    font-size: 0.8em; 
+    color: #666; 
+    margin-top: 5px; 
   }
   
   

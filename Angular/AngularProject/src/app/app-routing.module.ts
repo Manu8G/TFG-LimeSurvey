@@ -60,11 +60,6 @@ const routes: Routes = [
   },{ 
     path: 'playground', component: PruebasComponent
   }
-  //{ path: 'create_survey', component: CreateSurveyComponent },
-  //{ path: 'create_section', component: CreateSectionComponent },
-  //{ path: 'create_question', component: CreateQuestionComponent },
-  //{ path: 'login_page', component: LoginComponent },
-  //{ path: '', redirectTo: '/login_page', pathMatch: 'full' }
 
 ];
 

@@ -34,7 +34,6 @@ class UserService:
 
   # def create_user(self, name: str, password: str, name: str):
     try:
-      print(name, password, name)
       return self.user_repository.create_user(name=name, password=password)
     except Exception as e:
       raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")
@@ -85,5 +84,17 @@ class UserService:
   def get_cita(self, id: str):
     try:
       return self.user_repository.get_cita(id)
+    except Exception as e:
+      raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")
+    
+  def respuesta_cita(self, id_paciente: str, respuesta: str):
+    try:
+      return self.user_repository.respuesta_cita(id_paciente=id_paciente, respuesta=respuesta)
+    except Exception as e:
+      raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")
+    
+  def estado_encuesta(self, id: str):
+    try:
+      return self.user_repository.estado_encuesta(id=id)
     except Exception as e:
       raise RuntimeError(f"AdminService: something goes wrong: {str(e)}")

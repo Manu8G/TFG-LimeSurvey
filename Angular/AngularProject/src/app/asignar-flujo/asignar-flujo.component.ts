@@ -33,21 +33,9 @@ export class AsignarFlujoComponent {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.idUsuario = params['id']; // Access the 'id' parameter from the URL
+      this.idUsuario = params['id']; 
     });
-    // this.serviceSurvey.listProfesionalUsers().subscribe({
-    //   next: (response) => {
-    //     this.ususe = response;
-    //     for(let i = 0; i < this.ususe.length; i++){
-    //       this.usuarios.push(String(this.ususe[i].nombre));
-    //     }
-        
-    //   },
-    //   error: (err) => {
-    //     console.error('Error:', err);
-    //   }
-    // });  
-
+    
     this.flujoService.listFlujos().subscribe({
       next: (response) => {
         this.flujoId = response;
@@ -60,21 +48,11 @@ export class AsignarFlujoComponent {
         console.error('Error:', err);
       }
     }); 
-
   }
 
   onSubmit() {
-     
-    // console.log("id_flujo: ",String(this.sectionControl.value))
-    // console.log("id_usuario: ",String(this.surveyControl.value))
-    // let id_usu = '';
     let id_flu = '';
     let name_flu = '';
-    // for(let i = 0; i < this.ususe.length; i++){
-    //   if(String(this.ususe[i].nombre) == String(this.surveyControl.value)){
-    //     id_usu = this.ususe[i].id;
-    //   }
-    // }
     for(let i = 0; i < this.flujoId.length; i++){
       if(String(this.flujoId[i].nombre) == String(this.sectionControl.value)){
         id_flu = this.flujoId[i].id;
@@ -110,26 +88,17 @@ export class AsignarFlujoComponent {
         console.error('Error:', err);
       }
     });
-
     this.prueba();
-
-
   }
 
-
   prueba(){
-    console.log('preauidi');
     setTimeout(() => {
       const correo: Correo  = {
         id_encuesta: String(this.primeraEncuesta),
         id_usuario: String(this.idUsuario)
       };
-      //NO funca
-      console.log('auidi: ', correo);
       this.usuarioService.mandarCorreo(correo).subscribe();
     }, 5000);
-    console.log('postauidi');
   }
-
 
 }

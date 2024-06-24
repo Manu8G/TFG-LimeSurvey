@@ -19,17 +19,16 @@ export class CasoUsuarioComponent implements OnInit{
   numero_orden: number[] = [];
   nivel_actual: number = 0;
   arrayRelacionEncuestas: any[] = [];
-
+  encuestaHecha: boolean = false;
 
   constructor(private usuarioService: UsuarioService, private router: Router, private route: ActivatedRoute, private flujoService: FlujoService, private authenticationService: AuthenticationService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.idUsuario = params['id']; // ID del usuario del caso
+      this.idUsuario = params['id']; 
     });
 
     const id: Id  = {
-      // Id: String(this.idUsuario)
       Id: String(this.idUsuario)
     };
 
@@ -50,6 +49,24 @@ export class CasoUsuarioComponent implements OnInit{
         console.error('Error:', err);
       }
     }); 
+
+    this.usuarioService.estadoEncuestas(id).subscribe({
+      next: (response) => {
+        if(response.result == 'YES'){
+          
+          this.encuestaHecha = true;
+        }else{
+          
+          this.encuestaHecha = false;
+        }
+
+      },
+      error: (err) => {
+        console.error('Error:', err);
+      }
+    }); 
+
+
   }
 
 

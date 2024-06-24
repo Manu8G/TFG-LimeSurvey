@@ -54,9 +54,6 @@ export class CreateSurveyServiceService {
   }
 
   eliminarEncuesta(data: Id): Observable<any> {
-    console.log('vmaos a lallamosdm',data);
-    console.log('urld',this.eliminarEncuestaURL);
-    
     return this.http.post<any>(this.eliminarEncuestaURL, data);
   }
 

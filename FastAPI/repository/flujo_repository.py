@@ -78,8 +78,6 @@ class FlujoRepository:
                                   'numero_orden': i.numero_orden, 
                                   'nivel_actual': usuario_caso.nivel_actual})
                 
-            # encuestas.append({'id':u.id_flujo , 'nombre':u.tipo_de_flujo})
             return encuestas
         except Exception as e:
-            # print("eroro " + str(e))
             raise RuntimeError(f"FlujoResponse: algo fue mal en crear_flujo: {str(e)}")    
